@@ -1,1 +1,1 @@
-{ "dirs" : [ "src" , "src/NavBulk" , "src/NavBulk/views" , "src/NavBulk/images" , "src/NavBulk/styles" , "src/App" ] , "generated" : [] }
+{ "dirs" : [ "src" , "src/App" , "src/NavBulk" , "src/NavBulk/styles" , "src/NavBulk/views" , "src/NavBulk/images" ] , "generated" : [] }

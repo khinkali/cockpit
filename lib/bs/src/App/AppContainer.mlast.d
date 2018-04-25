@@ -1,1 +1,1 @@
-src/App/AppContainer-Piggybowl.cmj : src/NavBulk/Views/NavBulkView-Piggybowl.cmj
+src/App/AppContainer-Piggybowl.cmj : src/NavBulk/views/NavBulkView-Piggybowl.cmj

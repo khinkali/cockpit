@@ -1,0 +1,38 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cockpit
+  namespace: test
+  labels:
+    app: cockpit
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cockpit
+  template:
+    metadata:
+      labels:
+        app: cockpit
+    spec:
+      containers:
+      - name: sink
+        image: khinkali/cockpit:0.0.1
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cockpit
+  namespace: test
+spec:
+  selector:
+    app: cockpit
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+    nodePort: 31300
+  type: NodePort
