@@ -26,9 +26,6 @@ podTemplate(label: 'mypod', containers: [
         }
 
         stage('build image & git tag & docker push') {
-            def npmHome = tool 'npm'
-            env.PATH = "${npmHome}/bin:${env.PATH}"
-
             container('node') {
                 sh 'npm install'
                 sh 'npm run mlbuild'
