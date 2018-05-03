@@ -6,23 +6,13 @@ type action =
   | Nothing;
 
 
-let component = ReasonReact.reducerComponent("AppContainer");
+let component = ReasonReact.reducerComponent("NavbarContainer");
 
 let make = (_children) => {
   ...component,
   initialState: () => {empty: 0},
   reducer: (_action: action, _state: state) => ReasonReact.NoUpdate,
   render: _self => {
-      <div>
-        <NavbarView />
-        <ContentView />
-      </div>
+    <div></div>
   },
 };
-
-let default = ReasonReact.wrapReasonForJs(
-  ~component,
-  (_jsProps) => make([||])
-);
-
-   

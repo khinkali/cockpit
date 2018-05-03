@@ -1,0 +1,72 @@
+// Color support for .navbar-dark
+
+
+
+#mainNav.navbar {
+  
+  // Gradient for navbar
+  background: rgba(35,183,229,1);
+  background: -moz-linear-gradient(left, rgba(35,183,229,1) 0%, rgba(80,198,234,1) 100%);
+  background: -webkit-gradient(left top, right top, color-stop(0%, rgba(35,183,229,1)), color-stop(100%, rgba(80,198,234,1)));
+  background: -webkit-linear-gradient(left, rgba(35,183,229,1) 0%, rgba(80,198,234,1) 100%);
+  background: -o-linear-gradient(left, rgba(35,183,229,1) 0%, rgba(80,198,234,1) 100%);
+  background: -ms-linear-gradient(left, rgba(35,183,229,1) 0%, rgba(80,198,234,1) 100%);
+  background: linear-gradient(to right, rgba(35,183,229,1) 0%, rgba(80,198,234,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#23b7e5', endColorstr='#50c6ea', GradientType=1 );
+
+  .navbar-collapse {
+    .navbar-sidenav {
+      .nav-link-collapse:after {
+        color: $gray-600;
+      }
+      > .nav-item {
+        > .nav-link {
+          color: #515253;
+          &:hover {
+            color: #23B7E5;
+          }
+        }
+        .sidenav-second-level,
+        .sidenav-third-level {
+          > li > a {
+            color: $gray-600;
+            &:focus,
+            &:hover {
+              color: $gray-500;
+            }
+          }
+        }
+      }
+    }
+    .navbar-nav > .nav-item.dropdown > .nav-link:after {
+      color: $gray-500;
+    }
+  }
+  @media (min-width: 992px) {
+    .navbar-collapse {
+      .navbar-sidenav {
+        @include right-border-nav;
+        li {
+          &.active {
+            box-sizing: border-box;
+            border-left: 5px solid #37BDE7;
+            a {
+              color: #37BDE7 !important;
+              background-color: #f2f2f2;
+              &:focus,
+              &:hover {
+                color: white;
+              }
+            }
+          }
+        }
+        > .nav-item {
+          .sidenav-second-level,
+          .sidenav-third-level {
+            background: #F1F5F7;
+          }
+        }
+      }
+    }
+  }
+}

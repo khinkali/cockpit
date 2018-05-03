@@ -2,10 +2,8 @@
 
 import * as React from "react";
 import * as ReasonReact from "reason-react/src/ReasonReact.js";
-import * as NavbarView$Cockpit from "../Navbar/NavbarView.bs.js";
-import * as ContentView$Cockpit from "../Content/ContentView.bs.js";
 
-var component = ReasonReact.reducerComponent("AppContainer");
+var component = ReasonReact.statelessComponent("SidebarView");
 
 function make() {
   return /* record */[
@@ -19,29 +17,19 @@ function make() {
           /* willUpdate */component[/* willUpdate */7],
           /* shouldUpdate */component[/* shouldUpdate */8],
           /* render */(function () {
-              return React.createElement("div", undefined, ReasonReact.element(/* None */0, /* None */0, NavbarView$Cockpit.make(/* array */[])), ReasonReact.element(/* None */0, /* None */0, ContentView$Cockpit.make(/* array */[])));
+              return React.createElement("div", undefined);
             }),
-          /* initialState */(function () {
-              return /* record */[/* empty */0];
-            }),
+          /* initialState */component[/* initialState */10],
           /* retainedProps */component[/* retainedProps */11],
-          /* reducer */(function (_, _$1) {
-              return /* NoUpdate */0;
-            }),
+          /* reducer */component[/* reducer */12],
           /* subscriptions */component[/* subscriptions */13],
           /* jsElementWrapped */component[/* jsElementWrapped */14]
         ];
 }
 
-var $$default = ReasonReact.wrapReasonForJs(component, (function () {
-        return make(/* array */[]);
-      }));
-
 export {
   component ,
   make ,
-  $$default ,
-  $$default as default,
   
 }
 /* component Not a pure module */
