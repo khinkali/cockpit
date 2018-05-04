@@ -3,9 +3,9 @@
 import * as React from "react";
 import * as ReasonReact from "reason-react/src/ReasonReact.js";
 
-var component = ReasonReact.statelessComponent("SidebarView");
+var component = ReasonReact.statelessComponent("NavLinkView");
 
-function make() {
+function make(linkText, href, _) {
   return /* record */[
           /* debugName */component[/* debugName */0],
           /* reactClassInternal */component[/* reactClassInternal */1],
@@ -17,7 +17,16 @@ function make() {
           /* willUpdate */component[/* willUpdate */7],
           /* shouldUpdate */component[/* shouldUpdate */8],
           /* render */(function () {
-              return React.createElement("div", undefined);
+              return React.createElement("li", {
+                          className: "nav-item"
+                        }, React.createElement("a", {
+                              className: "nav-link",
+                              href: href
+                            }, React.createElement("i", {
+                                  className: "fa fa-fw fa-dashboard"
+                                }), React.createElement("span", {
+                                  className: "nav-link-text"
+                                }, linkText)));
             }),
           /* initialState */component[/* initialState */10],
           /* retainedProps */component[/* retainedProps */11],

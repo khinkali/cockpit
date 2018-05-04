@@ -1,20 +1,24 @@
 ####{BSB GENERATED: NO EDIT
 B lib/bs
 FLG -open Cockpit
-FLG -ppx '/Volumes/Develop/react-reason/cockpit/node_modules/bs-platform/lib/reactjs_jsx_ppx_2.exe'
-FLG -ppx /Volumes/Develop/react-reason/cockpit/node_modules/bs-platform/lib/bsppx.exe
-S /Volumes/Develop/react-reason/cockpit/node_modules/bs-platform/lib/ocaml
-B /Volumes/Develop/react-reason/cockpit/node_modules/bs-platform/lib/ocaml
+FLG -ppx '/home/developer/Desktop/react-reason/cockpit/node_modules/bs-platform/lib/reactjs_jsx_ppx_2.exe'
+FLG -ppx /home/developer/Desktop/react-reason/cockpit/node_modules/bs-platform/lib/bsppx.exe
+S /home/developer/Desktop/react-reason/cockpit/node_modules/bs-platform/lib/ocaml
+B /home/developer/Desktop/react-reason/cockpit/node_modules/bs-platform/lib/ocaml
 FLG -nostdlib -no-alias-deps -color always
 FLG -w -30-40+6+7+27+32..39+44+45+101
-S /Volumes/Develop/react-reason/cockpit/node_modules/reason-react/lib/ocaml
-B /Volumes/Develop/react-reason/cockpit/node_modules/reason-react/lib/ocaml
+S /home/developer/Desktop/react-reason/cockpit/node_modules/reason-react/lib/ocaml
+B /home/developer/Desktop/react-reason/cockpit/node_modules/reason-react/lib/ocaml
+S /home/developer/Desktop/react-reason/cockpit/node_modules/bs-axios/lib/ocaml
+B /home/developer/Desktop/react-reason/cockpit/node_modules/bs-axios/lib/ocaml
+S src/Api
+B lib/bs/src/Api
 S src/Sidebar
 B lib/bs/src/Sidebar
 S src/Navbar
 B lib/bs/src/Navbar
-S src/Content
-B lib/bs/src/Content
 S src/App
 B lib/bs/src/App
+S src/Content
+B lib/bs/src/Content
 ####BSB GENERATED: NO EDIT}

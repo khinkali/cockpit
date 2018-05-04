@@ -15,7 +15,7 @@ let make = (_children) => {
   render: _self => {
       <div>
         <NavbarView />
-        <ContentView />
+        <ContentContainer />
       </div>
   },
 };
