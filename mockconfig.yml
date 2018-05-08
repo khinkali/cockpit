@@ -1,0 +1,44 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sinkmock
+  namespace: test
+  labels:
+    app: sinkmock
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sinkmock
+  template:
+    metadata:
+      labels:
+        app: sinkmock
+    spec:
+      containers:
+      - name: sinkmock
+        image: khinkali/json-mock:0.0.3
+        ports:
+        - containerPort: 3000
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 3000
+          initialDelaySeconds: 5
+          timeoutSeconds: 1
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sinkmock
+  namespace: test
+spec:
+  selector:
+    app: sinkmock
+  ports:
+  - protocol: TCP
+    port: 3000
+    targetPort: 3000
+    nodePort: 31301
+  type: NodePort
