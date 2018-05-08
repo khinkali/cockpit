@@ -1,3 +1,5 @@
+[%%raw "import './Styles/navbar.css'"];
+
 type state = {
   empty: int,
 };
@@ -13,6 +15,6 @@ let make = (_children) => {
   initialState: () => {empty: 0},
   reducer: (_action: action, _state: state) => ReasonReact.NoUpdate,
   render: _self => {
-    <div></div>
+    <NavbarView />
   },
 };

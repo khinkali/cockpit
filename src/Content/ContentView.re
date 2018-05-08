@@ -1,11 +1,11 @@
-let component = ReasonReact.statelessComponent("ContenCoverView");
+let component = ReasonReact.statelessComponent("ContenView");
 
 let make = (~coins: Coins.coins, _children) => {
   ...component,
   render: _self => {
 
-    let createTd = (v: Coins.coin) =>
-      <tr>
+    let createTd = (idx, v: Coins.coin) =>
+      <tr key=("Ci" ++ string_of_int(idx))>
         <td>{ReasonReact.string(string_of_int(v.amount))}</td>
         <td>{ReasonReact.string(v.currency)}</td>
       </tr>;
@@ -17,7 +17,6 @@ let make = (~coins: Coins.coins, _children) => {
             <h3>{ReasonReact.string("Dashboard")}</h3> 
           </li>
         </ol>
-
         <div className="row ml-0">
           <table>
             <thead>
@@ -29,7 +28,7 @@ let make = (~coins: Coins.coins, _children) => {
             <tbody>
               {
                 coins
-                |> List.map(createTd)
+                |. Belt.List.mapWithIndex(createTd)
                 |> Array.of_list
                 |> ReasonReact.array
               }

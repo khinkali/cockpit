@@ -2,6 +2,9 @@
 
 import * as React from "react";
 import * as ReasonReact from "reason-react/src/ReasonReact.js";
+import * as NavItemView$Cockpit from "./NavItemView.bs.js";
+import * as NavbarTogglerView$Cockpit from "./NavbarTogglerView.bs.js";
+import * as SidebarTogglerView$Cockpit from "./SidebarTogglerView.bs.js";
 
 var component = ReasonReact.statelessComponent("NavbarView");
 
@@ -17,68 +20,18 @@ function make() {
           /* willUpdate */component[/* willUpdate */7],
           /* shouldUpdate */component[/* shouldUpdate */8],
           /* render */(function () {
-              var togglerButton = React.cloneElement(React.createElement("button", {
-                        className: "navbar-toggler navbar-toggler-right",
-                        type: "button"
-                      }), {
-                    "data-toggle": "collapse",
-                    "data-target": "#navbarResponsive",
-                    "aria-controls": "navbarResponsive",
-                    "aria-expanded": "false",
-                    "aria-label": "Toggle navigation"
-                  }, React.createElement("span", {
-                        className: "navbar-toggler-icon"
-                      }));
-              var navLinkDashboard = React.createElement("a", {
-                    className: "nav-link",
-                    href: "#"
-                  }, React.createElement("i", {
-                        className: "fa fa-fw fa-dashboard"
-                      }), React.createElement("span", {
-                        className: "nav-link-text"
-                      }, "Dashboard"));
-              var navLinkMenu = React.cloneElement(React.createElement("a", {
-                        className: "nav-link nav-link-collapse collapsed",
-                        href: "#collapseMulti"
-                      }), {
-                    "data-toggle": "collapse",
-                    "data-parent": "#exampleAccordion"
-                  }, React.createElement("i", {
-                        className: "fa fa-fw fa-sitemap"
-                      }), React.createElement("span", {
-                        className: "nav-link-text"
-                      }, "Menu Levels"));
-              var navItem = function (title, child) {
-                return React.cloneElement(React.createElement("li", {
-                                className: "nav-item",
-                                title: title
-                              }), {
-                            "data-toggle": "tooltip",
-                            "data-placement": "right"
-                          }, child);
-              };
               return React.createElement("nav", {
-                          className: "navbar navbar-expand-lg navbar-dark bg-dark fixed-top",
+                          className: "navbar navbar-expand-lg fixed-top",
                           id: "mainNav"
                         }, React.createElement("a", {
                               className: "navbar-brand",
                               href: "#"
-                            }, "Logo"), togglerButton, React.createElement("div", {
+                            }, "Logo"), ReasonReact.element(/* None */0, /* None */0, NavbarTogglerView$Cockpit.make(/* array */[])), React.createElement("div", {
                               className: "collapse navbar-collapse",
-                              id: "navbarResponsive"
+                              id: "navbarToggler"
                             }, React.createElement("ul", {
-                                  className: "navbar-nav navbar-sidenav",
-                                  id: "exampleAccordion"
-                                }, navItem("Dashboard", navLinkDashboard), navItem("Menu Levels", navLinkMenu)), React.createElement("ul", {
-                                  className: "navbar-nav sidenav-toggler"
-                                }, React.createElement("li", {
-                                      className: "nav-item"
-                                    }, React.createElement("a", {
-                                          className: "nav-link text-center",
-                                          id: "sidenavToggler"
-                                        }, React.createElement("i", {
-                                              className: "fa fa-fw fa-angle-left"
-                                            }))))));
+                                  className: "navbar-nav navbar-sidenav"
+                                }, ReasonReact.element(/* None */0, /* None */0, NavItemView$Cockpit.make("Dashboard", "#", "fa-sitemap", /* array */[])), ReasonReact.element(/* None */0, /* None */0, NavItemView$Cockpit.make("Menu", "#", "fa-dashboard", /* array */[]))), ReasonReact.element(/* None */0, /* None */0, SidebarTogglerView$Cockpit.make(/* array */[]))));
             }),
           /* initialState */component[/* initialState */10],
           /* retainedProps */component[/* retainedProps */11],

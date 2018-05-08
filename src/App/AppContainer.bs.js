@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import * as ReasonReact from "reason-react/src/ReasonReact.js";
-import * as NavbarView$Cockpit from "../Navbar/NavbarView.bs.js";
+import * as NavbarContainer$Cockpit from "../Navbar/NavbarContainer.bs.js";
 import * as ContentContainer$Cockpit from "../Content/ContentContainer.bs.js";
 
 var component = ReasonReact.reducerComponent("AppContainer");
@@ -19,7 +19,7 @@ function make() {
           /* willUpdate */component[/* willUpdate */7],
           /* shouldUpdate */component[/* shouldUpdate */8],
           /* render */(function () {
-              return React.createElement("div", undefined, ReasonReact.element(/* None */0, /* None */0, NavbarView$Cockpit.make(/* array */[])), ReasonReact.element(/* None */0, /* None */0, ContentContainer$Cockpit.make(/* array */[])));
+              return React.createElement("div", undefined, ReasonReact.element(/* None */0, /* None */0, NavbarContainer$Cockpit.make(/* array */[])), ReasonReact.element(/* None */0, /* None */0, ContentContainer$Cockpit.make(/* array */[])));
             }),
           /* initialState */(function () {
               return /* record */[/* empty */0];

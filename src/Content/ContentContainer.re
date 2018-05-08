@@ -10,7 +10,7 @@ let component = ReasonReact.reducerComponent("ContentContainer");
 let make = (_children) => {
   ...component,
   didMount: self => {
-    Coins.request("http://localhost:3000/coins", (c) => self.send(Query(c)))
+    Coins.request((c) => self.send(Query(c)))
     |> ignore;
   },
   initialState: () => {coins:  []},

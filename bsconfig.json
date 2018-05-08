@@ -21,6 +21,7 @@
   "bs-dependencies": [
     "reason-react",
     "bs-axios",
+    "bs-webapi",
   ],
   "refmt": 3,
   "warnings": {

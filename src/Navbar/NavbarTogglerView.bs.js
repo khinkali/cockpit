@@ -3,7 +3,7 @@
 import * as React from "react";
 import * as ReasonReact from "reason-react/src/ReasonReact.js";
 
-var component = ReasonReact.statelessComponent("SidebarView");
+var component = ReasonReact.statelessComponent("NavbarTogglerView");
 
 function make() {
   return /* record */[
@@ -17,7 +17,18 @@ function make() {
           /* willUpdate */component[/* willUpdate */7],
           /* shouldUpdate */component[/* shouldUpdate */8],
           /* render */(function () {
-              return React.createElement("div", undefined);
+              return React.cloneElement(React.createElement("button", {
+                              className: "navbar-toggler",
+                              type: "button"
+                            }), {
+                          "data-toggle": "collapse",
+                          "data-target": "#navbarToggler",
+                          "aria-controls": "navbarToggler",
+                          "aria-expanded": "false",
+                          "aria-label": "Toggle navigation"
+                        }, React.createElement("span", {
+                              className: "navbar-toggler-icon"
+                            }));
             }),
           /* initialState */component[/* initialState */10],
           /* retainedProps */component[/* retainedProps */11],

@@ -4,6 +4,7 @@ import * as List from "bs-platform/lib/es6/list.js";
 import * as $$Array from "bs-platform/lib/es6/array.js";
 import * as Curry from "bs-platform/lib/es6/curry.js";
 import * as Axios from "axios";
+import * as Config$Cockpit from "./Config.bs.js";
 
 function transformToCoins(values) {
   return List.map((function (obj) {
@@ -14,8 +15,10 @@ function transformToCoins(values) {
               }), values);
 }
 
-function request(url, c) {
-  return Axios.get(url).then((function (x) {
+function request(c) {
+  return Config$Cockpit.read.then((function (x) {
+                      return Axios.get(x + "/coins");
+                    })).then((function (x) {
                     return Promise.resolve($$Array.to_list(x.data));
                   })).then((function (x) {
                   return Promise.resolve(transformToCoins(x));

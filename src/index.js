@@ -7,7 +7,7 @@ import './index.css';
 
 /* Import javascript */
 import 'bootstrap';
-import './SbAdmin/js/sb-admin';
+//import './SbAdmin/js/sb-admin';
 
 import App from './App/AppContainer.bs';
 import registerServiceWorker from './registerServiceWorker';

@@ -11,14 +11,14 @@ S /home/developer/Desktop/react-reason/cockpit/node_modules/reason-react/lib/oca
 B /home/developer/Desktop/react-reason/cockpit/node_modules/reason-react/lib/ocaml
 S /home/developer/Desktop/react-reason/cockpit/node_modules/bs-axios/lib/ocaml
 B /home/developer/Desktop/react-reason/cockpit/node_modules/bs-axios/lib/ocaml
+S /home/developer/Desktop/react-reason/cockpit/node_modules/bs-webapi/lib/ocaml
+B /home/developer/Desktop/react-reason/cockpit/node_modules/bs-webapi/lib/ocaml
 S src/Api
 B lib/bs/src/Api
-S src/Sidebar
-B lib/bs/src/Sidebar
-S src/Navbar
-B lib/bs/src/Navbar
 S src/App
 B lib/bs/src/App
 S src/Content
 B lib/bs/src/Content
+S src/Navbar
+B lib/bs/src/Navbar
 ####BSB GENERATED: NO EDIT}

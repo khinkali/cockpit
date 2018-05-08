@@ -3,9 +3,9 @@
 import * as React from "react";
 import * as ReasonReact from "reason-react/src/ReasonReact.js";
 
-var component = ReasonReact.statelessComponent("NavLinkView");
+var component = ReasonReact.statelessComponent("NavItemView");
 
-function make(linkText, href, _) {
+function make(text, href, icon, _) {
   return /* record */[
           /* debugName */component[/* debugName */0],
           /* reactClassInternal */component[/* reactClassInternal */1],
@@ -23,10 +23,10 @@ function make(linkText, href, _) {
                               className: "nav-link",
                               href: href
                             }, React.createElement("i", {
-                                  className: "fa fa-fw fa-dashboard"
+                                  className: "fa fa-fw " + icon
                                 }), React.createElement("span", {
                                   className: "nav-link-text"
-                                }, linkText)));
+                                }, text)));
             }),
           /* initialState */component[/* initialState */10],
           /* retainedProps */component[/* retainedProps */11],
