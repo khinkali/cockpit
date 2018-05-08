@@ -5,7 +5,7 @@ import * as Axios from "axios";
 var read = Axios.get("config.json").then((function (x) {
           return Promise.resolve(x.data.env.url);
         })).then((function (x) {
-        return Promise.resolve(x);
+        return Promise.resolve(/* record */[/* url */x]);
       }));
 
 export {

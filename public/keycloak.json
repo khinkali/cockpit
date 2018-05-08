@@ -1,0 +1,8 @@
+{
+  "realm": "cryptowatch",
+  "auth-server-url": "http://5.189.154.24:31190/auth",
+  "ssl-required": "none",
+  "resource": "cockpit",
+  "public-client": true,
+  "confidential-port": 0
+}

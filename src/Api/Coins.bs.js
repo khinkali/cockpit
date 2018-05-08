@@ -17,7 +17,7 @@ function transformToCoins(values) {
 
 function request(c) {
   return Config$Cockpit.read.then((function (x) {
-                      return Axios.get(x + "/coins");
+                      return Axios.get(x[/* url */0] + "/coins");
                     })).then((function (x) {
                     return Promise.resolve($$Array.to_list(x.data));
                   })).then((function (x) {

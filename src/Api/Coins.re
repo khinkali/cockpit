@@ -11,7 +11,7 @@ let transformToCoins = (values: list('a)): coins => {
 
 let request = (c: coins => unit) =>
   Config.read
-  |> Js.Promise.then_(x => Axios.get(x ++ "/coins"))
+  |> Js.Promise.then_((x: Config.env)  => Axios.get(x.url ++ "/coins"))
   |> Js.Promise.then_(x => Js.Promise.resolve(Array.to_list(x##data)))
   |> Js.Promise.then_(x => Js.Promise.resolve(transformToCoins(x)))
   |> Js.Promise.then_(x => Js.Promise.resolve(c(x)));
