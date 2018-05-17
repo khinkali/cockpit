@@ -29,10 +29,3 @@ var loadData = function () {
 
   req.send();
 };
-
-
-keycloak.updateToken(30).success(function () {
-    loadData();
-  }).error(function () {
-      alert('Failed to refresh token');
-  });
