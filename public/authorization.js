@@ -3,8 +3,10 @@ keycloak.init({
   onLoad: 'login-required'
 }).success(function (authenticated) {
   console.log(authenticated ? 'authenticated' : 'not authenticated');
+  return new Promise.resolve(authenticated);
 }).error(function () {
   console.log('failed to initialize');
+  return new Promise.reject("rejected");
 });
 
 var loadData = function () {

@@ -10,7 +10,7 @@ const keycloak = Keycloak()
 var init = (keycloak.init({onLoad: 'login-required'}));
 
 var query = init.then((function () {
-        return Promise.resolve((keycloak.subject));
+        return Promise.resolve((keycloak.init({onLoad: 'login-required'}).success(function (authenticated) {return new Promise.resolve('authenticated');})));
       }));
 
 export {
