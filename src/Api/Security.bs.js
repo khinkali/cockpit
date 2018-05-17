@@ -7,7 +7,7 @@ import Keycloak from 'keycloak-js'
 const keycloak = Keycloak()
 ;
 
-var query = (keycloak.init({onLoad: 'login-required'}).success(function (authenticated) {return new Promise.resolve('authenticated');}));
+var query = (new Promise((resolve, reject) => {keycloak.init({onLoad: 'login-required'}).success(() => resolve(keycloak.subject)).error(error => reject(error))}));
 
 export {
   query ,
