@@ -4,6 +4,7 @@ import * as Block from "bs-platform/lib/es6/block.js";
 import * as Curry from "bs-platform/lib/es6/curry.js";
 import * as ReasonReact from "reason-react/src/ReasonReact.js";
 import * as Coins$Cockpit from "../Api/Coins.bs.js";
+import * as Security$Cockpit from "../Api/Security.bs.js";
 import * as ContentView$Cockpit from "./ContentView.bs.js";
 
 var component = ReasonReact.reducerComponent("ContentContainer");
@@ -15,6 +16,9 @@ function make() {
           /* handedOffState */component[/* handedOffState */2],
           /* willReceiveProps */component[/* willReceiveProps */3],
           /* didMount */(function (self) {
+              Security$Cockpit.query.then((function (x) {
+                      return Promise.resolve((console.log(x), /* () */0));
+                    }));
               Coins$Cockpit.request((function (c) {
                       return Curry._1(self[/* send */3], /* Query */[c]);
                     }));

@@ -15,11 +15,9 @@ function transformToCoins(values) {
               }), values);
 }
 
-var keyCloakSubject = (keycloak.subject);
-
 function request(c) {
   return Config$Cockpit.read.then((function (x) {
-                      return Axios.get(x[/* url */0] + ("/sink/resources/users/" + (keyCloakSubject + "/coins")));
+                      return Axios.get(x[/* url */0] + "/coins");
                     })).then((function (x) {
                     return Promise.resolve($$Array.to_list(x.data));
                   })).then((function (x) {
@@ -31,8 +29,7 @@ function request(c) {
 
 export {
   transformToCoins ,
-  keyCloakSubject ,
   request ,
   
 }
-/* keyCloakSubject Not a pure module */
+/* axios Not a pure module */
