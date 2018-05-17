@@ -2,13 +2,12 @@ var keycloak = Keycloak();
 keycloak.init({
   onLoad: 'login-required'
 }).success(function (authenticated) {
-  alert(authenticated ? 'authenticated' : 'not authenticated');
+  console.log(authenticated ? 'authenticated' : 'not authenticated');
 }).error(function () {
-  alert('failed to initialize');
+  console.log('failed to initialize');
 });
 
 var loadData = function () {
-  document.getElementById('username').innerText = keycloak.username;
 
   var url = 'http://5.189.154.24:31081/sink/resources/users/'  + keycloak.subject + '/coins';
 
@@ -20,9 +19,9 @@ var loadData = function () {
   req.onreadystatechange = function () {
     if (req.readyState == 4) {
       if (req.status == 200) {
-        alert('Success');
+        console.log('Success');
       } else if (req.status == 403) {
-        alert('Forbidden');
+        console.log('Forbidden');
       }
     }
   }
