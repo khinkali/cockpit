@@ -3,13 +3,13 @@ import ReactDOM from 'react-dom';
 import 'font-awesome/css/font-awesome.css';
 import './index.css';
 import 'bootstrap';
-import Keycloak from "./keycloak.js";
+import Keycloak from 'keycloak-js';
 import axios from "axios";
 
 import App from './App/AppContainer.bs';
 import registerServiceWorker from './registerServiceWorker';
 
-const kc = Keycloak('/keycloak.json');
+const kc = Keycloak();
 kc.init({onLoad: 'login-required'}).success(authenticated => {
     if (authenticated) {
         ReactDOM.render(<App/>, document.getElementById('root'));
