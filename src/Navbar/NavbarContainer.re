@@ -1,4 +1,4 @@
-[%%raw "import './Styles/navbar.css'"];
+[%%raw "import './Scss/navbar.css'"];
 
 type state = {
   empty: int,

@@ -4,7 +4,9 @@ let component = ReasonReact.statelessComponent("SidebarTogglerView");
 
 let handleClick = (_event, _self) => {
   switch (Document.getElementById("doc-page", document)) {
-  | Some(ele) => ();
+  | Some(ele) => 
+      DomTokenListRe.toggle("sidenav-toggled", Element.classList(ele))
+      |> ignore;
   | None => ();
   }; 
 };

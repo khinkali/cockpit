@@ -6,6 +6,16 @@ import * as NavItemView$Cockpit from "./NavItemView.bs.js";
 import * as NavbarTogglerView$Cockpit from "./NavbarTogglerView.bs.js";
 import * as SidebarTogglerView$Cockpit from "./SidebarTogglerView.bs.js";
 
+import ovLogo from './Assets/Overview.svg'
+;
+
+import stockLogo from './Assets/Stocks.svg'
+;
+
+var ovLogo$prime = (ovLogo);
+
+var stockLogo$prime = (stockLogo);
+
 var component = ReasonReact.statelessComponent("NavbarView");
 
 function make() {
@@ -31,7 +41,15 @@ function make() {
                               id: "navbarToggler"
                             }, React.createElement("ul", {
                                   className: "navbar-nav navbar-sidenav"
-                                }, ReasonReact.element(/* None */0, /* None */0, NavItemView$Cockpit.make("Dashboard", "#", "fa-sitemap", /* array */[])), ReasonReact.element(/* None */0, /* None */0, NavItemView$Cockpit.make("Menu", "#", "fa-dashboard", /* array */[]))), ReasonReact.element(/* None */0, /* None */0, SidebarTogglerView$Cockpit.make(/* array */[]))));
+                                }, ReasonReact.element(/* None */0, /* None */0, NavItemView$Cockpit.make("navItemDashboard", "Overview", /* Dashboard */0, React.createElement("img", {
+                                              height: "40",
+                                              src: ovLogo$prime,
+                                              width: "40"
+                                            }))), ReasonReact.element(/* None */0, /* None */0, NavItemView$Cockpit.make("navItemStock", "Stocks", /* Stock */1, React.createElement("img", {
+                                              height: "40",
+                                              src: stockLogo$prime,
+                                              width: "40"
+                                            })))), ReasonReact.element(/* None */0, /* None */0, SidebarTogglerView$Cockpit.make(/* array */[]))));
             }),
           /* initialState */component[/* initialState */10],
           /* retainedProps */component[/* retainedProps */11],
@@ -42,8 +60,10 @@ function make() {
 }
 
 export {
+  ovLogo$prime ,
+  stockLogo$prime ,
   component ,
   make ,
   
 }
-/* component Not a pure module */
+/*  Not a pure module */

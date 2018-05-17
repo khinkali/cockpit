@@ -23,14 +23,16 @@ $green: #28a745 !default;
 $teal: #20c997 !default;
 $cyan: #17a2b8 !default;
 
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,700');
+
 // Spacing Variables
 // Change below variable if the height of the navbar changes
 $navbar-base-height: 56px;
 // Change below variable to change the width of the sidenav
 $sidenav-base-width: 250px;
 // Change below variable to change the width of the sidenav when collapsed
-$sidenav-collapsed-width: 55px;
+$sidenav-collapsed-width: 72px;
+$sidenav-toggled-width: $sidenav-collapsed-width - 1px;
+
 // Change below variable to change the height of the sticky footer
 $sticky-footer-height: 56px;
-
-@import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,700');

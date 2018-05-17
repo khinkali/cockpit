@@ -1,4 +1,11 @@
+
+/* Import SideBar logos */
+[%%raw "import ovLogo from './Assets/Overview.svg'"];
+[%%raw "import stockLogo from './Assets/Stocks.svg'"];
+let ovLogo' = [%raw "ovLogo"];
+let stockLogo' = [%raw "stockLogo"];
 let component = ReasonReact.statelessComponent("NavbarView");
+
 
 let make = (_children) => {
   ...component,
@@ -9,8 +16,12 @@ let make = (_children) => {
     
     <div className="collapse navbar-collapse" id="navbarToggler">
       <ul className="navbar-nav navbar-sidenav">
-        <NavItemView text="Dashboard" href="#" icon="fa-sitemap" />
-        <NavItemView text="Menu" href="#" icon="fa-dashboard" />
+        <NavItemView id="navItemDashboard" text="Overview" active=NavItem.Dashboard>
+          ...<img src={ovLogo'} height="40" width="40"/>
+        </NavItemView>
+        <NavItemView id="navItemStock" text="Stocks" active=NavItem.Stock>
+          ...<img src={stockLogo'} height="40" width="40"/>
+        </NavItemView>
       </ul>
       <SidebarTogglerView />
     </div>

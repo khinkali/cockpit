@@ -18,6 +18,8 @@
   display: none;
 }
 
+
+// Hide SideBar
 body.sidenav-toggled {
   .content-wrapper {
     @media (min-width: 992px) {
@@ -31,7 +33,7 @@ body.sidenav-toggled {
     }
     .nav-item,
     .nav-link {
-      width: $sidenav-collapsed-width !important;
+      width: $sidenav-toggled-width !important;
       &:after {
         display: none;
       }

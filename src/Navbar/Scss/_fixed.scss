@@ -5,6 +5,10 @@
   @media (min-width: 992px) {
     .navbar-sidenav {
       height: calc(100vh - 112px);
+      .nav-link-text {
+        font-size: 1.2rem;
+      }
+
     }
     .sidenav-toggler {
       position: absolute;
@@ -43,7 +47,6 @@ body.sidenav-toggled {
   #mainNav.fixed-top {
     .sidenav-toggler {
       overflow-x: hidden;
-
       width: $sidenav-collapsed-width;
       .nav-item,
       .nav-link {

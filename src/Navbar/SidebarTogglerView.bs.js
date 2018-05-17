@@ -7,8 +7,13 @@ import * as ReasonReact from "reason-react/src/ReasonReact.js";
 var component = ReasonReact.statelessComponent("SidebarTogglerView");
 
 function handleClick(_, _$1) {
-  document.getElementById("doc-page");
-  return /* () */0;
+  var match = document.getElementById("doc-page");
+  if (match == null) {
+    return /* () */0;
+  } else {
+    match.classList.toggle("sidenav-toggled");
+    return /* () */0;
+  }
 }
 
 function make() {

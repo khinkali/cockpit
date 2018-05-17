@@ -3,7 +3,7 @@
 import * as ReasonReact from "reason-react/src/ReasonReact.js";
 import * as NavbarView$Cockpit from "./NavbarView.bs.js";
 
-import './Styles/navbar.css'
+import './Scss/navbar.css'
 ;
 
 var component = ReasonReact.reducerComponent("NavbarContainer");
