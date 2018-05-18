@@ -7,6 +7,9 @@ import * as Axios from "axios";
 import * as Config$Cockpit from "./Config.bs.js";
 import * as Security$Cockpit from "./Security.bs.js";
 
+import axios from 'axios'
+;
+
 function transformToCoins(values) {
   return List.map((function (obj) {
                 return /* record */[
@@ -16,12 +19,24 @@ function transformToCoins(values) {
               }), values);
 }
 
+function keycloakQuery(config) {
+  return Security$Cockpit.query.then((function (p) {
+                var url = config[/* url */0] + ("/sink/resources/users/" + (p.subject + "/coins"));
+                var keycloak = {
+                  url: url,
+                  method: "GET",
+                  headers: {
+                    Authorization: "Bearer " + p.token
+                  }
+                };
+                return Axios.request(keycloak).then((function (x) {
+                              return Promise.resolve(x);
+                            }));
+              }));
+}
+
 function request(c) {
-  return Config$Cockpit.read.then((function (x) {
-                      return Security$Cockpit.query.then((function (subject) {
-                                    return Axios.get(x[/* url */0] + ("/sink/resources/users/" + (subject + "/coins")));
-                                  }));
-                    })).then((function (x) {
+  return Config$Cockpit.read.then(keycloakQuery).then((function (x) {
                     return Promise.resolve($$Array.to_list(x.data));
                   })).then((function (x) {
                   return Promise.resolve(transformToCoins(x));
@@ -32,7 +47,8 @@ function request(c) {
 
 export {
   transformToCoins ,
+  keycloakQuery ,
   request ,
   
 }
-/* axios Not a pure module */
+/*  Not a pure module */

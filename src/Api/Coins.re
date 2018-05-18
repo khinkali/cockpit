@@ -12,7 +12,7 @@ let transformToCoins = (values: list('a)): coins => {
 };
 
 let keycloakQuery = (config: Config.env) => 
-  Js.Promise.then_(p: Security.pool => {
+  Js.Promise.then_(p => {
     let url: string = config.url ++ "/sink/resources/users/" ++ p##subject ++ "/coins";
 
     let keycloak = Axios.makeConfigWithUrl(~url=url, 
@@ -26,7 +26,7 @@ let keycloakQuery = (config: Config.env) =>
 
 let request = (c: coins => unit) =>
   Config.read
-  |> keycloakQuery
+  |> Js.Promise.then_(x => keycloakQuery(x)) 
   |> Js.Promise.then_(x => Js.Promise.resolve(Array.to_list(x##data)))
   |> Js.Promise.then_(x => Js.Promise.resolve(transformToCoins(x)))
   |> Js.Promise.then_(x => Js.Promise.resolve(c(x)));
