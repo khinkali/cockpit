@@ -1,4 +1,16 @@
 [%%raw "import Keycloak from 'keycloak-js'"];
 [%%raw "const keycloak = Keycloak()"];
 
-let query: Js.Promise.t(string) = [%raw "new Promise((resolve, reject) => {keycloak.init({onLoad: 'login-required'}).success(() => resolve(keycloak.subject)).error(error => reject(error))})"];
+type pool = Js.t({
+  .
+  subject: string,
+  token: string
+});
+
+let query: Js.Promise.t(pool) = [%raw {|
+  new Promise((resolve, reject) => {
+    keycloak.init({
+        onLoad: 'login-required'
+      }).success(() => resolve({subject: keycloak.subject, token: keycloak.token)).error(error => reject(error))
+    })
+  |}];
