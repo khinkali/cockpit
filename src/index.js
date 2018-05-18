@@ -3,17 +3,12 @@ import ReactDOM from 'react-dom';
 import 'font-awesome/css/font-awesome.css';
 import './index.css';
 import 'bootstrap';
-//import Keycloak from 'keycloak-js';
-import axios from "axios";
-
 import App from './App/AppContainer.bs';
 import registerServiceWorker from './registerServiceWorker';
+//import Keycloak from 'keycloak-js';
 
 ReactDOM.render(<App/>, document.getElementById('root'));
 registerServiceWorker();
-
-
-axios.get(url, {headers:{"Authorization": "Bearer"}})
 
 /*const kc = Keycloak();
 kc.init({onLoad: 'login-required'}).success(authenticated => {

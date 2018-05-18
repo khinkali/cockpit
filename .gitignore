@@ -24,3 +24,5 @@ yarn-error.log*
 lib 
 .idea
 *.lock
+.merlin
+*.bs.js
