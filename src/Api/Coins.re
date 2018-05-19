@@ -8,7 +8,7 @@ type coins = list(coin);
 let transformToCoins = (values: list('a)) : coins =>
   List.map(obj => {amount: obj##amount, currency: obj##coinSymbol}, values);
 
-let keycloakQuery = (config: Config.env) =>
+/*let keycloakQuery = (config: Config.env) =>
   Js.Promise.then_(
     p => {
       let url: string = config.url ++ "/sink/resources/users/" ++ p##subject ++ "/coins";
@@ -25,3 +25,4 @@ let request = (c: coins => unit) =>
   |> Js.Promise.then_(x => Js.Promise.resolve(Array.to_list(x##data)))
   |> Js.Promise.then_(x => Js.Promise.resolve(transformToCoins(x)))
   |> Js.Promise.then_(x => Js.Promise.resolve(c(x)));
+*/

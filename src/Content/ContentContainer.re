@@ -9,9 +9,10 @@ let component = ReasonReact.reducerComponent("ContentContainer");
 
 let make = (_children) => {
   ...component,
-  didMount: self => {
-    Coins.request((c) => self.send(Query(c)))
-    |> ignore;
+  didMount: _self => {
+    /*Coins.request((c) => self.send(Query(c)))
+    |> ignore;*/
+    ();
   },
   initialState: () => {coins:  []},
   reducer: (action, _state) =>

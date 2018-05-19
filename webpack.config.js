@@ -1,5 +1,8 @@
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 const path = require('path');
 
 module.exports = {
@@ -9,10 +12,10 @@ module.exports = {
     filename: 'bundle.js'
   },
   devServer: {
-  contentBase: path.resolve(__dirname, 'public'),
-  compress: true,
-  port: 9000
-},
+    contentBase: path.resolve(__dirname, 'public'),
+    compress: true,
+    port: 9000
+  },
   module: {
     rules: [{
         test: /\.js$/,
@@ -63,6 +66,15 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: "[name].css",
       chunkFilename: "[id].css"
-    })
+    }),
+    new CopyWebpackPlugin([{ 
+      from: 'public' 
+    }]),
+    new UglifyJsPlugin({
+        cache: true,
+        parallel: true,
+        sourceMap: false
+    }),
+    new OptimizeCssAssetsPlugin({})
   ]
 };

@@ -15,7 +15,7 @@ let make = (_children) => {
   render: _self => {
       <div>
         <h1>{ReasonReact.string("Hello")}</h1>
-        <ContentContainer />
+        /*<ContentContainer />*/
       </div>
   },
 };
