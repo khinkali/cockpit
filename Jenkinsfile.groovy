@@ -55,7 +55,7 @@ podTemplate(label: 'mypod', containers: [
         stage('deploy to test') {
             sh "sed -i -e 's/        image: khinkali\\/cockpit:0.0.1/        image: khinkali\\/cockpit:${env.VERSION}/' startup.yml"
             container('kubectl') {
-                sh "kubectl apply -f startup.yml"
+                sh "kubectl apply -f kubeconfig.yml"
             }
         }
 
@@ -69,7 +69,7 @@ podTemplate(label: 'mypod', containers: [
             sh "sed -i -e 's/  namespace: test/  namespace: default/' startup.yml"
             sh "sed -i -e 's/    nodePort: 31300/    nodePort: 30300/' startup.yml"
             container('kubectl') {
-                sh "kubectl apply -f startup.yml"
+                sh "kubectl apply -f kubeconfig.yml"
             }
         }
     }
