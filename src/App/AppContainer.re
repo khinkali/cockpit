@@ -14,8 +14,7 @@ let make = (_children) => {
   reducer: (_action: action, _state: state) => ReasonReact.NoUpdate,
   render: _self => {
       <div>
-        <h1>{ReasonReact.string("Hello")}</h1>
-        /*<ContentContainer />*/
+        <ContentContainer />
       </div>
   },
 };

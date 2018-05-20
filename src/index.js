@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 // js
-import {authorize} from './Api/Security';
+import {authorize} from './Api/Security.bs';
 import 'bootstrap';
 
 // styles
