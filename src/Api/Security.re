@@ -7,7 +7,8 @@ type pool = {
   idToken: string
 };
 
-let authorize: Js.Promise.t(string) = [%raw {|
+/* Promise is wrapped into a function, because it raises controllable initialization */
+let authorize: unit => Js.Promise.t(string) = () => [%raw {|
   new Promise((resolve, reject) => {
     keycloak
       .init({
@@ -26,7 +27,7 @@ let authorize: Js.Promise.t(string) = [%raw {|
   })
   |}];
 
-let query = Js.Promise.make((~resolve, ~reject) => {
+let query = () => Js.Promise.make((~resolve, ~reject) => {
   let authenticated: bool = [%raw "keycloak.authenticated"];
   if (!authenticated) {
     reject(. Js.Exn.raiseError("Your are not authorized!"));

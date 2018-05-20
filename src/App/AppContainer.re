@@ -1,3 +1,6 @@
+
+
+%raw "import './app.scss'";
 type state = {
   empty: int,
 };
@@ -13,9 +16,17 @@ let make = (_children) => {
   initialState: () => {empty: 0},
   reducer: (_action: action, _state: state) => ReasonReact.NoUpdate,
   render: _self => {
-      <div>
-        <ContentContainer />
-      </div>
+      /*<div className="d-flex flex-row wrapper">
+        <div className="sidebar">
+          {ReasonReact.string("Sidebar")}
+        </div>
+        <div className="container-fluid">
+          {ReasonReact.string("Content")}
+        </div>
+        <button className="circle-btn">
+        </button>
+      </div>*/
+      <ContentContainer />
   },
 };
 

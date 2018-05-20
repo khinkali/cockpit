@@ -60,6 +60,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebPackPlugin({
+      hash: true,
       template: "./public/index.html",
       filename: "./index.html"
     }),
@@ -70,11 +71,11 @@ module.exports = {
     new CopyWebpackPlugin([{ 
       from: 'public' 
     }]),
-    new UglifyJsPlugin({
+    /*new UglifyJsPlugin({
         cache: true,
         parallel: true,
         sourceMap: false
-    }),
+    }),*/
     new OptimizeCssAssetsPlugin({})
   ]
 };
