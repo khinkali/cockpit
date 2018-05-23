@@ -22,6 +22,7 @@ podTemplate(label: 'mypod', containers: [
                 pipelineTriggers([])
         ])
 
+        /*
         stage('checkout') {
             git url: 'https://github.com/khinkali/cockpit'
         }
@@ -59,7 +60,7 @@ podTemplate(label: 'mypod', containers: [
                 sh "kubectl apply -f kubeconfig.yml"
             }
         }
-
+*/
         stage('UI Tests') {
             /*
             withCredentials([usernamePassword(credentialsId: 'testuser', passwordVariable: 'password', usernameVariable: 'username')]) {
@@ -69,7 +70,7 @@ podTemplate(label: 'mypod', containers: [
             */
             container('npm-jdk') {
                 sh '''
-                   npm install nightwatch -g
+                   npm install nightwatch
                    nightwatch UIT --env integration
                    '''
             }
