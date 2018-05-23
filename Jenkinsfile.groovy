@@ -63,12 +63,14 @@ podTemplate(label: 'mypod', containers: [
         }
 */
         stage('UI Tests') {
-            /*
-            withCredentials([usernamePassword(credentialsId: 'testuser', passwordVariable: 'password', usernameVariable: 'username')]) {
-                sh "sed -i -e 's/user: \"todo\"/user: \"${username}\"/' globals.js"
-                sh "sed -i -e 's/password: \"todo\"/password: \"${password}\"/' globals.js"
+
+            withCredentials([usernamePassword(credentialsId: 'applicationadmin', passwordVariable: 'password', usernameVariable: 'username')]) {
+                sh """
+                    sed -i -e 's/user: \"todo\"/user: \"${username}\"/' globals.js
+                    sed -i -e 's/password: \"todo\"/password: \"${password}\"/' globals.js
+                   """
             }
-            */
+
             container('npm-jdk') {
                 sh '''
                    npm install nightwatch -g

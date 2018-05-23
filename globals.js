@@ -1,6 +1,6 @@
 const users = {
     admin: {
-        user: "admin",
+        user: "todo",
         password: "todo"
     }
 };
