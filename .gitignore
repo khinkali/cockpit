@@ -30,3 +30,4 @@ lib
 *.bs.js
 
 selenium-debug.log
+package-lock.json
