@@ -5,7 +5,7 @@ podTemplate(label: 'mypod', containers: [
         containerTemplate(name: 'kubectl', image: 'lachlanevenson/k8s-kubectl:v1.8.0', command: 'cat', ttyEnabled: true),
         containerTemplate(name: 'curl', image: 'khinkali/jenkinstemplate:0.0.3', command: 'cat', ttyEnabled: true),
         containerTemplate(name: 'node', image: 'node', ttyEnabled: true, command: 'cat'),
-        containerTemplate(name: 'npm-jdk', image: 'khinkali/npm-java:0.0.2', ttyEnabled: true, command: 'cat')
+        containerTemplate(name: 'npm-jdk', image: 'khinkali/npm-java:0.0.3', ttyEnabled: true, command: 'cat')
 ],
         volumes: [
                 hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock'),
