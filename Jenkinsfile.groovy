@@ -59,6 +59,22 @@ podTemplate(label: 'mypod', containers: [
             }
         }
 
+        stage('UI Tests') {
+            /*
+            withCredentials([usernamePassword(credentialsId: 'testuser', passwordVariable: 'password', usernameVariable: 'username')]) {
+                sh "sed -i -e 's/user: \"todo\"/user: \"${username}\"/' globals.js"
+                sh "sed -i -e 's/password: \"todo\"/password: \"${password}\"/' globals.js"
+            }
+            */
+            container('node') {
+                sh '''
+                   npm install nightwatch -g'
+                   nightwatch UIT --env integration
+                   '''
+            }
+            junit allowEmptyResults: true, testResults: '**/reports/*.xml'
+        }
+
         stage('deploy to prod') {
             input(message: 'manuel user tests ok?')
             withCredentials([usernamePassword(credentialsId: 'github-api-token', passwordVariable: 'GITHUB_TOKEN', usernameVariable: 'GIT_USERNAME')]) {
