@@ -68,7 +68,7 @@ podTemplate(label: 'mypod', containers: [
                 sh "sed -i -e 's/password: \"todo\"/password: \"${password}\"/' globals.js"
             }
             */
-            container('npm-jdk') {
+            container('node') {
                 sh '''
                    npm install nightwatch
                    nightwatch UIT --env integration
