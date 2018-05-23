@@ -1,5 +1,5 @@
 module.exports = {
-    '[61] Login': function (browser) {
+    'Successfull Login': function (browser) {
 
         const user = browser.globals.users.admin.user;
         const password = browser.globals.users.admin.password;
