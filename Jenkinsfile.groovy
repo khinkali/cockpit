@@ -22,11 +22,12 @@ podTemplate(label: 'mypod', containers: [
                 pipelineTriggers([])
         ])
 
-        /*
+
         stage('checkout') {
             git url: 'https://github.com/khinkali/cockpit'
         }
 
+        /*
         stage('build image & git tag & docker push') {
             container('node') {
                 sh 'npm install'
@@ -71,7 +72,6 @@ podTemplate(label: 'mypod', containers: [
             container('npm-jdk') {
                 sh '''
                    npm install nightwatch -g
-                   ls -la
                    nightwatch UIT --env integration
                    '''
             }
