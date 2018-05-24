@@ -3,17 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "bootstrap": "^4.1.0",
-    "bs-axios": "^0.0.36",
-    "bs-webapi": "^0.9.1",
-    "font-awesome": "^4.7.0",
-    "jquery": "^3.3.1",
-    "jquery.easing": "^1.4.1",
-    "keycloak-js": "^3.4.3",
-    "popper.js": "^1.14.3",
-    "react": "^16.3.2",
-    "react-dom": "^16.3.2",
-    "reason-react": "^0.4.1"
+    "bootstrap": "4.1.0",
+    "bs-axios": "0.0.36",
+    "bs-webapi": "0.9.1",
+    "font-awesome": "4.7.0",
+    "jquery": "3.3.1",
+    "jquery.easing": "1.4.1",
+    "keycloak-js": "3.4.3",
+    "popper.js": "1.14.3",
+    "react": "16.3.2",
+    "react-dom": "16.3.2",
+    "reason-react": "0.4.1"
   },
   "scripts": {
     "start": "webpack-dev-server --mode development --open",
