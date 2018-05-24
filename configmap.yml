@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cockpit-config
+  namespace: test
+data:
+  config.json: |-
+    {
+      "env": {
+        "url": "http://5.189.154.24:31081"
+      }
+    }
+  keycloak.json: |-
+    {
+      "realm": "cryptowatch",
+      "auth-server-url": "http://5.189.154.24:31190/auth",
+      "ssl-required": "none",
+      "resource": "cockpit",
+      "public-client": true,
+      "confidential-port": 0
+    }
