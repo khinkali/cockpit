@@ -1,19 +1,20 @@
-
-
 type state = {
-  empty: int
+  empty: int,
 };
 
 type action =
-  | None;
+  | Nothing;
 
-let component = ReasonReact.reducerComponent("SidebarContainer");
+
+let component = ReasonReact.reducerComponent("TopbarContainer");
 
 let make = (_children) => {
   ...component,
   initialState: () => {empty: 0},
   reducer: (_action: action, _state: state) => ReasonReact.NoUpdate,
-  render: (_self) => {
-    <SidebarView />
+  render: _self => {
+    <TopbarView />
   }
 };
+
+   

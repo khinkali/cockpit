@@ -8,7 +8,7 @@ type coins = list(coin);
 let transformToCoins = (values: list('a)) : coins =>
   List.map(obj => {amount: obj##amount, currency: obj##coinSymbol}, values);
 
-let reqSecurity = (config: Config.env) =>
+let reqCoinsWithSecurity = (config: Config.env) =>
   Security.query()
   |> Js.Promise.then_((p: Security.pool) => {
        let url: string =
@@ -22,10 +22,11 @@ let reqSecurity = (config: Config.env) =>
          );
        Axios.request(httpHeader);
      });
+     
 
 let request = (c: coins => unit) =>
   Config.read
-  |> Js.Promise.then_(x => reqSecurity(x))
+  |> Js.Promise.then_(x => reqCoinsWithSecurity(x))
   |> Js.Promise.then_(x => Js.Promise.resolve(Array.to_list(x##data)))
   |> Js.Promise.then_(x => Js.Promise.resolve(transformToCoins(x)))
   |> Js.Promise.then_(x => Js.Promise.resolve(c(x)))
