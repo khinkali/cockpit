@@ -8,8 +8,6 @@ import "./index.scss";
 import { authorize } from "./Api/Security.bs";
 import App from "./App/AppContainer.bs"; 
 
-ReactDOM.render(<App />, document.getElementById("root"));
-
 authorize()
 .then((text) => {
   ReactDOM.render(<App/>, document.getElementById('root'));
