@@ -1,5 +1,6 @@
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const path = require("path");
 const glob = require("glob");
 
@@ -7,7 +8,7 @@ module.exports = {
   entry: ["./src/index.js"],
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "bundle.js"
+    filename: "bundle.[hash].js"
   },
   module: {
     rules: [
@@ -33,11 +34,17 @@ module.exports = {
         ]
       },
       {
-        test: /\.scss$/,
+        test: /\.s?[ac]ss$/,
         use: [
+          {
+            loader: MiniCssExtractPlugin.loader
+          },
           {
             loader: "css-loader"
           },
+          /*{
+            loader: "postcss-loader"
+          },*/
           {
             loader: "sass-loader",
             options: {
@@ -55,7 +62,7 @@ module.exports = {
           {
             loader: "file-loader",
             options: {
-              name: "[name].[ext]",
+              name: "[name][hash].[ext]",
               outputPath: "fonts/"
             }
           }
@@ -65,7 +72,6 @@ module.exports = {
   },
   plugins: [
     new HtmlWebPackPlugin({
-      hash: true,
       template: "./public/index.html",
       filename: "./index.html"
     }),
