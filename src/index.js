@@ -10,9 +10,9 @@ import App from "./App/AppContainer.bs";
 
 ReactDOM.render(<App />, document.getElementById("root"));
 
-/*authorize()
+authorize()
 .then((text) => {
   ReactDOM.render(<App/>, document.getElementById('root'));
 }).catch((error) => {
   console.log('Error occurred!', error);
-});*/
+});

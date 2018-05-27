@@ -1,5 +1,5 @@
 %raw "import Keycloak from 'keycloak-js'";
-%raw "const keycloak = Keycloak()";
+%raw "const keycloak = Keycloak('config/keycloak.json')";
 
 type pool = {
   token: string,
