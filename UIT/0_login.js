@@ -6,7 +6,12 @@ module.exports = {
 
         browser
             .url(browser.launchUrl)
-            .login(user, password)
+            .waitForElementVisible('#username', 20000)
+            .setValue('#username', user)
+            .waitForElementVisible('#password', 2000)
+            .setValue('#password', password)
+            .waitForElementVisible('#kc-login', 2000)
+            .click('#kc-login')
             .waitForElementVisible('.mdc-drawer__header-content', 2000)
             .assert.containsText('.mdc-drawer__header-content', 'Header')
             .end();
