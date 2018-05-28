@@ -57,7 +57,10 @@ podTemplate(label: 'mypod', containers: [
         stage('deploy to test') {
             sh "sed -i -e 's/        image: khinkali\\/cockpit:0.0.1/        image: khinkali\\/cockpit:${env.VERSION}/' kubeconfig.yml"
             container('kubectl') {
-                sh "kubectl apply -f kubeconfig.yml"
+                sh '''
+                    kubectl apply -f configmap.yml
+                    kubectl apply -f kubeconfig.yml
+                   '''
             }
         }
 
