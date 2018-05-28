@@ -2,7 +2,7 @@
 
 podTemplate(label: 'mypod', containers: [
         containerTemplate(name: 'docker', image: 'docker', ttyEnabled: true, command: 'cat'),
-        containerTemplate(name: 'kubectl', image: 'lachlanevenson/k8s-kubectl:v1.8.0', command: 'cat', ttyEnabled: true),
+        containerTemplate(name: 'kubectl', image: 'lachlanevenson/k8s-kubectl:v1.10.3', command: 'cat', ttyEnabled: true),
         containerTemplate(name: 'curl', image: 'khinkali/jenkinstemplate:0.0.3', command: 'cat', ttyEnabled: true),
         containerTemplate(name: 'node', image: 'node', ttyEnabled: true, command: 'cat'),
         containerTemplate(name: 'npm-jdk', image: 'khinkali/npm-java:0.0.3', ttyEnabled: true, command: 'cat')
@@ -62,17 +62,25 @@ podTemplate(label: 'mypod', containers: [
                     kubectl apply -f configmap.yml
                     kubectl apply -f kubeconfig.yml
                    '''
-                def jenkinsPods = sh(
-                        script: "kubectl -n test get po -l app=cockpit --field-selector=status.phase=Running --no-headers",
-                        returnStdout: true
-                ).trim()
-                def podNameLine = jenkinsPods.split('\n')[0]
-                def startIndex = podNameLine.indexOf(' ')
-                if (startIndex == -1) {
-                    return
+                def podVersion = ''
+                while (podVersion != env.VERSION) {
+                    def pods = sh(
+                            script: "kubectl -n test get po -l app=cockpit --field-selector=status.phase=Running --no-headers",
+                            returnStdout: true
+                    ).trim()
+                    def podNameLine = pods.split('\n')[0]
+                    def startIndex = podNameLine.indexOf(' ')
+                    if (startIndex == -1) {
+                        return
+                    }
+                    def podName = podNameLine.substring(0, startIndex)
+                    def versionString = sh(
+                            script: "kubectl -n test exec -it ${podName} env | grep ^VERSION=",
+                            returnStdout: true
+                    ).trim()
+                    podVersion = pods.split('=')[1]
+                    echo "podVersion: ${podVersion}"
                 }
-                def podName = podNameLine.substring(0, startIndex)
-                echo "podName: ${podName}"
             }
         }
 
