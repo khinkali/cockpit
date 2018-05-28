@@ -62,29 +62,7 @@ podTemplate(label: 'mypod', containers: [
                     kubectl apply -f configmap.yml
                     kubectl apply -f kubeconfig.yml
                    '''
-                def podVersion = ''
-                while (podVersion != env.VERSION) {
-                    def pods = sh(
-                            script: "kubectl -n test get po -l app=cockpit --field-selector=status.phase=Running --no-headers",
-                            returnStdout: true
-                    ).trim()
-                    def podNameLine = pods.split('\n')[0]
-                    def startIndex = podNameLine.indexOf(' ')
-                    if (startIndex == -1) {
-                        return
-                    }
-                    def podName = podNameLine.substring(0, startIndex)
-                    try {
-                        def versionString = sh(
-                                script: "kubectl -n test exec -it ${podName} -c cockpit env | grep ^VERSION=",
-                                returnStdout: true
-                        ).trim()
-                        podVersion = versionString.split('=')[1]
-                        echo "podVersion: ${podVersion}"
-                    } catch (e) {
-                        echo e
-                    }
-                }
+                waitUntilReady('app=cockpit')
             }
         }
 
@@ -117,6 +95,32 @@ podTemplate(label: 'mypod', containers: [
             container('kubectl') {
                 sh "kubectl apply -f kubeconfig.yml"
             }
+        }
+    }
+}
+
+void waitUntilReady(String label) {
+    def podVersion = ''
+    while (podVersion != env.VERSION) {
+        def pods = sh(
+                script: "kubectl -n test get po -l ${label} --field-selector=status.phase=Running --no-headers",
+                returnStdout: true
+        ).trim()
+        def podNameLine = pods.split('\n')[0]
+        def startIndex = podNameLine.indexOf(' ')
+        if (startIndex == -1) {
+            return
+        }
+        def podName = podNameLine.substring(0, startIndex)
+        try {
+            def versionString = sh(
+                    script: "kubectl -n test exec -it ${podName} -c cockpit env | grep ^VERSION=",
+                    returnStdout: true
+            ).trim()
+            podVersion = versionString.split('=')[1]
+            echo "podVersion: ${podVersion}"
+        } catch (e) {
+            echo e
         }
     }
 }

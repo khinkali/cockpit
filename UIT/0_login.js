@@ -7,8 +7,8 @@ module.exports = {
         browser
             .url(browser.launchUrl)
             .login(user, password)
-            .waitForElementVisible('#root > table > thead > tr > th:nth-of-type(2)', 2000)
-            .assert.containsText('#root > table > thead > tr > th:nth-of-type(2)', 'Savings')
+            .waitForElementVisible('.mdc-drawer__header-content', 2000)
+            .assert.containsText('.mdc-drawer__header-content', 'Header')
             .end();
     },
     'Failed Login': function (browser) {
