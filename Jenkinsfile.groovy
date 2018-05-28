@@ -62,18 +62,18 @@ podTemplate(label: 'mypod', containers: [
                     kubectl apply -f configmap.yml
                     kubectl apply -f kubeconfig.yml
                    '''
+                def jenkinsPods = sh(
+                        script: "kubectl -n test get po -l app=cockpit --field-selector=status.phase=Running --no-headers",
+                        returnStdout: true
+                ).trim()
+                def podNameLine = jenkinsPods.split('\n')[0]
+                def startIndex = podNameLine.indexOf(' ')
+                if (startIndex == -1) {
+                    return
+                }
+                def podName = podNameLine.substring(0, startIndex)
+                echo "podName: ${podName}"
             }
-
-            def jenkinsPods = sh(
-                    script: "kubectl -n test get po -l app=cockpit --field-selector=status.phase=Running --no-headers",
-                    returnStdout: true
-            ).trim()
-            def podNameLine = jenkinsPods.split('\n')[0]
-            def startIndex = podNameLine.indexOf(' ')
-            if (startIndex == -1) {
-                return
-            }
-            def podName = podNameLine.substring(0, startIndex)
         }
 
         stage('UI Tests') {
