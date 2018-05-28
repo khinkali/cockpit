@@ -56,16 +56,27 @@ podTemplate(label: 'mypod', containers: [
 
         stage('deploy to test') {
             sh "sed -i -e 's/        image: khinkali\\/cockpit:0.0.1/        image: khinkali\\/cockpit:${env.VERSION}/' kubeconfig.yml"
+            sh "sed -i -e 's/value: \"todo\"/value: \"${env.VERSION}\"/' kubeconfig.yml"
             container('kubectl') {
                 sh '''
                     kubectl apply -f configmap.yml
                     kubectl apply -f kubeconfig.yml
                    '''
             }
+
+            def jenkinsPods = sh(
+                    script: "kubectl -n test get po -l app=cockpit --field-selector=status.phase=Running --no-headers",
+                    returnStdout: true
+            ).trim()
+            def podNameLine = jenkinsPods.split('\n')[0]
+            def startIndex = podNameLine.indexOf(' ')
+            if (startIndex == -1) {
+                return
+            }
+            def podName = podNameLine.substring(0, startIndex)
         }
 
         stage('UI Tests') {
-
             withCredentials([usernamePassword(credentialsId: 'applicationadmin', passwordVariable: 'password', usernameVariable: 'username')]) {
                 sh """
                     sed -i -e 's/user: \"todo\"/user: \"${username}\"/' globals.js
