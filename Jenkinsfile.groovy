@@ -75,7 +75,7 @@ podTemplate(label: 'mypod', containers: [
                     }
                     def podName = podNameLine.substring(0, startIndex)
                     def versionString = sh(
-                            script: "kubectl -n test exec -it ${podName} env | grep ^VERSION=",
+                            script: "kubectl -n test exec -it ${podName} -c cockpit env | grep ^VERSION=",
                             returnStdout: true
                     ).trim()
                     podVersion = versionString.split('=')[1]
