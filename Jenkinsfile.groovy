@@ -114,13 +114,13 @@ void waitUntilReady(String label) {
         def podName = podNameLine.substring(0, startIndex)
         try {
             def versionString = sh(
-                    script: "kubectl -n test exec -it ${podName} -c cockpit env | grep ^VERSION=",
+                    script: "kubectl -n test exec ${podName} -c cockpit env | grep ^VERSION=",
                     returnStdout: true
             ).trim()
             podVersion = versionString.split('=')[1]
             echo "podVersion: ${podVersion}"
         } catch (e) {
-            echo e
+            echo e.getMessage()
         }
     }
 }
