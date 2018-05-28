@@ -1,7 +1,7 @@
 exports.command = function (username, password) {
 
     this
-        .waitForElementVisible('#username', 2000)
+        .waitForElementVisible('#username', 20000)
         .setValue('#username', username)
         .waitForElementVisible('#password', 2000)
         .setValue('#password', password)
