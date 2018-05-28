@@ -78,7 +78,7 @@ podTemplate(label: 'mypod', containers: [
                             script: "kubectl -n test exec -it ${podName} env | grep ^VERSION=",
                             returnStdout: true
                     ).trim()
-                    podVersion = pods.split('=')[1]
+                    podVersion = versionString.split('=')[1]
                     echo "podVersion: ${podVersion}"
                 }
             }
