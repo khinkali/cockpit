@@ -74,12 +74,16 @@ podTemplate(label: 'mypod', containers: [
                         return
                     }
                     def podName = podNameLine.substring(0, startIndex)
-                    def versionString = sh(
-                            script: "kubectl -n test exec -it ${podName} -c cockpit env | grep ^VERSION=",
-                            returnStdout: true
-                    ).trim()
-                    podVersion = versionString.split('=')[1]
-                    echo "podVersion: ${podVersion}"
+                    try {
+                        def versionString = sh(
+                                script: "kubectl -n test exec -it ${podName} -c cockpit env | grep ^VERSION=",
+                                returnStdout: true
+                        ).trim()
+                        podVersion = versionString.split('=')[1]
+                        echo "podVersion: ${podVersion}"
+                    } catch (e) {
+                        echo e
+                    }
                 }
             }
         }
