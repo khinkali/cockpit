@@ -51,6 +51,7 @@
       },
       "desiredCapabilities": {
         "browserName": "chrome",
+        "silent": true,
         "chromeOptions": {
           "args": [
             "headless",
@@ -60,6 +61,7 @@
           "binary": "/home/jenkins/workspace/app/chromedriver",
           "marionette": false
         },
+        "javascriptEnabled": true,
         "acceptSslCerts": true
       }
     }
