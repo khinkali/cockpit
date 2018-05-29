@@ -78,8 +78,6 @@ podTemplate(label: 'mypod', containers: [
             container('npm-jdk') {
                 sh '''
                    npm install nightwatch -g
-                   export DBUS_SESSION_BUS_ADDRESS=/dev/null
-                   echo $DBUS_SESSION_BUS_ADDRESS
                    nightwatch UIT --env integration
                    '''
             }
