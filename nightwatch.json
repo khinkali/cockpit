@@ -30,13 +30,18 @@
       },
       "desiredCapabilities": {
         "browserName": "chrome",
+        "silent": true,
         "chromeOptions": {
           "args": [
-            "headless",
+            "disable-gpu",
             "no-sandbox",
-            "disable-gpu"
-          ]
+            "headless",
+            "window-size=1920,1080",
+            "verbose"
+          ],
+          "binary": "/home/adesso/Desktop/projects/cockpit/chromedriver"
         },
+        "javascriptEnabled": true,
         "acceptSslCerts": true
       }
     },

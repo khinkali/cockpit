@@ -78,7 +78,7 @@ podTemplate(label: 'mypod', containers: [
             container('npm-jdk') {
                 sh '''
                    npm install nightwatch -g
-                   nightwatch UIT --env integration
+                   nightwatch UIT --env integration --verbose
                    '''
             }
             junit allowEmptyResults: true, testResults: '**/reports/*.xml'
