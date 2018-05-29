@@ -57,8 +57,7 @@
             "headless",
             "no-sandbox",
             "disable-gpu"
-          ],
-          "binary": "/home/jenkins/workspace/app/chromedriver"
+          ]
         },
         "javascriptEnabled": true,
         "acceptSslCerts": true
