@@ -27,7 +27,6 @@ podTemplate(label: 'mypod', containers: [
             git url: 'https://github.com/khinkali/cockpit'
         }
 
-        /*
         stage('build image & git tag & docker push') {
             container('node') {
                 sh 'npm install'
@@ -66,7 +65,7 @@ podTemplate(label: 'mypod', containers: [
             }
             waitUntilReady('app=cockpit', 'cockpit')
         }
-*/
+
         stage('UI Tests') {
             withCredentials([usernamePassword(credentialsId: 'applicationadmin', passwordVariable: 'password', usernameVariable: 'username')]) {
                 sh """
