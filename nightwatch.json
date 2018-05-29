@@ -64,7 +64,8 @@
             "headless",
             "window-size=1920,1080",
             "verbose"
-          ]
+          ],
+          "binary": "/node_modules/chromedriver/lib/chromedriver"
         },
         "javascriptEnabled": true,
         "acceptSslCerts": true
