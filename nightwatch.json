@@ -45,9 +45,14 @@
         "browserName": "chrome",
         "chromeOptions": {
           "args": [
-            "--headless"
-          ]
-        }
+            "headless",
+            "no-sandbox",
+            "disable-gpu"
+          ],
+          "binary": ".chromedriver"
+        },
+        "acceptSslCerts": true,
+        "chrome.binary.path": "./phantomjs"
       }
     }
   }
