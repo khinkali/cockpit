@@ -64,8 +64,7 @@
             "headless",
             "window-size=1920,1080",
             "verbose"
-          ],
-          "binary": "/home/jenkins/workspace/app/chromedriver"
+          ]
         },
         "javascriptEnabled": true,
         "acceptSslCerts": true
