@@ -7,3 +7,28 @@
 [ERROR - 2018-05-29T09:35:39.657Z] Session [a5f174b0-6323-11e8-97c4-ef978e5d0de8] - page.onError - stack:
   (anonymous function) (undefined:5629)
 [INFO  - 2018-05-29T09:36:00.379Z] ShutdownReqHand - _handle - About to shutdown
+[INFO  - 2018-05-29T09:38:30.239Z] GhostDriver - Main - running on port 1064
+[INFO  - 2018-05-29T09:38:30.433Z] Session [0be464d0-6324-11e8-856a-359646e1940b] - page.settings - {"XSSAuditingEnabled":false,"javascriptCanCloseWindows":true,"javascriptCanOpenWindows":true,"javascriptEnabled":true,"loadImages":true,"localToRemoteUrlAccessEnabled":false,"userAgent":"Mozilla/5.0 (Unknown; Linux x86_64) AppleWebKit/538.1 (KHTML, like Gecko) PhantomJS/2.1.1 Safari/538.1","webSecurityEnabled":true}
+[INFO  - 2018-05-29T09:38:30.433Z] Session [0be464d0-6324-11e8-856a-359646e1940b] - page.customHeaders:  - {}
+[INFO  - 2018-05-29T09:38:30.434Z] Session [0be464d0-6324-11e8-856a-359646e1940b] - Session.negotiatedCapabilities - {"browserName":"phantomjs","version":"2.1.1","driverName":"ghostdriver","driverVersion":"1.2.0","platform":"linux-unknown-64bit","javascriptEnabled":true,"takesScreenshot":true,"handlesAlerts":false,"databaseEnabled":false,"locationContextEnabled":false,"applicationCacheEnabled":false,"browserConnectionEnabled":false,"cssSelectorsEnabled":true,"webStorageEnabled":false,"rotatable":false,"acceptSslCerts":false,"nativeEvents":true,"proxy":{"proxyType":"direct"}}
+[INFO  - 2018-05-29T09:38:30.434Z] SessionManagerReqHand - _postNewSessionCommand - New Session Created: 0be464d0-6324-11e8-856a-359646e1940b
+[ERROR - 2018-05-29T09:38:30.672Z] Session [0be464d0-6324-11e8-856a-359646e1940b] - page.onError - msg: ReferenceError: Can't find variable: Map
+[ERROR - 2018-05-29T09:38:30.672Z] Session [0be464d0-6324-11e8-856a-359646e1940b] - page.onError - stack:
+  (anonymous function) (undefined:5629)
+[INFO  - 2018-05-29T09:38:51.452Z] ShutdownReqHand - _handle - About to shutdown
+[INFO  - 2018-05-29T09:45:07.673Z] GhostDriver - Main - running on port 11147
+[INFO  - 2018-05-29T09:45:08.687Z] Session [f944ac80-6324-11e8-a17b-9ba83871eb69] - page.settings - {"XSSAuditingEnabled":false,"javascriptCanCloseWindows":true,"javascriptCanOpenWindows":true,"javascriptEnabled":true,"loadImages":true,"localToRemoteUrlAccessEnabled":false,"userAgent":"Mozilla/5.0 (Unknown; Linux x86_64) AppleWebKit/538.1 (KHTML, like Gecko) PhantomJS/2.1.1 Safari/538.1","webSecurityEnabled":true}
+[INFO  - 2018-05-29T09:45:08.687Z] Session [f944ac80-6324-11e8-a17b-9ba83871eb69] - page.customHeaders:  - {}
+[INFO  - 2018-05-29T09:45:08.687Z] Session [f944ac80-6324-11e8-a17b-9ba83871eb69] - Session.negotiatedCapabilities - {"browserName":"phantomjs","version":"2.1.1","driverName":"ghostdriver","driverVersion":"1.2.0","platform":"linux-unknown-64bit","javascriptEnabled":true,"takesScreenshot":true,"handlesAlerts":false,"databaseEnabled":false,"locationContextEnabled":false,"applicationCacheEnabled":false,"browserConnectionEnabled":false,"cssSelectorsEnabled":true,"webStorageEnabled":false,"rotatable":false,"acceptSslCerts":false,"nativeEvents":true,"proxy":{"proxyType":"direct"}}
+[INFO  - 2018-05-29T09:45:08.687Z] SessionManagerReqHand - _postNewSessionCommand - New Session Created: f944ac80-6324-11e8-a17b-9ba83871eb69
+[ERROR - 2018-05-29T09:45:09.297Z] Session [f944ac80-6324-11e8-a17b-9ba83871eb69] - page.onError - msg: ReferenceError: Can't find variable: Map
+[ERROR - 2018-05-29T09:45:09.299Z] Session [f944ac80-6324-11e8-a17b-9ba83871eb69] - page.onError - stack:
+  (anonymous function) (undefined:5629)
+[INFO  - 2018-05-29T09:45:29.784Z] GhostDriver - Main - running on port 7601
+[INFO  - 2018-05-29T09:45:30.048Z] Session [060041a0-6325-11e8-9cf0-7755e6718427] - page.settings - {"XSSAuditingEnabled":false,"javascriptCanCloseWindows":true,"javascriptCanOpenWindows":true,"javascriptEnabled":true,"loadImages":true,"localToRemoteUrlAccessEnabled":false,"userAgent":"Mozilla/5.0 (Unknown; Linux x86_64) AppleWebKit/538.1 (KHTML, like Gecko) PhantomJS/2.1.1 Safari/538.1","webSecurityEnabled":true}
+[INFO  - 2018-05-29T09:45:30.048Z] Session [060041a0-6325-11e8-9cf0-7755e6718427] - page.customHeaders:  - {}
+[INFO  - 2018-05-29T09:45:30.049Z] Session [060041a0-6325-11e8-9cf0-7755e6718427] - Session.negotiatedCapabilities - {"browserName":"phantomjs","version":"2.1.1","driverName":"ghostdriver","driverVersion":"1.2.0","platform":"linux-unknown-64bit","javascriptEnabled":true,"takesScreenshot":true,"handlesAlerts":false,"databaseEnabled":false,"locationContextEnabled":false,"applicationCacheEnabled":false,"browserConnectionEnabled":false,"cssSelectorsEnabled":true,"webStorageEnabled":false,"rotatable":false,"acceptSslCerts":false,"nativeEvents":true,"proxy":{"proxyType":"direct"}}
+[INFO  - 2018-05-29T09:45:30.049Z] SessionManagerReqHand - _postNewSessionCommand - New Session Created: 060041a0-6325-11e8-9cf0-7755e6718427
+[ERROR - 2018-05-29T09:45:30.469Z] Session [060041a0-6325-11e8-9cf0-7755e6718427] - page.onError - msg: ReferenceError: Can't find variable: Map
+[ERROR - 2018-05-29T09:45:30.470Z] Session [060041a0-6325-11e8-9cf0-7755e6718427] - page.onError - stack:
+  (anonymous function) (undefined:5629)
