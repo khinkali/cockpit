@@ -58,8 +58,7 @@
             "no-sandbox",
             "disable-gpu"
           ],
-          "binary": "/home/jenkins/workspace/app/chromedriver",
-          "marionette": false
+          "binary": "/home/jenkins/workspace/app/chromedriver"
         },
         "javascriptEnabled": true,
         "acceptSslCerts": true
