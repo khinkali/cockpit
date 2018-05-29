@@ -78,7 +78,9 @@ podTemplate(label: 'mypod', containers: [
             container('npm-jdk') {
                 sh '''
                    npm install nightwatch -g
-                   nightwatch UIT --env integration --verbose
+                   export DBUS_SESSION_BUS_ADDRESS=/dev/null
+                   echo $DBUS_SESSION_BUS_ADDRESS
+                   nightwatch UIT --env integration
                    '''
             }
             junit allowEmptyResults: true, testResults: '**/reports/*.xml'
