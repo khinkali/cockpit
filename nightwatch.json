@@ -48,7 +48,7 @@
         "path": ""
       },
       "desiredCapabilities": {
-        "browserName": "phantomjs",
+        "browserName": "chrome",
         "javascriptEnabled": true,
         "chromeOptions": {
           "args": [
