@@ -29,8 +29,12 @@
         "path": ""
       },
       "desiredCapabilities": {
-        "browserName": "firefox",
-        "javascriptEnabled": true
+        "browserName": "chrome",
+        "chromeOptions": {
+          "args": [
+            "--headless"
+          ]
+        }
       }
     },
     "integration": {
