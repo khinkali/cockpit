@@ -29,7 +29,15 @@
         "path": ""
       },
       "desiredCapabilities": {
-        "browserName": "chrome"
+        "browserName": "chrome",
+        "chromeOptions": {
+          "args": [
+            "headless",
+            "no-sandbox",
+            "disable-gpu"
+          ]
+        },
+        "acceptSslCerts": true
       }
     },
     "integration": {
@@ -48,8 +56,7 @@
             "headless",
             "no-sandbox",
             "disable-gpu"
-          ],
-          "binary": "./chromedriver"
+          ]
         },
         "acceptSslCerts": true
       }
