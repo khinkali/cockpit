@@ -51,8 +51,7 @@
           ],
           "binary": ".chromedriver"
         },
-        "acceptSslCerts": true,
-        "chrome.binary.path": "./phantomjs"
+        "acceptSslCerts": true
       }
     }
   }
