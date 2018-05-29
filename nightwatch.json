@@ -49,7 +49,7 @@
             "no-sandbox",
             "disable-gpu"
           ],
-          "binary": ".chromedriver"
+          "binary": "./chromedriver"
         },
         "acceptSslCerts": true
       }
