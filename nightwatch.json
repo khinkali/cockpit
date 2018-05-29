@@ -52,7 +52,8 @@
         "javascriptEnabled": true,
         "chromeOptions": {
           "args": [
-            "--headless"
+            "headless",
+            "no-sandbox"
           ]
         }
       }
