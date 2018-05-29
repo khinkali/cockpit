@@ -54,8 +54,7 @@
           "args": [
             "--headless"
           ]
-        },
-        "binary": "/home/jenkins/workspace/app/chromedriver"
+        }
       }
     }
   }
