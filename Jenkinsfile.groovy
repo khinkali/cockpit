@@ -78,6 +78,7 @@ podTemplate(label: 'mypod', containers: [
             container('npm-jdk') {
                 sh '''
                    npm install nightwatch -g
+                   pwd
                    nightwatch UIT --env integration --verbose
                    '''
             }
