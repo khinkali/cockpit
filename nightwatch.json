@@ -55,7 +55,7 @@
             "--headless"
           ]
         },
-        "binary": "/home/jenkins/app/chromedriver"
+        "binary": "/home/jenkins/workspace/app/chromedriver"
       }
     }
   }
