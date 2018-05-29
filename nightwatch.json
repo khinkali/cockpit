@@ -55,20 +55,11 @@
         "path": ""
       },
       "desiredCapabilities": {
-        "browserName": "chrome",
-        "silent": true,
-        "chromeOptions": {
-          "args": [
-            "disable-gpu",
-            "no-sandbox",
-            "headless",
-            "window-size=1920,1080",
-            "verbose"
-          ],
-          "binary": "/home/jenkins/workspace/app/node_modules/chromedriver/lib/chromedriver"
-        },
+        "browserName": "phantomjs",
         "javascriptEnabled": true,
-        "acceptSslCerts": true
+        "acceptSslCerts": true,
+        "phantomjs.binary.path": "./phantomjs",
+        "phantomjs.cli.args": []
       }
     }
   }
