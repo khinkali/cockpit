@@ -29,12 +29,7 @@
         "path": ""
       },
       "desiredCapabilities": {
-        "browserName": "chrome",
-        "chromeOptions": {
-          "args": [
-            "--headless"
-          ]
-        }
+        "browserName": "chrome"
       }
     },
     "integration": {
@@ -47,11 +42,12 @@
         "path": ""
       },
       "desiredCapabilities": {
-        "browserName": "phantomjs",
-        "javascriptEnabled": true,
-        "acceptSslCerts": true,
-        "phantomjs.binary.path": "./phantomjs",
-        "phantomjs.cli.args": []
+        "browserName": "chrome",
+        "chromeOptions": {
+          "args": [
+            "--headless"
+          ]
+        }
       }
     }
   }
