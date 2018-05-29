@@ -77,9 +77,6 @@ podTemplate(label: 'mypod', containers: [
 
             container('npm-jdk') {
                 sh '''
-                   export DBUS_SESSION_BUS_ADDRESS=/dev/null
-                   echo $DBUS_SESSION_BUS_ADDRESS
-                   npm i chromedriver --save
                    npm install nightwatch -g
                    nightwatch UIT --env integration --verbose
                    '''

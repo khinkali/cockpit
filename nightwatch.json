@@ -13,7 +13,7 @@
     "log_path": "",
     "port": 4444,
     "cli_args": {
-      "webdriver.chrome.driver": "./node_modules/chromedriver/lib/chromedriver",
+      "webdriver.chrome.driver": "./chromedriver",
       "webdriver.gecko.driver": "./geckodriver",
       "webdriver.edge.driver": ""
     }
@@ -29,20 +29,7 @@
         "path": ""
       },
       "desiredCapabilities": {
-        "browserName": "chrome",
-        "silent": true,
-        "chromeOptions": {
-          "args": [
-            "disable-gpu",
-            "no-sandbox",
-            "headless",
-            "window-size=1920,1080",
-            "verbose"
-          ],
-          "binary": "/home/adesso/Desktop/projects/cockpit/node_modules/chromedriver/lib/chromedriver"
-        },
-        "javascriptEnabled": true,
-        "acceptSslCerts": true
+        "browserName": "chrome"
       }
     },
     "integration": {
