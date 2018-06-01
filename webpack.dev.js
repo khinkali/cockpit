@@ -12,11 +12,5 @@ module.exports = merge(common, {
     port: 9000,
     hot: true
   },
-  plugins: [
-    new webpack.HotModuleReplacementPlugin({}),
-    new MiniCssExtractPlugin({
-      filename: "[name].css",
-      chunkFilename: "[id].css"
-    })
-  ]
+  plugins: [new webpack.HotModuleReplacementPlugin({})]
 });

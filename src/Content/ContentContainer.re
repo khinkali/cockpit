@@ -1,24 +1,20 @@
+%raw "import './scss/content.scss'";
+
 type state = {
-  coins: Coins.coins
+  empty: int,
 };
 
 type action =
-  | Query(Coins.coins);
+  | Nothing;
+
 
 let component = ReasonReact.reducerComponent("ContentContainer");
 
-let make = (_children) => {
+let make = (children) => {
   ...component,
-  didMount: self => {
-    Coins.request((c) => self.send(Query(c)))
-    |> ignore;
-  },
-  initialState: () => {coins:  []},
-  reducer: (action, _state) =>
-    switch (action) {
-    | Query(cs) => ReasonReact.Update({coins: cs})
-    },
-  render: self => {
-    <ContentView coins={self.state.coins} />;
-  },
+  initialState: () => {empty: 0},
+  reducer: (_action: action, _state: state) => ReasonReact.NoUpdate,
+  render: _self => {
+    ReasonReact.createDomElement("div", ~props={"className": "content"}, children);
+  }
 };

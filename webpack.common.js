@@ -4,8 +4,9 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const path = require("path");
 const glob = require("glob");
 
+
 module.exports = {
-  entry: ["./src/index.js"],
+  entry: ["./src/index.js", "react-hot-loader/patch"],
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "bundle.[hash].js"
@@ -34,7 +35,7 @@ module.exports = {
         ]
       },
       {
-        test: /\.s?[ac]ss$/,
+        test: /\.scss$/,
         use: [
           {
             loader: MiniCssExtractPlugin.loader
@@ -49,7 +50,7 @@ module.exports = {
             loader: "sass-loader",
             options: {
               sourceMap: true,
-              includePaths: ["node_modules", "node_modules/@material/*"].map(
+              includePaths: ["node_modules", "node_modules/@material/*", "src"].map(
                 d => path.join(__dirname, d)
               )
             }
@@ -79,6 +80,10 @@ module.exports = {
       {
         from: "public"
       }
-    ])
+    ]),
+    new MiniCssExtractPlugin({
+      filename: "[name].css",
+      chunkFilename: "[id].css"
+    })
   ]
 };
