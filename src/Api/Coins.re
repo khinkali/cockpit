@@ -5,29 +5,20 @@ type coin = {
 
 type coins = list(coin);
 
-let transformToCoins = (values: list('a)) : coins =>
+let transform = (values: list('a)) : coins =>
   List.map(obj => {amount: obj##amount, currency: obj##coinSymbol}, values);
 
-let reqCoinsWithSecurity = (config: Config.env) =>
-  Security.query()
-  |> Js.Promise.then_((p: Security.pool) => {
-       let url: string =
-         config.url ++ "/sink/resources/users/" ++ p.subject ++ "/coins";
-       let httpHeader =
-         Axios.makeConfigWithUrl(
-           ~url,
-           ~_method="GET",
-           ~headers={"Authorization": "Bearer " ++ p.token},
-           (),
-         );
-       Axios.request(httpHeader);
-     });
-     
-
-let request = (c: coins => unit) =>
+let get = (c: coins => unit) =>
   Config.read
-  |> Js.Promise.then_(x => reqCoinsWithSecurity(x))
+  |> Js.Promise.then_((x: Config.env) => {
+       let url =
+         x.url ++ "/sink/resources/users/" ++ Security.kcSubject ++ "/coins";
+       let headers = Js.Dict.empty();
+
+       Js.Dict.set(headers, "Authorization", "Bearer " ++ Security.kcToken);
+
+       Axios.getWithConfig(url, Axios.config(~headers, ()));
+     })
   |> Js.Promise.then_(x => Js.Promise.resolve(Array.to_list(x##data)))
-  |> Js.Promise.then_(x => Js.Promise.resolve(transformToCoins(x)))
-  |> Js.Promise.then_(x => Js.Promise.resolve(c(x)))
-  |> Js.Promise.catch(x => Js.Promise.resolve(Js.log(x)));
+  |> Js.Promise.then_(x => Js.Promise.resolve(transform(x)))
+  |> Js.Promise.then_(x => Js.Promise.resolve(c(x)));

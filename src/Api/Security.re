@@ -1,45 +1,43 @@
-%raw "import Keycloak from 'keycloak-js'";
-%raw "const keycloak = Keycloak('config/keycloak.json')";
-
-type pool = {
-  token: string,
-  subject: string,
-  idToken: string
+module Keycloak = {
+  [@bs.deriving abstract]
+  type t = {
+    authenticated: bool,
+    token: string,
+    subject: string,
+    idToken: string,
+  };
 };
 
-/* Promise is wrapped into a function, because it raises controllable initialization */
-let authorize: unit => Js.Promise.t(string) = () => [%raw {|
-  new Promise((resolve, reject) => {
-    keycloak
-      .init({
-        onLoad: 'login-required'
-      })
-      .success(authenticated => {
-        if (authenticated) {
-          resolve('You are authenticated.');
-        } else {
-          reject('You are not authenticated');
-        }
-      })
-      .error(function() {
-        reject('Failed to initialize');
-      });
-  })
-  |}];
+type kcInit;
 
-let query = () => Js.Promise.make((~resolve, ~reject) => {
-  let authenticated: bool = [%raw "keycloak.authenticated"];
-  if (!authenticated) {
-    reject(. Js.Exn.raiseError("Your are not authorized!"));
-  } else {
-
-    let token: string = [%raw "keycloak.token"];
-    let subject: string = [%raw "keycloak.subject"];
-    let idToken: string = [%raw "keycloak.idToken"];
-
-    resolve(. {token: token, subject: subject, idToken: idToken});
-  }
-});
+[@bs.deriving abstract]
+type initConfig = {onLoad: string}; 
 
 
+[@bs.module "keycloak-js"] external keycloak : string => Keycloak.t = "default";
+[@bs.send] external init : (Keycloak.t, initConfig) => kcInit = "";
+[@bs.send] external success : (kcInit, bool => unit) => kcInit = "";
+[@bs.send] external error : (kcInit, unit => unit) => unit = "";
 
+let kc = keycloak("config/keycloak.json");
+
+let authorize = () =>
+  Js.Promise.make((~resolve, ~reject) =>
+    kc
+    |. init(initConfig(~onLoad="login-required"))
+    |. success(autheticated =>
+         autheticated ?
+           resolve(. "authenticated") :
+           reject(. Js.Exn.raiseError("Your are not authenticated!"))
+       )
+    |. error(() =>
+         reject(.
+           Js.Exn.raiseError("There is something wrong with keycloak"),
+         )
+       )
+  );
+
+let kcAuth = Keycloak.authenticated(kc);
+let kcToken = Keycloak.token(kc); 
+let kcSubject = Keycloak.subject(kc);
+let kcIdToken = Keycloak.idToken(kc);

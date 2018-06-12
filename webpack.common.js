@@ -1,12 +1,12 @@
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+//const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const path = require("path");
-const glob = require("glob");
-
+const autoprefixer = require('autoprefixer');
+//const glob = require("glob");
 
 module.exports = {
-  entry: ["./src/index.js", "react-hot-loader/patch"],
+  entry: ["./src/index.js", "./src/index.scss", "react-hot-loader/patch"],
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "bundle.[hash].js"
@@ -38,21 +38,23 @@ module.exports = {
         test: /\.(sass|scss)$/,
         use: [
           {
-            loader: MiniCssExtractPlugin.loader
+            loader: "file-loader",
+            options: {
+              name: "bundle.css"
+            }
           },
+          { loader: "extract-loader" },
+          { loader: "css-loader" },
           {
-            loader: "css-loader"
+            loader: "postcss-loader",
+            options: {
+              plugins: () => [autoprefixer({ grid: false })]
+            }
           },
-          /*{
-            loader: "postcss-loader"
-          },*/
           {
             loader: "sass-loader",
             options: {
-              sourceMap: true,
-              includePaths: ["node_modules", "node_modules/@material/*", "src"].map(
-                d => path.join(__dirname, d)
-              )
+              includePaths: ["./node_modules"]
             }
           }
         ]
@@ -80,10 +82,6 @@ module.exports = {
       {
         from: "public"
       }
-    ]),
-    new MiniCssExtractPlugin({
-      filename: "[name].css",
-      chunkFilename: "[id].css"
-    })
+    ])
   ]
 };
