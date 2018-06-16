@@ -33,7 +33,7 @@ podTemplate(label: 'mypod', containers: [
                 sh '''
                     npm install
                     npm install auditjs -g
-                    auditjs -r
+                    auditjs -r --prod
                    '''
             }
             junit allowEmptyResults: true, testResults: '**/reports/*.xml'
