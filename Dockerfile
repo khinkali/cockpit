@@ -1,4 +1,4 @@
-FROM nginx:1.12.2
+FROM khinkali/nginx:0.0.1
 
 WORKDIR /usr/share/nginx/html
 RUN rm index.html
