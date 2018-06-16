@@ -31,6 +31,7 @@ podTemplate(label: 'mypod', containers: [
         stage('vulnerability check of npm modules') {
             container('node') {
                 sh '''
+                    npm install
                     npm install auditjs -g
                     auditjs -r
                    '''
@@ -40,7 +41,6 @@ podTemplate(label: 'mypod', containers: [
 
         stage('build image & git tag & docker push') {
             container('node') {
-                sh 'npm install'
                 sh 'npm run mlbuild'
                 sh 'npm run build'
             }
