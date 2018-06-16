@@ -30,8 +30,10 @@ podTemplate(label: 'mypod', containers: [
 
         stage('vulnerability check of npm modules') {
             container('node') {
-                sh 'npm install auditjs'
-                sh 'auditjs -r'
+                sh '''
+                    npm install auditjs -g
+                    auditjs -r
+                   '''
             }
             junit allowEmptyResults: true, testResults: '**/reports/*.xml'
         }
