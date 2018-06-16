@@ -5,6 +5,7 @@ podTemplate(label: 'mypod', containers: [
         containerTemplate(name: 'kubectl', image: 'lachlanevenson/k8s-kubectl:v1.10.3', command: 'cat', ttyEnabled: true),
         containerTemplate(name: 'curl', image: 'khinkali/jenkinstemplate:0.0.3', command: 'cat', ttyEnabled: true),
         containerTemplate(name: 'node', image: 'node', ttyEnabled: true, command: 'cat'),
+        containerTemplate(name: 'klar', image: 'khinkali/klar:0.0.5', command: 'cat', ttyEnabled: true),
         containerTemplate(name: 'npm-jdk', image: 'khinkali/npm-java:0.0.4', ttyEnabled: true, command: 'cat')
 ],
         volumes: [
@@ -51,6 +52,16 @@ podTemplate(label: 'mypod', containers: [
                     sh "docker login --username ${DOCKER_USERNAME} --password ${DOCKER_PASSWORD}"
                 }
                 sh "docker push khinkali/cockpit:${env.VERSION}"
+            }
+        }
+
+        stage('vulnerability check') {
+            container('klar') {
+                def statusCode = sh script: "CLAIR_ADDR=http://clair:6060 klar khinkali/sink:${env.VERSION}", returnStatus: true
+                if (statusCode != 0) {
+                    currentBuild.result = 'FAILURE'
+                    error "Docker Image did not pass Clair testing."
+                }
             }
         }
 
