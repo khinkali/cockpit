@@ -28,6 +28,14 @@ podTemplate(label: 'mypod', containers: [
             git url: 'https://github.com/khinkali/cockpit'
         }
 
+        stage('vulnerability check of npm modules') {
+            container('node') {
+                sh 'npm install auditjs'
+                sh 'auditjs -r'
+            }
+            junit allowEmptyResults: true, testResults: '**/reports/*.xml'
+        }
+
         stage('build image & git tag & docker push') {
             container('node') {
                 sh 'npm install'
@@ -55,7 +63,7 @@ podTemplate(label: 'mypod', containers: [
             }
         }
 
-        stage('vulnerability check') {
+        stage('vulnerability check of docker image') {
             container('klar') {
                 def statusCode = sh script: "CLAIR_ADDR=http://clair:6060 klar khinkali/cockpit:${env.VERSION}", returnStatus: true
                 if (statusCode != 0) {
