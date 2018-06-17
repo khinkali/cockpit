@@ -5,10 +5,10 @@ import ReactDOM from "react-dom";
 import "./index.scss";
 
 // js
-import { authorize } from "./Api/Security.bs";
+import { signin } from "./Api/Security.bs";
 import App from "./App/AppContainer.bs";
 
-authorize()
+signin()
   .then(text => {
     ReactDOM.render(<App />, document.getElementById("root"));
   })

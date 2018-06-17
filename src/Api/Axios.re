@@ -1,4 +1,5 @@
 type url = string;
+type status = int;
 
 type data = Js.Dict.t(string);
 
