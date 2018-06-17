@@ -8,21 +8,32 @@ type coins = list(coin);
 let transform = (values: list('a)) : coins =>
   List.map(obj => {amount: obj##amount, currency: obj##coinSymbol}, values);
 
-let get = (c: coins => unit) =>
+let authorize = () =>
   Config.read
-  |> Js.Promise.then_((x: Config.env) =>
+  |> Js.Promise.then_((e: Config.env) =>
        Security.authorize()
-       |> Js.Promise.then_((keys: Security.kcKeys) => {
-            let url =
-              x.url ++ "/sink/resources/users/" ++ keys.subject ++ "/coins";
+       |> Js.Promise.then_((keys: Security.kcKeys) =>
+            Js.Promise.resolve((e, keys))
+          )
+     );
 
-            let headers =
-              Js.Dict.fromArray([|
-                ("Authorization", "Bearer " ++ keys.token),
-              |]);
-            Axios.getWithConfig(url, Axios.config(~headers, ()));
-          })
-     )
+/*let list = (unit => unit) =>
+  authorize()
+  |> Js.Promise.then_((data) => {
+    let (config: Config.env, keys: Security.kcKeys) = data;
+  });*/
+
+
+let get = (c: coins => unit) =>
+  authorize()
+  |> Js.Promise.then_((data) => {
+       let (config: Config.env, keys: Security.kcKeys) = data;
+       let url =
+         config.url ++ "/sink/resources/users/" ++ keys.subject ++ "/coins";
+       let headers =
+         Js.Dict.fromArray([|("Authorization", "Bearer " ++ keys.token)|]);
+       Axios.getWithConfig(url, Axios.config(~headers, ()));
+     })
   |> Js.Promise.then_(x => Js.Promise.resolve(Array.to_list(x##data)))
   |> Js.Promise.then_(x => Js.Promise.resolve(transform(x)))
   |> Js.Promise.then_(x => Js.Promise.resolve(c(x)))
