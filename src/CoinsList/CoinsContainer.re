@@ -5,7 +5,7 @@ type state = {
 
 type action =
   | Query(Coins.coins)
-  | AddAmount(int);
+  | AddAmount(string);
 
 let component = ReasonReact.reducerComponent("CoinsContainer");
 
@@ -22,7 +22,7 @@ let make = _children => {
     },
   render: self =>
     <Fragment>
-      /*<CoinsList coins=self.state.coins />*/
-      <NumberInput name="amount" value=(v => self.send(AddAmount(int_of_string(v)))) maxLength=5/>
+      <CoinsList coins=self.state.coins />
+      <NumberInput name="amount" value=(v => self.send(AddAmount(v))) maxLength=5/>
     </Fragment>,
 };

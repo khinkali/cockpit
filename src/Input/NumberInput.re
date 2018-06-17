@@ -1,39 +1,25 @@
-type state = {value: string};
+let component = ReasonReact.statelessComponent("NumberInput");
 
-type action =
-  | OnKeyUp(int, string);
-
-let allowedKeyCode = [48, 49, 50, 51, 52, 53, 54, 55, 56, 57];
-
-let component = ReasonReact.reducerComponent("NumberInput");
+let allowedCharCodes = [48, 49, 50, 51, 52, 53, 54, 55, 56, 57];
 
 let make = (~name: string, ~value: string => unit, ~maxLength: int, _children) => {
-  ...component,
-  initialState: () => {value: ""},
-  reducer: (action, state: state) =>
-    switch (action) {
-    | OnKeyUp(keyCode, key) =>
-      List.mem(keyCode, allowedKeyCode) ?
-        ReasonReact.UpdateWithSideEffects(
-          {value: state.value ++ key},
-          (self => value(self.state.value)),
-        ) :
-        ReasonReact.NoUpdate
-    },
-  render: self =>
-    <input
-      type_="text"
-      maxLength
-      name
-      value=self.state.value
-      onKeyUp=(
-        event =>
-          self.send(
-            OnKeyUp(
-              ReactEventRe.Keyboard.keyCode(event),
-              ReactEventRe.Keyboard.key(event),
-            ),
-          )
-      )
-    />,
+  /*
+   * Generate side effect. Return unit. 
+   */
+  let handleInputValue = evt => {
+    let charCode = ReactEventRe.Keyboard.charCode(evt);
+    if (charCode != 0) {
+      if (! List.mem(charCode, allowedCharCodes)) {
+        ReactEventRe.Keyboard.preventDefault(evt);
+      } else {
+        value(ReactDOMRe.domElementToObj(ReactEventRe.Keyboard.target(evt))##value);
+      };
+    };
+    ();
+  };
+  {
+    ...component,
+    render: _self =>
+      <input type_="text" maxLength name onKeyPress=handleInputValue />,
+  };
 };
