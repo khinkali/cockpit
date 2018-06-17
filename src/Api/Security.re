@@ -9,10 +9,14 @@ module Keycloak = {
 };
 
 type kcInit;
+type kcKeys = {
+  token: string,
+  subject: string,
+  idToken: string,
+};
 
 [@bs.deriving abstract]
 type initConfig = {onLoad: string}; 
-
 
 [@bs.module "keycloak-js"] external keycloak : string => Keycloak.t = "default";
 [@bs.send] external init : (Keycloak.t, initConfig) => kcInit = "";
@@ -21,7 +25,7 @@ type initConfig = {onLoad: string};
 
 let kc = keycloak("config/keycloak.json");
 
-let authorize = () =>
+let signin = () =>
   Js.Promise.make((~resolve, ~reject) =>
     kc
     |. init(initConfig(~onLoad="login-required"))
@@ -37,7 +41,17 @@ let authorize = () =>
        )
   );
 
-let kcAuth = Keycloak.authenticated(kc);
-let kcToken = Keycloak.token(kc); 
-let kcSubject = Keycloak.subject(kc);
-let kcIdToken = Keycloak.idToken(kc);
+
+let authorize = () =>
+  Js.Promise.make((~resolve, ~reject) =>
+    if(!Keycloak.authenticated(kc)) {
+      reject(. Js.Exn.raiseError("Your are not authroized."))
+    } else {
+      let keys: kcKeys = {
+        token: Keycloak.token(kc),
+        subject: Keycloak.subject(kc),
+        idToken: Keycloak.idToken(kc),
+      };
+      resolve(. keys);
+    }
+  );
