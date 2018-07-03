@@ -4,7 +4,7 @@ type action =
   | None;
 
 
-let component = ReasonReact.reducerComponent("SidebarContainer");
+let component = ReasonReact.reducerComponent("Sidebar");
 
 let make = _children => {
   ...component,

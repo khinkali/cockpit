@@ -6,7 +6,7 @@ type action =
   | Nothing;
 
 
-let component = ReasonReact.reducerComponent("TopbarContainer");
+let component = ReasonReact.reducerComponent("Topbar");
 
 let make = (_children) => {
   ...component,

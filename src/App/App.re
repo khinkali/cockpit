@@ -8,7 +8,7 @@ type action =
   | Nothing;
 
 
-let component = ReasonReact.reducerComponent("AppContainer");
+let component = ReasonReact.reducerComponent("App");
 
 let make = (_children) => {
   ...component,
@@ -16,9 +16,9 @@ let make = (_children) => {
   reducer: (_action: action, _state: state) => ReasonReact.NoUpdate,
   render: _self => {
     <Fragment>
-      <SidebarContainer />
+      <Sidebar />
       <div className="content">
-        <TopbarContainer />
+        <Topbar />
       </div>
     </Fragment>
   },

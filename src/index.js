@@ -6,7 +6,7 @@ import "./index.scss";
 
 // js
 import { signin } from "./Api/Security.bs";
-import App from "./App/AppContainer.bs";
+import App from "./App/App.bs";
 
 signin()
   .then(text => {
