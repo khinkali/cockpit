@@ -1,9 +1,7 @@
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
-//const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const path = require("path");
-const autoprefixer = require('autoprefixer');
-//const glob = require("glob");
+const autoprefixer = require("autoprefixer");
 
 module.exports = {
   entry: ["./src/index.js", "./src/index.scss", "react-hot-loader/patch"],
@@ -44,7 +42,9 @@ module.exports = {
             }
           },
           { loader: "extract-loader" },
-          { loader: "css-loader" },
+          {
+            loader: "css-loader"
+          },
           {
             loader: "postcss-loader",
             options: {

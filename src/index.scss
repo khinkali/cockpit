@@ -1,4 +1,8 @@
-
+@import "./fontawesome/all.scss";
+@import "@material/button/mdc-button.scss";
+@import "@material/drawer/mdc-drawer.scss";
+@import "@material/top-app-bar/mdc-top-app-bar.scss";
+@import "@material/list/mdc-list.scss";
 @import "./App/scss/app.scss";
 
 
@@ -9,4 +13,14 @@
 
 html, body {
   height: 100%;
+  width: 100%;
 }
+
+#root {
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+}
+

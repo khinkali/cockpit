@@ -21,7 +21,7 @@
   "namespace": true,
   "bs-dependencies": [
     "reason-react",
-    "bs-webapi",
+    "bs-webapi"
   ],
   "refmt": 3,
   "warnings": {

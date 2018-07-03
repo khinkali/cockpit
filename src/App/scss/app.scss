@@ -4,3 +4,11 @@
 @import "../../CoinsList/scss/coins-list.scss";
 @import "../../Content/scss/content.scss";
 
+
+.content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+}

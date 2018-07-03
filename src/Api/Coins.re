@@ -17,13 +17,6 @@ let authorize = () =>
           )
      );
 
-/*let list = (unit => unit) =>
-  authorize()
-  |> Js.Promise.then_((data) => {
-    let (config: Config.env, keys: Security.kcKeys) = data;
-  });*/
-
-
 let get = (c: coins => unit) =>
   authorize()
   |> Js.Promise.then_((data) => {

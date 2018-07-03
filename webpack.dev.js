@@ -9,7 +9,7 @@ module.exports = merge(common, {
   devServer: {
     contentBase: path.resolve(__dirname, "public"),
     compress: true,
-    port: 3000,
+    port: 9000,
     hot: true
   },
   plugins: [new webpack.HotModuleReplacementPlugin({})]
