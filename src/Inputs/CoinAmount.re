@@ -18,11 +18,19 @@ let make = (~value: int => unit, _children) => {
   {
     ...component,
     render: _self =>
-      <input
-        type_="number"
-        step=0.0001
-        onKeyUp=handleKeyUp
-        onKeyDown=handleKeyDown
-      />,
+      <div className="mdc-text-field">
+        <input
+          type_="number"
+          className="mdc-text-field__input"
+          id="amount-field"
+          step=0.0001
+          onKeyUp=handleKeyUp
+          onKeyDown=handleKeyDown
+        />
+        <label className="mdc-floating-label" htmlFor="amount-field">
+          {ReasonReact.string("Hint text")}
+        </label>
+        <div className="mdc-line-ripple" />
+      </div>,
   };
 };

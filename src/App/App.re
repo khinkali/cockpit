@@ -1,4 +1,3 @@
-%raw "import './scss/app.scss'";
 
 type state = {
   empty: int,
@@ -19,6 +18,7 @@ let make = (_children) => {
       <Sidebar />
       <div className="content">
         <Topbar />
+        <Portfolio />
       </div>
     </Fragment>
   },
