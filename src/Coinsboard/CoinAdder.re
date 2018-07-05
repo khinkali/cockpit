@@ -46,5 +46,5 @@ let make = _children => {
       })
     },
   render: self =>
-    <div className="coin-adder-content"> <CoinAmount value=(v => self.send(AddAmt(v))) /> </div>,
+    <CoinAmount value=(v => self.send(AddAmt(v))) />
 };
