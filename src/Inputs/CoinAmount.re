@@ -1,3 +1,5 @@
+
+
 let component = ReasonReact.statelessComponent("CoinAmount");
 
 let make = (~value: int => unit, _children) => {
@@ -18,8 +20,8 @@ let make = (~value: int => unit, _children) => {
   {
     ...component,
     render: _self =>
-      <div className="mdc-text-field">
-        <input
+    <div className="mdc-text-field mdc-text-field--outlined" id="coin-amount-input">
+      <input
           type_="number"
           className="mdc-text-field__input"
           id="amount-field"
@@ -27,10 +29,15 @@ let make = (~value: int => unit, _children) => {
           onKeyUp=handleKeyUp
           onKeyDown=handleKeyDown
         />
-        <label className="mdc-floating-label" htmlFor="amount-field">
-          {ReasonReact.string("Hint text")}
-        </label>
-        <div className="mdc-line-ripple" />
-      </div>,
+      <label className="mdc-floating-label" htmlFor="amount-field">
+            {ReasonReact.string("Amount")}
+          </label>
+      <div className="mdc-notched-outline">
+        <svg>
+          <path className="mdc-notched-outline__path"/>
+        </svg>
+      </div>
+      <div className="mdc-notched-outline__idle"></div>
+    </div>
   };
 };

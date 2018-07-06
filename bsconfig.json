@@ -13,6 +13,7 @@
       "subdirs": true
     }
   ],
+  "bsc-flags": ["-bs-g"],
   "package-specs": [{
     "module": "es6",
     "in-source": true
