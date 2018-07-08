@@ -28,7 +28,6 @@ let make = _children => {
   reducer: (action, state) =>
     switch (action) {
     | AddAmt(v) =>
-      Js.log(v);
       ReasonReact.Update({
         btnState: determineBtnState(state.newCoin),
         newCoin: {
@@ -46,5 +45,7 @@ let make = _children => {
       })
     },
   render: self =>
-    <CoinAmount value=(v => self.send(AddAmt(v))) />
+    <Fragment> <CoinAmount value=(v => self.send(AddAmt(v))) /> 
+    <CoinCurrecy />
+    </Fragment>,
 };

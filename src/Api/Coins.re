@@ -1,7 +1,17 @@
+module Currencies = {
+  [@bs.deriving abstract]
+  type t = {
+    status: int,
+    data: array(string),
+  };
+};
+
 type coin = {
   amount: int,
   currency: string,
 };
+
+type currencies = list(string);
 
 type coins = list(coin);
 
@@ -17,9 +27,33 @@ let authorize = () =>
           )
      );
 
+let getCurrencies = (currs: currencies => unit) =>
+  authorize()
+  |> Js.Promise.then_(data => {
+       let (config: Config.env, keys: Security.kcKeys) = data;
+       let url = config.url ++ "/sink/resources/coins";
+       let headers =
+         Js.Dict.fromArray([|("Authorization", "Bearer " ++ keys.token)|]);
+
+       Axios.getWithConfig(url, Axios.config(~headers, ()));
+     })
+  |> Js.Promise.then_((resp: Currencies.t) =>
+       Js.Promise.make((~resolve, ~reject) =>
+         if (Currencies.status(resp) != 200) {
+           reject(.
+             Js.Exn.raiseError("Could not find the coins currencies."),
+           );
+         } else {
+           let c: currencies = Array.to_list(Currencies.data(resp));
+           resolve(. c);
+         }
+       )
+     )
+  |> Js.Promise.then_(c => Js.Promise.resolve(currs(c)));
+
 let get = (c: coins => unit) =>
   authorize()
-  |> Js.Promise.then_((data) => {
+  |> Js.Promise.then_(data => {
        let (config: Config.env, keys: Security.kcKeys) = data;
        let url =
          config.url ++ "/sink/resources/users/" ++ keys.subject ++ "/coins";
