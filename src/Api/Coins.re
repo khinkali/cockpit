@@ -11,7 +11,7 @@ type coin = {
   currency: string,
 };
 
-type currencies = list(string);
+type currencies = array(string);
 
 type coins = list(coin);
 
@@ -44,8 +44,7 @@ let getCurrencies = (currs: currencies => unit) =>
              Js.Exn.raiseError("Could not find the coins currencies."),
            );
          } else {
-           let c: currencies = Array.to_list(Currencies.data(resp));
-           resolve(. c);
+           resolve(. Currencies.data(resp));
          }
        )
      )

@@ -45,7 +45,8 @@ let make = _children => {
       })
     },
   render: self =>
-    <Fragment> <CoinAmount value=(v => self.send(AddAmt(v))) /> 
+    <Fragment>
+    <CoinAmount value=(v => self.send(AddAmt(v))) /> 
     <CoinCurrency />
     </Fragment>,
 };

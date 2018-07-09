@@ -8,7 +8,7 @@ let component = ReasonReact.reducerComponent("CoinCurrecy");
 
 let make = _children => {
   ...component,
-  initialState: () => {currs: []},
+  initialState: () => {currs: [||]},
   didMount: self =>
     Coins.getCurrencies(currs => self.send(FetchCurr(currs))) |> ignore,
   reducer: (action, _state) =>
@@ -16,6 +16,24 @@ let make = _children => {
     | SelectedCurr(_curr) => ReasonReact.NoUpdate
     | FetchCurr(currs) => ReasonReact.Update({currs: currs})
     },
-  render: _self => 
-    <div />
+  render: self => {
+    let currOptions = (idx, curr) =>
+      <option key=("cu" ++ string_of_int(idx)) value=curr>
+        (ReasonReact.string(curr))
+      </option>;
+
+    <div className="mdc-select mdc-select--box">
+      <select className="mdc-select__native-control">
+        (
+          self.state.currs
+          |. Belt.Array.mapWithIndex(currOptions)
+          |> ReasonReact.array
+        )
+      </select>
+      <label className="mdc-floating-label">
+        (ReasonReact.string("Select currency"))
+      </label>
+      <div className="mdc-line-ripple" />
+    </div>;
+  },
 };
