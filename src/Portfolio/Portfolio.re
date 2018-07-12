@@ -10,5 +10,7 @@ let make = _children => {
   initialState: () => {empty: 0},
   reducer: (_action: action, _state: state) => ReasonReact.NoUpdate,
   render: _self =>
-    <div className="mdc-top-app-bar--fixed-adjust"> <CoinAdder /> </div>,
+    <div>
+      <CoinAdder value=(v=> Js.log(v)) />
+    </div>,
 };
