@@ -15,11 +15,7 @@ let make = (_children) => {
   reducer: (_action: action, _state: state) => ReasonReact.NoUpdate,
   render: _self => {
     <Fragment>
-      <Sidebar />
-      <div className="content">
-        <Topbar />
-        <Portfolio />
-      </div>
+      <Portfolio />
     </Fragment>
   },
 };
