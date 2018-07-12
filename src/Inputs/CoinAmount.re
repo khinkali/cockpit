@@ -1,5 +1,3 @@
-exception ElementNotFound(string);
-
 type mdcTextFieldCl;
 
 [@bs.new] [@bs.module "@material/textfield"]
@@ -26,34 +24,27 @@ let make = (~value: int => unit, _children) => {
     ...component,
     didMount: _self => {
       let coinEle =
-        Webapi.Dom.document |> DocumentRe.getElementById("coin-amount-input");
+        Webapi.Dom.document |> DocumentRe.getElementById("coin-amt-box");
 
       let _ =
         switch (coinEle) {
         | Some(a) => mdcTextField(a)
-        | None => raise(ElementNotFound("Can not find the element"))
+        | None => raise(Element.NotFound("Can not find the element"))
         };
       ();
     },
     render: _self =>
-      <div
-        className="mdc-text-field mdc-text-field--outlined"
-        id="coin-amount-input">
-        <input
+      <div className="mdc-text-field mdc-text-field--box" id="coin-amt-box">
+          <input
           type_="number"
           className="mdc-text-field__input"
-          id="amount-field"
+          id="coin-amt-input" 
           step=0.0001
           onKeyUp=handleKeyUp
           onKeyDown=handleKeyDown
         />
-        <label className="mdc-floating-label" htmlFor="amount-field">
-          (ReasonReact.string("Amount"))
-        </label>
-        <div className="mdc-notched-outline">
-          <svg> <path className="mdc-notched-outline__path" /> </svg>
-        </div>
-        <div className="mdc-notched-outline__idle" />
-      </div>,
+      <label className="mdc-floating-label" htmlFor="coin-amt-input">{ReasonReact.string("Amount")}</label>
+      <div className="mdc-line-ripple"></div>
+      </div>
   };
 };
