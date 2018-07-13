@@ -19,23 +19,13 @@ let isGreaterZero = (c: Coins.coin) => {
   };
 };
 
-let make = _children => {
+let make = (~succeeded: bool => unit ,_children) => {
   let handleKeyDown = evt => {
     if (ReactEventRe.Keyboard.keyCode(evt) == 69) {
       ReactEventRe.Keyboard.preventDefault(evt);
     };
     ();
   };
-
-  let valueFromKeyUpEvent = evt : int => ReactDOMRe.domElementToObj(
-                                              ReactEventRe.Keyboard.target(
-                                                evt,
-                                              ),
-                                            )##value;                                          
-
-  let valueFromFormEvent = evt => ReactDOMRe.domElementToObj(
-                                             ReactEventRe.Form.target(evt),
-                                           )##value;
 
   {
     ...component,
@@ -96,9 +86,9 @@ let make = _children => {
                   placeholder="Amount"
                   type_="number"
                   className="input is-large"
+                  min=0
                   step=0.0001
-                  onKeyUp=(evt => self.send(AddAmt(valueFromKeyUpEvent(evt))))
-                  onInput=(evt => self.send(AddAmt(valueFromFormEvent(evt))))
+                  onInput=(evt => self.send(AddAmt(Event.valueFromForm(evt))))
                   onKeyDown=handleKeyDown
                 />
               </div>
@@ -109,7 +99,7 @@ let make = _children => {
                   <select
                     defaultValue=""
                     onChange=(
-                      evt => self.send(AddCurr(valueFromFormEvent(evt)))
+                      evt => self.send(AddCurr(Event.valueFromForm(evt)))
                     )>
                     <option disabled=true value="" />
                     (

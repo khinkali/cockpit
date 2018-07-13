@@ -1,10 +1,10 @@
-module Currencies = {
+/*module Currencies = {
   [@bs.deriving abstract]
   type t = {
     status: int,
     data: array(string),
   };
-};
+};*/
 
 type coin = {
   amount: int,
@@ -27,6 +27,7 @@ let authorize = () =>
           )
      );
 
+/* Query all crypto currencies from server. */
 let getCurrencies = (currs: currencies => unit) =>
   authorize()
   |> Js.Promise.then_(data => {
@@ -37,7 +38,7 @@ let getCurrencies = (currs: currencies => unit) =>
 
        Axios.getWithConfig(url, Axios.config(~headers, ()));
      })
-  |> Js.Promise.then_((resp: Currencies.t) =>
+  |> Js.Promise.then_((resp: Axios.response(currencies, 'b)) =>
        Js.Promise.make((~resolve, ~reject) =>
          if (Currencies.status(resp) != 200) {
            reject(.
@@ -50,7 +51,7 @@ let getCurrencies = (currs: currencies => unit) =>
      )
   |> Js.Promise.then_(c => Js.Promise.resolve(currs(c)));
 
-let get = (c: coins => unit) =>
+/*let get = (c: coins => unit) =>
   authorize()
   |> Js.Promise.then_(data => {
        let (config: Config.env, keys: Security.kcKeys) = data;
@@ -63,7 +64,7 @@ let get = (c: coins => unit) =>
   |> Js.Promise.then_(x => Js.Promise.resolve(Array.to_list(x##data)))
   |> Js.Promise.then_(x => Js.Promise.resolve(transform(x)))
   |> Js.Promise.then_(x => Js.Promise.resolve(c(x)))
-  |> Js.Promise.catch(err => Js.Promise.resolve(Js.log(err)));
+  |> Js.Promise.catch(err => Js.Promise.resolve(Js.log(err)));*/
 
 let post = (addCoin: coin, handler: Axios.status => unit) =>
   Config.read
