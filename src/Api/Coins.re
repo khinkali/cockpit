@@ -28,7 +28,7 @@ let authorize = () =>
      );
 
 /* Query all crypto currencies from server. */
-let getCurrencies = (currs: currencies => unit) =>
+let fetchCurrs = (currs: currencies => unit) =>
   authorize()
   |> Js.Promise.then_(data => {
        let (config: Config.env, keys: Security.kcKeys) = data;
@@ -40,12 +40,12 @@ let getCurrencies = (currs: currencies => unit) =>
      })
   |> Js.Promise.then_((resp: Axios.response(currencies, 'b)) =>
        Js.Promise.make((~resolve, ~reject) =>
-         if (Currencies.status(resp) != 200) {
+         if (Axios.status(resp) != 200) {
            reject(.
              Js.Exn.raiseError("Could not find the coins currencies."),
            );
          } else {
-           resolve(. Currencies.data(resp));
+           resolve(. Axios.data(resp));
          }
        )
      )
@@ -66,7 +66,7 @@ let getCurrencies = (currs: currencies => unit) =>
   |> Js.Promise.then_(x => Js.Promise.resolve(c(x)))
   |> Js.Promise.catch(err => Js.Promise.resolve(Js.log(err)));*/
 
-let post = (addCoin: coin, handler: Axios.status => unit) =>
+let post = (addCoin: coin) =>
   Config.read
   |> Js.Promise.then_((x: Config.env) => {
        let url = x.url ++ "/sink/resources/orders";
@@ -86,4 +86,17 @@ let post = (addCoin: coin, handler: Axios.status => unit) =>
             Axios.postWithConfig(url, data, Axios.config(~headers, ()));
           });
      })
-  |> Js.Promise.then_(x => Js.Promise.resolve(Js.log(x)));
+  |> Js.Promise.then_((resp: Axios.response('a, 'b)) => {
+    let a = Axios.status(resp);
+
+    Js.Promise.make((~resolve, ~reject) =>
+         if (a != 201) {
+           reject(.
+             Js.Exn.raiseError("Could not add coin successfully."),
+           );
+         } else {
+           resolve(. "Successfull added.");
+         }
+       )
+
+  });

@@ -4,22 +4,23 @@ type state = {
   currencies: Coins.currencies,
 };
 
-type action =
+type action('a) =
   | AddAmt(int)
   | AddCurr(string)
+  | AddSucc(string)
+  | AddErr('a)
   | FetchCurr(Coins.currencies);
 
 let component = ReasonReact.reducerComponent("CoinAdder");
 
-let isGreaterZero = (c: Coins.coin) => {
+let isGreaterZero = (c: Coins.coin) =>
   if (c.amount <= 0 || c.currency == "") {
     true;
   } else {
     false;
   };
-};
 
-let make = (~succeeded: bool => unit ,_children) => {
+let make = (~succeeded: bool => unit, _children) => {
   let handleKeyDown = evt => {
     if (ReactEventRe.Keyboard.keyCode(evt) == 69) {
       ReactEventRe.Keyboard.preventDefault(evt);
@@ -38,7 +39,7 @@ let make = (~succeeded: bool => unit ,_children) => {
       currencies: [||],
     },
     didMount: self =>
-      Coins.getCurrencies(currs => self.send(FetchCurr(currs))) |> ignore,
+      Coins.fetchCurrs(currs => self.send(FetchCurr(currs))) |> ignore,
     reducer: (action, state) =>
       switch (action) {
       | AddAmt(v) =>
@@ -53,7 +54,6 @@ let make = (~succeeded: bool => unit ,_children) => {
           newCoin: newValue,
         });
       | AddCurr(v) =>
-        
         let newValue: Coins.coin = {
           amount: state.newCoin.amount,
           currency: v,
@@ -61,10 +61,21 @@ let make = (~succeeded: bool => unit ,_children) => {
 
         ReasonReact.Update({
           ...state,
-          adder: isGreaterZero(newValue)  ,
+          adder: isGreaterZero(newValue),
           newCoin: newValue,
         });
       | FetchCurr(currs) => ReasonReact.Update({...state, currencies: currs})
+      | AddSucc(_a) =>
+        ReasonReact.Update({
+          ...state,
+          newCoin: {
+            amount: 0,
+            currency: "",
+          },
+        })
+      | AddErr(a) =>
+        Js.log(a);
+        ReasonReact.NoUpdate;
       },
     render: self => {
       let currEle = (idx, curr) =>
@@ -88,7 +99,9 @@ let make = (~succeeded: bool => unit ,_children) => {
                   className="input is-large"
                   min=0
                   step=0.0001
-                  onInput=(evt => self.send(AddAmt(Event.valueFromForm(evt))))
+                  onInput=(
+                    evt => self.send(AddAmt(Event.valueFromForm(evt)))
+                  )
                   onKeyDown=handleKeyDown
                 />
               </div>
@@ -119,6 +132,17 @@ let make = (~succeeded: bool => unit ,_children) => {
             <div className="field">
               <div className="control">
                 <button
+                  onClick=(
+                    _evt =>
+                      Coins.post(self.state.newCoin)
+                      |> Js.Promise.then_(a =>
+                           Js.Promise.resolve(self.send(AddSucc(a)))
+                         )
+                      |> Js.Promise.catch(err =>
+                           Js.Promise.resolve(self.send(AddErr(err)))
+                         )
+                      |> ignore
+                  )
                   className="button is-large is-primary"
                   disabled=self.state.adder>
                   (ReasonReact.string("Add"))
