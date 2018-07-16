@@ -1,0 +1,16 @@
+.sidebar-container {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	background-color: #24344b;
+	transition: width 0.5s;
+	width: 0px;
+
+	@media (min-width: $desktop) and (max-width: $widescreen) {
+		width: 250px;
+	}
+
+	@media (min-width: $widescreen) {
+		width: 280px;
+	}
+}

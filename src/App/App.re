@@ -14,9 +14,12 @@ let make = (_children) => {
   initialState: () => {empty: 0},
   reducer: (_action: action, _state: state) => ReasonReact.NoUpdate,
   render: _self => {
-    <Fragment>
-      <Portfolio />
-    </Fragment>
+  <div className="app-container">
+    <Sidebar />
+    <div className="main-container">
+      <Topbar />
+    </div>
+  </div>
   },
 };
 

@@ -1,0 +1,18 @@
+$big-screen-size: 100px;
+
+.topbar-container {
+	display: flex;
+	width: 100%;
+	background-color: #ffffff;
+	height: 80px;
+	margin: 4px;
+	transition: height 0.2s;
+
+	@media (min-width: $desktop) and (max-width: $widescreen) {
+		height: $big-screen-size;
+	}
+
+	@media (min-width: $widescreen) {
+		height: $big-screen-size;
+	}
+}

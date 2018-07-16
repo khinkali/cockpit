@@ -11,5 +11,6 @@ let make = _children => {
   initialState: () => {empty: 0},
   reducer: (_action: action, _state: state) => ReasonReact.NoUpdate,
   render: _self =>
-    <div />
+    <aside className="sidebar-container">
+    </aside>
 };

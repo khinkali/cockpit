@@ -1,12 +1,20 @@
-
+@import "bulma/sass/utilities/initial-variables.sass";
 @import "../../Portfolio/scss/styles.scss";
 @import "../../Coinsboard/scss/styles.scss";
+@import "../../Sidebar/scss/styles.scss";
+@import "../../Topbar/scss/_styles.scss";
 
+.app-container {
+	display: flex;
+	flex-direction: row;
+	height: 100%;
+	width: 100%;
+	box-sizing: border-box;
+}
 
-.content {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    width: 100%;
-    box-sizing: border-box;
+.main-container {
+	display: flex;
+	height: 100%;
+	width: 100%;
+	background-color: #edf2f4;
 }

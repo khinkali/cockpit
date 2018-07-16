@@ -1,19 +1,22 @@
-import React from "react";
-import ReactDOM from "react-dom";
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 // styles
-import "./index.scss";
+import './index.scss';
 
 // js
-import { signin } from "./Api/Security.bs";
-import App from "./App/App.bs";
+import { signin } from './Api/Security.bs';
+import App from './App/App.bs';
 
 signin()
-  .then(text => {
-    ReactDOM.render(<App />, document.getElementById("root"));
-  })
-  .catch(error => {
-    console.log("Error occurred!", error);
-  });
+	.then((text) => {
+		ReactDOM.render(<App />, document.getElementById('root'));
+	})
+	.catch((error) => {
+		console.log('Error occurred!', error);
+	});
 
-module.hot.accept();
+// Only for development server
+if (module.hot) {
+	module.hot.accept();
+}
