@@ -5,6 +5,7 @@ $menu-btn: 60px;
 	height: 100%;
 
 	.menu-btn {
+		
 		@media (min-width: $desktop) {
 			display: none;
 		}
@@ -12,6 +13,7 @@ $menu-btn: 60px;
 		@media (max-width: $tablet) and (max-width: $desktop) {
 			display: flex;
 		}
+
 		justify-content: center;
 		align-items: center;
 		height: $menu-btn;
@@ -20,6 +22,8 @@ $menu-btn: 60px;
 		position: fixed;
 		bottom: 20px;
 		right: 10px;
+		background-color: #24344b;
+		transition: background-color 2s;
 
 		.fa-align-justify {
 			color: #ffffff;
@@ -28,13 +32,5 @@ $menu-btn: 60px;
 		.fa-times {
 			color: #24344b;
 		}
-	}
-
-	.menu-initial-state {
-		background-color: #24344b;
-	}
-
-	.menu-pressed-state {
-		background-color: #ffffff;
 	}
 }
