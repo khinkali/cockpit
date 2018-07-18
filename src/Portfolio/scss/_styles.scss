@@ -4,7 +4,7 @@ $menu-btn: 60px;
 	width: 100%;
 	height: 100%;
 
-	.show-menu-btn {
+	.menu-btn {
 		@media (min-width: $desktop) {
 			display: none;
 		}
@@ -17,13 +17,24 @@ $menu-btn: 60px;
 		height: $menu-btn;
 		width: $menu-btn;
 		border-radius: 50%;
-		background-color: #24344b;
 		position: fixed;
 		bottom: 20px;
 		right: 10px;
 
 		.fa-align-justify {
-			color: white;
+			color: #ffffff;
 		}
+
+		.fa-times {
+			color: #24344b;
+		}
+	}
+
+	.menu-initial-state {
+		background-color: #24344b;
+	}
+
+	.menu-pressed-state {
+		background-color: #ffffff;
 	}
 }

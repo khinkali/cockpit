@@ -1,6 +1,7 @@
 type state = {empty: int};
 
-type action =
+type action('a) =
+  | TransformMenuAction('a)
   | Nothing;
 
 let component = ReasonReact.reducerComponent("Portfolio");
@@ -13,7 +14,9 @@ let make = _children => {
     <div className="portfolio-container">
       /* <CoinAdder succeeded=(a => ()) /> */
 
-        <a href="#" className="show-menu-btn mdc-elevation--z4">
+        <a
+          onClick=(evt => ())
+          className="menu-btn menu-initial-state mdc-elevation--z4">
           <i className="fas fa-align-justify fa-2x" />
         </a>
       </div>,
