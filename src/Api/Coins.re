@@ -6,8 +6,16 @@
   };
 };*/
 
+
+[@bs.deriving abstract]
+type addNewCoin = {
+  amount: float,
+  coinSymbol: string,
+};
+
+
 type coin = {
-  amount: int,
+  amount: float,
   currency: string,
 };
 
@@ -69,13 +77,9 @@ let fetchCurrs = (currs: currencies => unit) =>
 let post = (addCoin: coin) =>
   Config.read
   |> Js.Promise.then_((x: Config.env) => {
-       let url = x.url ++ "/sink/resources/orders";
-
-       let data =
-         Js.Dict.fromArray([|
-           ("coinSymbol", addCoin.currency),
-           ("amount", string_of_int(addCoin.amount)),
-         |]);
+      
+      let url = x.url ++ "/sink/resources/orders";
+      let data = addNewCoin(~amount=addCoin.amount, ~coinSymbol=addCoin.currency);
 
        Security.authorize()
        |> Js.Promise.then_((keys: Security.kcKeys) => {
@@ -83,6 +87,7 @@ let post = (addCoin: coin) =>
               Js.Dict.fromArray([|
                 ("Authorization", "Bearer " ++ keys.token),
               |]);
+
             Axios.postWithConfig(url, data, Axios.config(~headers, ()));
           });
      })
@@ -90,7 +95,7 @@ let post = (addCoin: coin) =>
     let a = Axios.status(resp);
 
     Js.Promise.make((~resolve, ~reject) =>
-         if (a != 201) {
+         if (a != 202) {
            reject(.
              Js.Exn.raiseError("Could not add coin successfully."),
            );

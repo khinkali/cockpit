@@ -5,7 +5,7 @@ type state = {
 };
 
 type action('a) =
-  | AddAmt(int)
+  | AddAmt(float)
   | AddCurr(string)
   | AddSucc(string)
   | AddErr('a)
@@ -14,7 +14,7 @@ type action('a) =
 let component = ReasonReact.reducerComponent("CoinAdder");
 
 let isGreaterZero = (c: Coins.coin) =>
-  if (c.amount <= 0 || c.currency == "") {
+  if (c.amount <= 0.0 || c.currency == "") {
     true;
   } else {
     false;
@@ -33,7 +33,7 @@ let make = (~succeeded: bool => unit, _children) => {
     initialState: () => {
       adder: true,
       newCoin: {
-        amount: 0,
+        amount: 0.0,
         currency: "",
       },
       currencies: [||],
@@ -47,6 +47,8 @@ let make = (~succeeded: bool => unit, _children) => {
           amount: v,
           currency: state.newCoin.currency,
         };
+        Js.log(v);
+        Js.log(newValue);
 
         ReasonReact.Update({
           ...state,
@@ -69,7 +71,7 @@ let make = (~succeeded: bool => unit, _children) => {
         ReasonReact.Update({
           ...state,
           newCoin: {
-            amount: 0,
+            amount: 0.0,
             currency: "",
           },
         })

@@ -9,7 +9,7 @@ type response('a, 'b) = {
 };
 
 
-type data = Js.Dict.t(string);
+type data ('a) = 'a;
 
 [@bs.deriving abstract]
 type config = {
@@ -23,11 +23,11 @@ external axget : (~url: url, ~config: config=?, unit) => Js.Promise.t(response('
 
 [@bs.module "axios"]
 external axpost :
-  (~url: url, ~data: data, ~config: config) => Js.Promise.t(response('a, 'b)) =
+  (~url: url, ~data: data('a), ~config: config) => Js.Promise.t(response('a, 'b)) =
   "post";
 
 let get = (url: url) => axget(~url, ());
 let getWithConfig = (url: url, config: config) => axget(~url, ~config, ());
 
-let postWithConfig = (url: url, data: data, config: config) =>
+let postWithConfig = (url: url, data: data('a), config: config) =>
   axpost(~url, ~data, ~config);
