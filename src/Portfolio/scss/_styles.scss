@@ -5,7 +5,6 @@ $menu-btn: 60px;
 	height: 100%;
 
 	.menu-btn {
-		
 		@media (min-width: $desktop) {
 			display: none;
 		}
@@ -23,7 +22,8 @@ $menu-btn: 60px;
 		bottom: 20px;
 		right: 10px;
 		background-color: #24344b;
-		transition: background-color 2s;
+		transition: background-color 0.2s;
+		transition-timing-function: linear;
 
 		.fa-align-justify {
 			color: #ffffff;
@@ -32,5 +32,9 @@ $menu-btn: 60px;
 		.fa-times {
 			color: #24344b;
 		}
+	}
+
+	.menu-btn-active {
+		background-color: #ffffff;
 	}
 }
