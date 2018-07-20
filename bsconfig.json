@@ -4,28 +4,25 @@
   an issue! */
 {
   "name": "cockpit",
-  "reason": {
-    "react-jsx": 2,
-    "refmt": 3
+  "version": "0.1.0",
+  "sources": {
+    "dir" : "src",
+    "subdirs" : true
   },
-  "sources": [{
-      "dir": "src",
-      "subdirs": true
-    }
-  ],
-  "bsc-flags": ["-bs-g"],
-  "package-specs": [{
+  
+  "package-specs": {
     "module": "es6",
     "in-source": true
-  }],
+  },
   "suffix": ".bs.js",
-  "namespace": true,
   "bs-dependencies": [
     "reason-react",
     "bs-webapi"
   ],
-  "refmt": 3,
   "warnings": {
-    "error": "+5"
-  }
+    "error" : "+101"
+  },
+  "namespace": true,
+  "reason": {"react-jsx": 2},
+  "refmt": 3
 }
