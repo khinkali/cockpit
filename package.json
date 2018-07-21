@@ -9,8 +9,8 @@
     "bulma": "^0.7.1",
     "bulma-extensions": "^2.2.1",
     "keycloak-js": "^3.4.3",
-    "react": "^16.4.0",
-    "react-dom": "^16.4.0",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
     "reason-react": "^0.4.2"
   },
   "scripts": {

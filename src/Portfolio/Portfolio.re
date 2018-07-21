@@ -1,17 +1,16 @@
-type state = {empty: int};
+type state = {menuToggler: bool};
 
 type action =
-  | TransformMenuAction
   | MenuToggler;
 
 let component = ReasonReact.reducerComponent("Portfolio");
 
 let make = _children => {
   ...component,
-  initialState: () => {empty: 0},
+  initialState: () => {menuToggler: false},
   reducer: (action, _state: state) =>
     switch (action) {
-    | TransformMenuAction =>
+    | MenuToggler =>
       switch (
         Webapi.Dom.Document.getElementById(
           "portfolio-menu",
@@ -40,15 +39,15 @@ let make = _children => {
         )
       }
     },
-  render: self =>
+  render: _self =>
     <div className="portfolio-container">
-      /* <CoinAdder succeeded=(a => ()) /> */
-
-        <a
+      
+      <CoinsBoard />
+      /*   <a
           id="portfolio-menu"
-          onClick=(_ => self.send(TransformMenuAction))
+          onClick=(_ => self.send(MenuToggler))
           className="menu-btn mdc-elevation--z4">
           <i className="fas fa-align-justify fa-2x" />
-        </a>
+        </a> */
       </div>,
 };

@@ -1,18 +1,10 @@
-/*module Currencies = {
-  [@bs.deriving abstract]
-  type t = {
-    status: int,
-    data: array(string),
-  };
-};*/
-
-
 [@bs.deriving abstract]
-type addNewCoin = {
+type rawCoin = {
   amount: float,
   coinSymbol: string,
 };
 
+type rawCoins = array(rawCoin);
 
 type coin = {
   amount: float,
@@ -21,10 +13,10 @@ type coin = {
 
 type currencies = array(string);
 
-type coins = list(coin);
+type coins = array(coin);
 
-let transform = (values: list('a)) : coins =>
-  List.map(obj => {amount: obj##amount, currency: obj##coinSymbol}, values);
+/* let transform = (values: list('a)) : coins =>
+  List.map(obj => {amount: obj##amount, currency: obj##coinSymbol}, values); */
 
 let authorize = () =>
   Config.read
@@ -59,7 +51,7 @@ let fetchCurrs = (currs: currencies => unit) =>
      )
   |> Js.Promise.then_(c => Js.Promise.resolve(currs(c)));
 
-/*let get = (c: coins => unit) =>
+let get = (c: coins => unit) =>
   authorize()
   |> Js.Promise.then_(data => {
        let (config: Config.env, keys: Security.kcKeys) = data;
@@ -69,17 +61,20 @@ let fetchCurrs = (currs: currencies => unit) =>
          Js.Dict.fromArray([|("Authorization", "Bearer " ++ keys.token)|]);
        Axios.getWithConfig(url, Axios.config(~headers, ()));
      })
-  |> Js.Promise.then_(x => Js.Promise.resolve(Array.to_list(x##data)))
-  |> Js.Promise.then_(x => Js.Promise.resolve(transform(x)))
-  |> Js.Promise.then_(x => Js.Promise.resolve(c(x)))
-  |> Js.Promise.catch(err => Js.Promise.resolve(Js.log(err)));*/
+  |> Js.Promise.then_((resp: Axios.response(rawCoins, 'b)) => {
 
-let post = (addCoin: coin) =>
+     let data = Axios.data(resp)
+     |. Belt.Array.map(x => {amount: amount(x), currency: coinSymbol(x)});
+
+     Js.Promise.resolve(c(data));
+  });
+
+let post = (newCoin: coin) =>
   Config.read
   |> Js.Promise.then_((x: Config.env) => {
       
       let url = x.url ++ "/sink/resources/orders";
-      let data = addNewCoin(~amount=addCoin.amount, ~coinSymbol=addCoin.currency);
+      let data = rawCoin(~amount=newCoin.amount, ~coinSymbol=newCoin.currency);
 
        Security.authorize()
        |> Js.Promise.then_((keys: Security.kcKeys) => {

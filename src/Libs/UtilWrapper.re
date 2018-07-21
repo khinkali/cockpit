@@ -1,3 +1,5 @@
 [@bs.module "./Util"] external acceptOnlyNumbers: string => bool = "acceptOnlyNumbers"; 
+[@bs.module "./Util"] external parseFloatToString: float => string = "parseFloatToString"; 
 
-let acceptOnlyNums = acceptOnlyNumbers;
+let acceptOnlyNumbers = acceptOnlyNumbers;
+let parseFloatToString = parseFloatToString;
