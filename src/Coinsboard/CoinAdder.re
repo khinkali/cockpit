@@ -2,7 +2,6 @@ external convertErrMsg : Js.Promise.error => string = "%identity";
 
 type state = {
   adder: bool,
-  amtMask: string,
   newCoin: Coins.coin,
   currencies: Coins.currencies,
 };
@@ -24,7 +23,8 @@ let isGreaterZero = (c: Coins.coin) =>
   };
 
 let handleKeyDown = evt => {
-  if (ReactEventRe.Keyboard.keyCode(evt) == 69) {
+  if (ReactEventRe.Keyboard.keyCode(evt) == 69
+      || ReactEventRe.Keyboard.keyCode(evt) == 189) {
     ReactEventRe.Keyboard.preventDefault(evt);
   };
   ();
@@ -43,16 +43,14 @@ let make = (~succAdded: string => unit, ~errAdded: string => unit, _children) =>
   ...component,
   initialState: () => {
     adder: true,
-    amtMask: "",
     newCoin: {
       amount: 0.0,
       currency: "",
     },
     currencies: [||],
   },
-  didMount: self => {
-    Coins.fetchCurrs(currs => self.send(FetchCurr(currs))) |> ignore
-  },
+  didMount: self =>
+    Coins.fetchCurrs(currs => self.send(FetchCurr(currs))) |> ignore,
   reducer: (action, state) =>
     switch (action) {
     | AddAmt(v) =>
@@ -63,7 +61,6 @@ let make = (~succAdded: string => unit, ~errAdded: string => unit, _children) =>
 
       ReasonReact.Update({
         ...state,
-        amtMask: UtilWrapper.parseFloatToString(v),
         adder: isGreaterZero(newValue),
         newCoin: newValue,
       });
@@ -89,7 +86,8 @@ let make = (~succAdded: string => unit, ~errAdded: string => unit, _children) =>
         (_self => succAdded(a)),
       )
 
-    | AddErr(a) => ReasonReact.SideEffects(_self => errAdded(convertErrMsg(a)))
+    | AddErr(a) =>
+      ReasonReact.SideEffects((_self => errAdded(convertErrMsg(a))))
     },
   render: self => {
     let currEle = (idx, curr) =>
@@ -111,8 +109,8 @@ let make = (~succAdded: string => unit, ~errAdded: string => unit, _children) =>
                 type_="number"
                 className="input is-large"
                 min=0
+                value=(Js.Float.toString(self.state.newCoin.amount))
                 step=0.0001
-                value=self.state.amtMask
                 onChange=(
                   evt => {
                     let amt =
@@ -121,7 +119,7 @@ let make = (~succAdded: string => unit, ~errAdded: string => unit, _children) =>
                         float_of_string,
                         0.0,
                       );
-                      self.send(AddAmt(amt));
+                    self.send(AddAmt(amt));
                   }
                 )
                 onKeyDown=handleKeyDown
