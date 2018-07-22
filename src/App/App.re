@@ -1,18 +1,23 @@
-type state = {empty: int};
+type state = {menuOnMobil: bool};
 
 type action =
-  | Nothing;
+  | ShowMenuOnMobil(bool);
 
 let component = ReasonReact.reducerComponent("App");
 
 let make = _children => {
   ...component,
-  initialState: () => {empty: 0},
-  reducer: (_action: action, _state: state) => ReasonReact.NoUpdate,
-  render: _self =>
+  initialState: () => {menuOnMobil: false},
+  reducer: (action: action, _state: state) => switch (action) {
+  | ShowMenuOnMobil(toggler) => ReasonReact.Update({menuOnMobil: toggler})
+  },
+  render: self =>
     <div className="app-container">
       <Sidebar />
-      <div className="main-container"> <Topbar /> <Portfolio /> </div>
+      <div className="main-container"> 
+        <Topbar />
+        <Portfolio showMenu=(toggler => self.send(ShowMenuOnMobil(toggler))) /> 
+        </div>
     </div>,
 };
 

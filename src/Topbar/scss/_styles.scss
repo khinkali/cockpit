@@ -6,6 +6,8 @@ $big-screen-size: 100px;
 	background-color: #ffffff;
 	height: 80px;
 	transition: height 0.2s;
+	position: sticky;
+	top: 0;
 
 	@media (min-width: $desktop) and (max-width: $widescreen) {
 		height: $big-screen-size;

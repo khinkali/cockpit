@@ -1,16 +1,22 @@
 .sidebar-container {
-	display: flex;
-	flex-direction: column;
-	height: 100%;
-	background-color: #24344b;
-	transition: width 0.5s;
-	width: 0px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: #24344b;
+  transition: width 0.5s;
+  width: 0px;
+  position: relative;
 
-	@media (min-width: $desktop) and (max-width: $widescreen) {
-		width: 250px;
-	}
+  @media (min-width: $desktop) and (max-width: $widescreen) {
+    width: 250px;
+  }
 
-	@media (min-width: $widescreen) {
-		width: 280px;
-	}
+  @media (min-width: $widescreen) {
+    width: 300px;
+  }
+
+  @media (max-width: $desktop) {
+    position: absolute;
+    z-index: 100;
+  }
 }

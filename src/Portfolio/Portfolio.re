@@ -13,17 +13,7 @@ let iconActive = "fa-times";
 let getMobilMenuEle = eleName =>
   Webapi.Dom.Document.getElementById(eleName, Webapi.Dom.document);
 
-/* let toggleMobilMenu = (toggler, dom: Dom.element) => {
-     let ele = dom |> Webapi.Dom.Element.classList;
-     if (toggler) {
-       ele |> DomTokenListRe.add(menuActive);
-     } else {
-       ele |> DomTokenListRe.remove(menuActive);
-     };
-   };
-    */
-let toggleMobilIcon = icon =>
-  icon == iconInactive ? iconActive : iconInactive;
+let toggleMobilIcon = icon => icon == iconInactive ? iconActive : iconInactive;
 
 let toggleMobilAction = style =>
   style == menuInactive ? menuActive : menuInactive;
@@ -33,7 +23,7 @@ type action =
 
 let component = ReasonReact.reducerComponent("Portfolio");
 
-let make = _children => {
+let make = (~showMenu: bool => unit, _children) => {
   ...component,
   initialState: () => {
     menuToggler: false,
@@ -54,12 +44,14 @@ let make = _children => {
       switch (getMobilMenuEle(menuIdEle)) {
       | None => ReasonReact.NoUpdate
       | Some(a) =>
-        ReasonReact.Update(
+        ReasonReact.UpdateWithSideEffects(
           {
             menuToggler: ! state.menuToggler,
             menuIconStyle: toggleMobilIcon(state.menuIconStyle),
             menuActionStyle: toggleMobilAction(state.menuActionStyle),
-          });
+          },
+          (self => showMenu(self.state.menuToggler)),
+        )
       }
     },
   render: self =>
