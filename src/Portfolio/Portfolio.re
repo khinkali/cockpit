@@ -43,14 +43,16 @@ let make = (~showMenu: bool => unit, _children) => {
     | MenuToggler =>
       switch (getMobilMenuEle(menuIdEle)) {
       | None => ReasonReact.NoUpdate
-      | Some(a) =>
+      | Some(_a) =>
         ReasonReact.UpdateWithSideEffects(
           {
-            menuToggler: ! state.menuToggler,
+            menuToggler: !state.menuToggler,
             menuIconStyle: toggleMobilIcon(state.menuIconStyle),
             menuActionStyle: toggleMobilAction(state.menuActionStyle),
           },
-          (self => showMenu(self.state.menuToggler)),
+          (self => {
+            showMenu(self.state.menuToggler);
+          }),
         )
       }
     },
