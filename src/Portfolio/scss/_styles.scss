@@ -1,42 +1,39 @@
 $menu-btn: 60px;
 
 .portfolio-container {
-	width: 100%;
-	height: 100%;
-	position: relative;
+  width: 100%;
+  height: 100%;
+  position: relative;
 
-	.menu-btn {
-		@media (min-width: $desktop) {
-			display: none;
-		}
+  .menu-btn {
+    @media (min-width: $desktop) {
+      display: none;
+    }
 
-		@media (max-width: $tablet) and (max-width: $desktop) {
-			display: flex;
-			z-index: 999;
-		}
+    display: flex;
+    z-index: 999;
+    justify-content: center;
+    align-items: center;
+    height: $menu-btn;
+    width: $menu-btn;
+    border-radius: 50%;
+    position: fixed;
+    bottom: 20px;
+    right: 10px;
+    background-color: #24344b;
+    transition: background-color 0.5s;
+    transition-timing-function: linear;
 
-		justify-content: center;
-		align-items: center;
-		height: $menu-btn;
-		width: $menu-btn;
-		border-radius: 50%;
-		position: fixed;
-		bottom: 20px;
-		right: 10px;
-		background-color: #24344b;
-		transition: background-color 0.5s;
-		transition-timing-function: linear;
+    .fa-align-justify {
+      color: #ffffff;
+    }
 
-		.fa-align-justify {
-			color: #ffffff;
-		}
+    .fa-times {
+      color: #24344b;
+    }
+  }
 
-		.fa-times {
-			color: #24344b;
-		}
-	}
-
-	.menu-btn-active {
-		background-color: #ffffff;
-	}
+  .menu-btn-active {
+    background-color: #ffffff;
+  }
 }

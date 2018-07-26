@@ -13,7 +13,7 @@ let make = _children => {
   },
   render: self =>
     <div className="app-container">
-      <Sidebar showMenuOnMobile=self.state.showMenuOnMobile />
+      <Sidebar menuOnMobilePressed=self.state.showMenuOnMobile />
       <div className="main-container"> 
         <Topbar />
         <Portfolio showMenu=(toggler => self.send(ShowMenuOnMobile(toggler))) /> 

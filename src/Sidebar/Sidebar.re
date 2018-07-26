@@ -1,23 +1,22 @@
-type state = {empty: int};
+type state = {empty: string};
 
 type action =
-  | None;
+  | Nothing;
+
+let sidebarContainer = "sidebar-container";
+let sidebarContainerMobile = "sidebar-container sidebar-menu-on-mobile";
 
 let component = ReasonReact.reducerComponent("Sidebar");
 
+let isOnMobile =
+  Webapi.Dom.Window.matchMedia("(max-width: 1088px)", Webapi.Dom.window)
+  |> MediaQuery.matches;
 
-let fadeInOnMobil = (togglerPressed) => {
-  let mql = Webapi.Dom.Window.matchMedia("(max-width: 1088px)", Webapi.Dom.window);
-  let isMobile = togglerPressed && MediaQuery.matches(mql);
-}
-
-let make = (~showMenuOnMobile: bool, _children) => {
+let make = (~menuOnMobilePressed: bool, _children) => {
   ...component,
-  initialState: () => {empty: 0},
-  reducer: (_action: action, _state: state) => ReasonReact.NoUpdate,
+  initialState: () => {empty: ""},
+  reducer: (action: action, state: state) => ReasonReact.NoUpdate,
   render: _self => {
-
-    fadeInOnMobil(showMenuOnMobile);
-    <aside className="sidebar-container" />;
-  },
+    <aside className=(isOnMobile && menuOnMobilePressed  ? sidebarContainerMobile : sidebarContainer) />
+  }
 };
