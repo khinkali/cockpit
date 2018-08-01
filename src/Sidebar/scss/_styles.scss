@@ -3,26 +3,19 @@
   flex-direction: column;
   height: 100%;
   background-color: #24344b;
-  transition: width 0.3s;
-  width: 0px;
   position: relative;
+  transition: width 0.4s;
 
-  /* @media (min-width: $desktop) and (max-width: $widescreen) {
-    width: 300px;
-  } */
+  @media (min-width: $desktop) {
+    width: 400px;
+  }
 
-  @media (min-width: $desktop){
-    width: 300px;
+  @media (min-width: $tablet) and (max-width: $desktop) {
+    width: 0px;
   }
 
 
   @media (max-width: $desktop) {
-    position: absolute;
-    width: 100%;
-    z-index: -1;
+    width: 0px;
   }
-}
-
-.sidebar-menu-on-mobile {
-  z-index: 100;
 }

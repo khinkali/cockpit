@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@material/elevation": "^0.36.1",
+    "@material/ripple": "^0.38.0",
     "axios": "^0.18.0",
     "bs-webapi": "^0.9.1",
     "bulma": "^0.7.1",
