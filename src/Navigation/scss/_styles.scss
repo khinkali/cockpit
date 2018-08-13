@@ -1,0 +1,82 @@
+$navi-gap-active: 3px transparent solid;
+
+
+@mixin navi-container {
+  width: 100%;
+  background-color: $secondary-color;
+  z-index: 998;
+  display: flex;
+}
+
+@include device-lg-up {
+  .navi-container {
+    @include navi-container;
+    height: 50px;
+    position: fixed;
+    top: 100px;
+    justify-content: center;
+    transition: top 400ms, width 400ms;
+
+    .navi-menu {
+      width: $screen-menu-large; 
+      height: 100%;
+      color: $primary-color;
+      display: inline-flex;
+
+      a.navi-link {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        position: relative;
+        cursor: pointer;
+        box-sizing: border-box;
+        font-size: 1.2em;
+        font-weight: 600;
+        padding: 10px;
+        border-bottom: $navi-gap-active;
+      }
+
+      a.navi-link-active {
+        border-bottom: 3px $primary-color solid;
+      }
+    }
+  }
+}
+
+@include device-lg-down {
+
+  .navi-container {
+    @include navi-container;
+    position: relative;
+    top: -100%;
+    transition: top 500ms, height 300ms 500ms;
+    height: 100%;
+
+    .navi-menu {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      padding-top: 100px;
+      position: relative;
+      visibility: hidden;
+
+      a.navi-link {
+        padding: 10px; 
+        padding-left: 20px;
+        font-size: 1em;
+        font-weight: 600;
+        border-left: $navi-gap-active;
+      }
+
+      a.navi-link-active {
+        border-left: 3px $primary-color solid;
+      }
+    }
+  }
+
+  .navi-show-on-mobile {
+    height: 100%;
+    top: 0px;
+  }
+}

@@ -1,0 +1,114 @@
+/*
+ * Devices size determination
+ */ 
+
+// Only 
+@mixin device-xs-only {
+  // Extra small devices (portrait phones, less than 576px)
+  @media (max-width: 575.98px) {
+    @content;
+  }
+}
+
+@mixin device-sm-only {
+  // Small devices (landscape phones, 576px and up)
+  @media (min-width: 576px) and (max-width: 767.98px) {
+    @content;
+  }
+}
+
+@mixin device-md-only {
+  // Medium devices (tablets, 768px and up)
+  @media (min-width: 768px) and (max-width: 991.98px) {
+    @content;
+  }
+}
+
+@mixin device-lg-only {
+  // Large devices (desktops, 992px and up)
+  @media (min-width: 992px) and (max-width: 1199.98px) {
+    @content;
+  }
+}
+
+@mixin device-xl-only {
+  // Extra large devices (large desktops, 1200px and up)
+  @media (min-width: 1200px) {
+    @content;
+  }
+}
+
+
+// Up
+
+// Extra small devices (portrait phones, less than 576px)
+// No media query since this is the default in Bootstrap
+
+@mixin device-sm-up {
+  // Small devices (landscape phones, 576px and up)
+  @media (min-width: 576px) {
+    @content;
+  }
+}
+
+@mixin device-md-up {
+  // Medium devices (tablets, 768px and up)
+  @media (min-width: 768px) {
+    @content;
+  }
+}
+
+@mixin device-lg-up {
+  // Large devices (desktops, 992px and up)
+  @media (min-width: 992px) {
+    @content;
+  }
+}
+
+@mixin device-xl-up {
+  // Extra large devices (large desktops, 1200px and up)
+  @media (min-width: 1200px) {
+    @content;
+  }
+}
+
+
+// Down 
+@mixin device-sm-down {
+  // Extra small devices (portrait phones, less than 576px)
+  @media (max-width: 575.98px) {
+    @content;
+  }
+}
+
+@mixin device-md-down {
+  // Small devices (landscape phones, less than 768px)
+  @media (max-width: 767.98px) {
+    @content;
+  }
+}
+
+@mixin device-lg-down {
+  // Medium devices (tablets, less than 992px)
+  @media (max-width: 991.98px) {
+    @content;
+  }
+}
+
+@mixin device-xl-down {
+  // Large devices (desktops, less than 1200px)
+  @media (max-width: 1199.98px) {
+    @content;
+  }
+}
+
+// Extra large devices (large desktops)
+// No media query since the extra-large breakpoint has no upper bound on its width
+
+
+
+
+
+
+
+

@@ -1,7 +1,6 @@
-@import "./fontawesome/all.scss";
-@import "bulma/bulma.sass";
-@import "@material/elevation/mdc-elevation.scss";
+
 @import "./App/scss/styles.scss";
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,600");
 
 * {
 	padding: 0;
@@ -12,11 +11,11 @@ html,
 body {
 	height: 100%;
 	width: 100%;
+	font-size: 16px;
+	font-family: 'Montserrat', sans-serif;
 }
 
 #root {
-	display: flex;
-	flex-direction: row;
 	box-sizing: border-box;
 	height: 100%;
 	width: 100%;

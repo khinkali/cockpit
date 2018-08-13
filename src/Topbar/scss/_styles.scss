@@ -1,46 +1,55 @@
-@keyframes menu-fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
 .topbar-container {
-  display: flex;
   width: 100%;
-  background-color: #ffffff;
-  position: sticky;
+  position: fixed;
   top: 0;
-  height: 80px;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+  background-color: $primary-color;
+  z-index: 999;
+  display: flex;
+  transition: height 500ms;
 
-  .topbar-menu-on-mobile {
-    display: flex;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    align-items: center;
-    justify-content: center;
-    margin-left: 15px;
+  @include device-lg-up {
+    height: 100px;
+  }
 
-    @media (max-width: $desktop) {
-      visibility: visible;
-      opacity: 1;
-      transition: opacity 200ms linear;
+  @include device-lg-down {
+    height: 80px;
+  }
+
+  @include device-lg-up {
+    .topbar-menu {
+      width: $screen-menu-large;
+      height: 100%;
+
+      .topbar-navi-menu {
+        display: none;
+      }
     }
+  }
 
-    @media (min-width: $desktop) {
-      visibility: hidden;
-      opacity: 0;
-      transition: visibility 0s 200ms, opacity 200ms linear;
-    }
+  @include device-lg-down {
+    .topbar-menu {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      position: relative;  
 
-    .fa-bars {
-      color: #000000;
+      .topbar-navi-menu {
+        margin-left: 15px;
+        height: 50px;
+        width: 50px;
+        border-radius: 50%;
+        text-align: center;
+        position: absolute;
+        overflow: hidden;
+
+        .fa-bars {
+          color: $secondary-color;
+          position: relative;
+          top: 50%;
+          transform: translate(0, -50%);
+        }
+      }
     }
   }
 }

@@ -40,12 +40,12 @@ let fetchCurrs = (currs: currencies => unit) =>
      })
   |> Js.Promise.then_((resp: Axios.response(currencies, 'b)) =>
        Js.Promise.make((~resolve, ~reject) =>
-         if (Axios.status(resp) != 200) {
+         if (Axios.statusGet(resp) != 200) {
            reject(.
              Js.Exn.raiseError("Could not find the coins currencies."),
            );
          } else {
-           resolve(. Axios.data(resp));
+           resolve(. Axios.dataGet(resp));
          }
        )
      )
@@ -63,8 +63,8 @@ let get = (c: coins => unit) =>
      })
   |> Js.Promise.then_((resp: Axios.response(rawCoins, 'b)) => {
 
-     let data = Axios.data(resp)
-     |. Belt.Array.map(x => {amount: amount(x), currency: coinSymbol(x)});
+     let data = Axios.dataGet(resp)
+     |. Belt.Array.map(x => {amount: amountGet(x), currency: coinSymbolGet(x)});
 
      Js.Promise.resolve(c(data));
   });
@@ -87,7 +87,7 @@ let post = (newCoin: coin) =>
           });
      })
   |> Js.Promise.then_((resp: Axios.response('a, 'b)) => {
-    let a = Axios.status(resp);
+    let a = Axios.statusGet(resp);
 
     Js.Promise.make((~resolve, ~reject) =>
          if (a != 202) {

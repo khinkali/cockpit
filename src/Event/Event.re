@@ -1,7 +1,3 @@
-let valueFromKeyUp = evt => ReactDOMRe.domElementToObj(
-                              ReactEventRe.Keyboard.target(evt),
-                            )##value;
+let valueFromKeyUp = evt => ReactEvent.Keyboard.target(evt);
 
-let valueFromForm = evt => ReactDOMRe.domElementToObj(
-                             ReactEventRe.Form.target(evt),
-                           )##value;
+let valueFromForm = evt =>  ReactEvent.Form.target(evt);

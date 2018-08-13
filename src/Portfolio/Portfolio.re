@@ -1,21 +1,18 @@
-type state = {
-  empty: int
-};
-
+type state = {empty: int};
 
 type action =
   | NoUpdate;
 
 let component = ReasonReact.reducerComponent("Portfolio");
 
-let make = (~showMenu: bool => unit, _children) => {
+let make = _children => {
   ...component,
-  initialState: () => {
-    empty: 0
-  },
+  initialState: () => {empty: 0},
   reducer: (action: action, state: state) => ReasonReact.NoUpdate,
-  render: self =>
+  render: self => {
+
     <div className="portfolio-container">
-      <CoinsBoard />
-    </div>,
+      <p> (ReasonReact.string("Hello")) </p>
+    </div>;
+  },
 };

@@ -5,14 +5,16 @@ type action =
 
 let component = ReasonReact.reducerComponent("Topbar");
 
-let make = _children => {
+let make = (~click: 'a => unit, _children) => {
   ...component,
   initialState: () => {empty: 0},
   reducer: (_action: action, _state: state) => ReasonReact.NoUpdate,
   render: _self =>
     <div className="topbar-container">
-      <a className="topbar-menu-on-mobile mdc-ripple-surface mdc-ripple-radius-bounded">
-        <i className="fas fa-bars fa-2x"></i>
-      </a>
+      <section className="topbar-menu">
+        <LinkRipple click cssClass="topbar-navi-menu" color="">
+          ...<i className="fas fa-bars fa-2x" />
+        </LinkRipple>
+      </section>
     </div>,
 };

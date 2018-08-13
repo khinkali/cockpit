@@ -44,13 +44,13 @@ let signin = () =>
 
 let authorize = () =>
   Js.Promise.make((~resolve, ~reject) =>
-    if(!Keycloak.authenticated(kc)) {
+    if(!Keycloak.authenticatedGet(kc)) {
       reject(. Js.Exn.raiseError("Your are not authroized."))
     } else {
       let keys: kcKeys = {
-        token: Keycloak.token(kc),
-        subject: Keycloak.subject(kc),
-        idToken: Keycloak.idToken(kc),
+        token: Keycloak.tokenGet(kc),
+        subject: Keycloak.subjectGet(kc),
+        idToken: Keycloak.idTokenGet(kc),
       };
       resolve(. keys);
     }

@@ -15,9 +15,9 @@ type env = {
 let read =
   Axios.get("config/config.json")
   |> Js.Promise.then_((x: Axios.response(envRaw, 'b)) => {
-      let a = Axios.data(x)
-              |. urlRaw_
-              |. url;
+      let a = Axios.dataGet(x)
+              |. urlRaw_Get
+              |. urlGet;
       let b: env = {url: a};
       Js.Promise.resolve(b);
     });

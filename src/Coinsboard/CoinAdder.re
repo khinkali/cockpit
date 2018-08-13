@@ -23,9 +23,9 @@ let isGreaterZero = (c: Coins.coin) =>
   };
 
 let handleKeyDown = evt => {
-  if (ReactEventRe.Keyboard.keyCode(evt) == 69
-      || ReactEventRe.Keyboard.keyCode(evt) == 189) {
-    ReactEventRe.Keyboard.preventDefault(evt);
+  if (ReactEvent.Keyboard.keyCode(evt) == 69
+      || ReactEvent.Keyboard.keyCode(evt) == 189) {
+        ReactEvent.Keyboard.preventDefault(evt);
   };
   ();
 };
@@ -115,7 +115,7 @@ let make = (~succAdded: string => unit, ~errAdded: string => unit, _children) =>
                   evt => {
                     let amt =
                       convertStringToX(
-                        Event.valueFromForm(evt),
+                        evt->ReactEvent.Form.target##value,
                         float_of_string,
                         0.0,
                       );
@@ -132,7 +132,7 @@ let make = (~succAdded: string => unit, ~errAdded: string => unit, _children) =>
                 <select
                   value=self.state.newCoin.currency
                   onChange=(
-                    evt => self.send(AddCurr(Event.valueFromForm(evt)))
+                    evt => self.send(AddCurr(evt->ReactEvent.Form.target##value))
                   )>
                   <option disabled=true value="" />
                   (

@@ -1,23 +1,18 @@
-@import "bulma/sass/utilities/initial-variables.sass";
-@import "@material/ripple/mdc-ripple.scss";
+@import "./media.scss";
+@import "./variables.scss";
+@import "../../fontawesome/all.scss";
+@import "../../LinkRipple/scss/styles.scss";
+@import "../../Topbar/scss/styles.scss";
+@import "../../Navigation/scss/styles.scss";
 @import "../../Portfolio/scss/styles.scss";
-@import "../../Coinsboard/scss/styles.scss";
-@import "../../Sidebar/scss/styles.scss";
-@import "../../Topbar/scss/_styles.scss";
 
 .app-container {
 	display: flex;
-	flex-direction: row;
-	height: 100%;
 	width: 100%;
-	box-sizing: border-box;
+	height: 100%;
+	flex-direction: column;
+	top: 0px;
 	position: relative;
+	align-items: center;
 }
 
-.main-container {
-	display: flex;
-	flex-direction: column;
-	height: 100%;
-	width: 100%;
-	background-color: #f1f2f6;
-}
