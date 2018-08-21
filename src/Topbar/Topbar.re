@@ -9,7 +9,7 @@ type action =
 let component = ReasonReact.reducerComponent("Topbar");
 
 let toggleMobileMenu = (toggler: bool) =>
-  toggler ? "topbar-animate-forward" : "topbar-animate-backward";
+  toggler ? "topbar-animate-forward" : "";
 
 let make = (~onClick: 'a => unit, _children) => {
   ...component,

@@ -1,9 +1,8 @@
 $navi-gap-active: 3px transparent solid;
 
-
 @mixin navi-container {
   width: 100%;
-  background-color: $secondary-color;
+  background-color: $primary-color;
   z-index: 998;
   display: flex;
 }
@@ -18,12 +17,11 @@ $navi-gap-active: 3px transparent solid;
     transition: top 400ms, width 400ms;
 
     .navi-menu {
-      width: $screen-menu-large; 
+      width: $screen-menu-large;
       height: 100%;
-      color: $primary-color;
       display: inline-flex;
 
-      a.navi-link {
+      a {
         height: 100%;
         display: flex;
         align-items: center;
@@ -34,18 +32,22 @@ $navi-gap-active: 3px transparent solid;
         font-size: 1.2em;
         font-weight: 600;
         padding: 10px;
-        border-bottom: $navi-gap-active;
-      }
+        color: #ffffff;
+        background: linear-gradient(to right, $primary-color 50%, #ffffff 50%);
+        background-size: 200% 100%;
+        background-position: left bottom;
+        transition: all 700ms ease;
 
-      a.navi-link-active {
-        border-bottom: 3px $primary-color solid;
+        &.navi-link-active {
+          background-position: right bottom;
+          color: $primary-color;
+        }
       }
     }
   }
 }
 
 @include device-lg-down {
-
   .navi-container {
     @include navi-container;
     position: relative;
@@ -62,7 +64,7 @@ $navi-gap-active: 3px transparent solid;
       visibility: hidden;
 
       a.navi-link {
-        padding: 10px; 
+        padding: 10px;
         padding-left: 20px;
         font-size: 1em;
         font-weight: 600;

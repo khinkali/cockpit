@@ -11,16 +11,12 @@ let make = _children => {
   reducer: (action: action, _state: state) =>
     switch (action) {
     | ShowMenuOnMobile(toggler) =>
-      ReasonReact.Update({showMenuOnMobile: !toggler});
+      ReasonReact.Update({showMenuOnMobile: !toggler})
     },
   render: self =>
     <div className="app-container">
-      <Topbar
-        onClick={
-          (mobile) => Js.log(string_of_bool(mobile))
-        }
-      />
-      /* <Navigation showMobile={self.state.showMenuOnMobile} /> */
+      <Topbar onClick={mobile => Js.log(string_of_bool(mobile))} />
+      <Navigation showMobile={self.state.showMenuOnMobile} />
     </div>,
 };
 

@@ -62,22 +62,6 @@
             }
           }
 
-          &.topbar-animate-backward {
-            &:first-child {
-              animation: topbar-first-bulk 500ms backwards;
-            }
-
-            &:nth-child(2) {
-              animation: topbar-middle-bulk 500ms backwards;
-            }
-
-            &:last-child {
-              animation: topbar-last-bulk 500ms backwards;
-            }
-          }
-
-
-
           &:first-child {
             top: 0;
           }
