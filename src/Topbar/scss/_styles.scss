@@ -47,23 +47,12 @@
           height: 5px;
           width: 100%;
           background-color: #ffffff;
-
-          &.topbar-animate-forward {
-            &:first-child {
-              animation: topbar-first-bulk 500ms forwards;
-            }
-
-            &:nth-child(2) {
-              animation: topbar-middle-bulk 500ms forwards;
-            }
-
-            &:last-child {
-              animation: topbar-last-bulk 500ms forwards;
-            }
-          }
+          transition: top 300ms ease-in-out 200ms,
+            bottom 300ms ease-in-out 200ms, transform 200ms ease-in-out;
 
           &:first-child {
             top: 0;
+            transform: translateY(0%) rotate(0deg);
           }
 
           &:nth-child(2) {
@@ -73,70 +62,27 @@
 
           &:last-child {
             bottom: 0;
-          }
-        }
-
-        @keyframes topbar-first-bulk {
-          0% {
-            top: 0;
             transform: translateY(0%) rotate(0deg);
           }
-
-          25% {
-            top: 50%;
-            transform: translateY(-50%) rotate(0deg);
-          }
-
-          50% {
-            top: 50%;
-            transform: translateY(-50%) rotate(-45deg);
-          }
-
-          100% {
-            top: 50%;
-            transform: translateY(-50%) rotate(-45deg);
-          }
         }
+      }
 
-        @keyframes topbar-middle-bulk {
-          0% {
-            top: 50%;
-            transform: translateY(-50%) rotate(0deg);
-          }
+      .topbar-animate-forward {
+        i {
+          transition: top 300ms ease-in-out, bottom 300ms ease-in-out,
+            transform 300ms ease-in-out 300ms;
 
-          25% {
-            top: 50%;
-            transform: translateY(-50%) rotate(0deg);
-          }
-
-          50% {
+          &:first-child {
             top: 50%;
             transform: translateY(-50%) rotate(45deg);
           }
 
-          100% {
+          &:nth-child(2) {
             top: 50%;
             transform: translateY(-50%) rotate(45deg);
           }
-        }
 
-        @keyframes topbar-last-bulk {
-          0% {
-            bottom: 0;
-            transform: translateY(0%) rotate(0deg);
-          }
-
-          25% {
-            bottom: 50%;
-            transform: translateY(50%) rotate(0deg);
-          }
-
-          50% {
-            bottom: 50%;
-            transform: translateY(50%) rotate(-45deg);
-          }
-
-          100% {
+          &:last-child {
             bottom: 50%;
             transform: translateY(50%) rotate(-45deg);
           }

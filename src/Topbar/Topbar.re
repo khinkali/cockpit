@@ -9,7 +9,7 @@ type action =
 let component = ReasonReact.reducerComponent("Topbar");
 
 let toggleMobileMenu = (toggler: bool) =>
-  toggler ? "topbar-animate-forward" : "";
+  toggler ? " topbar-animate-forward" : "";
 
 let make = (~onClick: 'a => unit, _children) => {
   ...component,
@@ -30,10 +30,12 @@ let make = (~onClick: 'a => unit, _children) => {
           onClick={
             _evt => self.send(MobileMenuToggler(self.state.showMobileMenu))
           }
-          className="topbar-navi-menu">
-          <i className={self.state.mobileMenuAnimate} />
-          <i className={self.state.mobileMenuAnimate} />
-          <i className={self.state.mobileMenuAnimate} />
+          className={
+            "topbar-navi-menu" ++ toggleMobileMenu(self.state.showMobileMenu)
+          }>
+          <i />
+          <i />
+          <i />
         </a>
       </section>
     </div>,
