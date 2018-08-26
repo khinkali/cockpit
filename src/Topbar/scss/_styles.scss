@@ -47,8 +47,8 @@
           height: 5px;
           width: 100%;
           background-color: #ffffff;
-          transition: top 300ms ease-in-out 200ms,
-            bottom 300ms ease-in-out 200ms, transform 200ms ease-in-out;
+          transition: top 200ms ease-in-out 200ms,
+            bottom 200ms ease-in-out 200ms, transform 200ms ease-in-out;
 
           &:first-child {
             top: 0;
@@ -69,8 +69,8 @@
 
       .topbar-animate-forward {
         i {
-          transition: top 300ms ease-in-out, bottom 300ms ease-in-out,
-            transform 300ms ease-in-out 300ms;
+          transition: top 200ms ease-in-out, bottom 200ms ease-in-out,
+            transform 200ms ease-in-out 200ms;
 
           &:first-child {
             top: 50%;

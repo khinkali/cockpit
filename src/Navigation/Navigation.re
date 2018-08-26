@@ -2,34 +2,50 @@
 let dashboard = "DASHBOARD";
 let coins = "COINS";
 
-type state = {activeState: string};
+type linkClass = {
+  dashboard: string,
+  coins: string
+}
+
+let linkClassInit = {
+  dashboard
+}
+
+type state = {activeState: string,
+              linkClass: linkClass };
 
 type action =
-  | ActiveLink(string);
+  | ActiveLink;
+
+
 
 let component = ReasonReact.reducerComponent("Navigation");
 
 let make = (~showMobile: bool, _children) => {
-  let setActiveState = (evt, self) => Js.log(self.ReasonReact.state);
+  let toggleActiveState = (evt, self) => Js.log(self.ReasonReact.state);
   /*self.send(ActiveLink(ReactEvent.Mouse.target(evt)##id));*/
   {
     ...component,
-    initialState: () => {activeState: ""},
+    initialState: () => {activeState: "navi-link-bulk"},
     reducer: (action: action, state: state) =>
       switch (action) {
-      | ActiveLink(_id) =>
-        ReasonReact.Update({activeState: "navi-link-active"})
+      | ActiveLink =>
+        ReasonReact.Update({activeState: "navi-link-bulk navi-menu-active"})
       },
     render: self =>
       <nav className="navi-container">
         <div className="navi-menu">
           <a
+            className={self.state.activeState}
             id=dashboard
-            onClick={self.handle(setActiveState)}
-            className={self.state.activeState}>
+            onClick={self.handle(toggleActiveState)}>
+            <div className={self.state.activeState}/>
             {ReasonReact.string(dashboard)}
           </a>
-          <a id=coins onClick={self.handle(setActiveState)}>
+          <a className={self.state.activeState} 
+             id=coins
+             onClick={self.handle(toggleActiveState)}>
+             <div className={self.state.activeState}/>
             {ReasonReact.string(coins)}
           </a>
         </div>
