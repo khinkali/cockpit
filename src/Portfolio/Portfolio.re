@@ -12,7 +12,7 @@ let make = _children => {
   render: self => {
 
     <div className="portfolio-container">
-      <p> (ReasonReact.string("Hello")) </p>
+      <CoinsBoard />
     </div>;
   },
 };

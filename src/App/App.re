@@ -17,6 +17,7 @@ let make = _children => {
     <div className="app-container">
       <Topbar onClick={mobile => Js.log(string_of_bool(mobile))} />
       <Navigation showMobile={self.state.showMenuOnMobile} />
+      <Portfolio />
     </div>,
 };
 
