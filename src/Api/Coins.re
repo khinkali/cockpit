@@ -34,7 +34,7 @@ let fetchCurrs = (currs: currencies => unit) =>
        let (config: Config.env, keys: Security.kcKeys) = data;
        let url = config.url ++ "/sink/resources/coins";
        let headers =
-         Js.Dict.fromArray([|("Authorization", "Bearer " ++ keys.token)|]);
+         Js.Dict.fromArray([|("Authorization", "Bearer " ++ keys.token),("Accept", "application/json")|]);
 
        Axios.getWithConfig(url, Axios.config(~headers, ()));
      })
@@ -81,6 +81,7 @@ let post = (newCoin: coin) =>
             let headers =
               Js.Dict.fromArray([|
                 ("Authorization", "Bearer " ++ keys.token),
+                ("Accept", "application/json")
               |]);
 
             Axios.postWithConfig(url, data, Axios.config(~headers, ()));
