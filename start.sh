@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
 npm run mlstart &
-npm run develop
+npm run develop &
