@@ -16,7 +16,6 @@ signin()
 		console.log('Error occurred!', error);
 	});
 	
-ReactDOM.render(<App />, document.getElementById("root"));
 
 // Only for development server
 if (module.hot) {
