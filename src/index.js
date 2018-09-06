@@ -1,23 +1,17 @@
-import React from "react";
-import ReactDOM from "react-dom";
+import "./main.css";
+import { Elm } from "./Main.elm";
+import registerServiceWorker from "./registerServiceWorker";
+import Keycloak from "keycloak-js";
 
-// styles
-import "./index.scss";
+const oKeycloak = Keycloak("config/keycloak.json");
 
-// js
-import { signin } from "./Api/Security.bs";
-import App from "./App/App.bs";
+oKeycloak
+  .init({ onLoad: "login-required" })
+  .success(oAuth => console.log(oAuth))
+  .error(console.log);
 
-signin()
-	.then((text) => {
-		ReactDOM.render(<App />, document.getElementById('root'));
-	})
-	.catch((error) => {
-		console.log('Error occurred!', error);
-	});
-	
+/* Elm.Main.init({
+  node: document.getElementById("root")
+}); */
 
-// Only for development server
-if (module.hot) {
-  module.hot.accept();
-}
+registerServiceWorker();
