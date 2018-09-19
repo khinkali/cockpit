@@ -1,4 +1,12 @@
-# See https://help.github.com/ignore-files/ for more about ignoring files.
+# Distribution
+build/
+
+# elm-package generated files
+elm-stuff
+
+# elm-repl generated files
+repl-temp-*
+
 
 # dependencies
 /node_modules
