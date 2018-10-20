@@ -1,6 +1,10 @@
-module Keycloak exposing (Struct, transform)
+module API.Keycloak exposing (Struct, Token, validate)
 
 import Json.Decode exposing (..)
+
+
+type alias Token =
+    Result String Struct
 
 
 type alias Struct =
@@ -24,11 +28,11 @@ structDecoder =
     map2 Struct subjectDecoder tokenDecoder
 
 
-transform : Value -> Result String Struct
-transform flags =
+validate : Value -> Token
+validate flags =
     case decodeValue structDecoder flags of
         Ok value ->
-            Ok value
+            preventEmptyValue value
 
         Err err ->
             case err of
@@ -43,3 +47,12 @@ transform flags =
 
                 Failure field _ ->
                     Err field
+
+
+preventEmptyValue : Struct -> Result String Struct
+preventEmptyValue value =
+    if value.subject == "" || value.token == "" then
+        Err "Identification keys are empty."
+
+    else
+        Ok value

@@ -1,0 +1,11 @@
+module RouteTest exposing (all)
+
+import Expect
+import Test exposing (..)
+import Url
+
+
+all : Test
+all =
+    describe "Test url"
+        []
