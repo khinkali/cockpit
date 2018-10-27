@@ -1,69 +1,59 @@
-module Account.Page exposing (Msg(..), show)
+module Account.Page exposing (Msg(..), update, view, Model, init)
 
 import API.Keycloak as Keycloak exposing (..)
+import API.Env as Env exposing (..)
+import API.Coins as Coins exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Html.Keyed as Keyed
-import Http
-import Json.Decode as Decode
-import Random
+import Http exposing (..)
 
 
+---- MODEL ----
+
+type alias Model =
+    { 
+        currencies : List String,
+        error : String
+    }
+
+
+init : Env.Model -> Keycloak.Struct -> ( Model, Cmd Msg )
+init env kc =
+    ( Model [] "" 
+    , Http.send Currencies (Coins.reqCoins env kc)
+    )
 
 ---- UPDATE ----
 
 
-type alias Model =
-    { dieFace : Int
-    }
-
-
-init : () -> ( Model, Cmd Msg )
-init _ =
-    ( Model 1
-    , Cmd.none
-    )
-
-
-
--- UPDATE
-
-
 type Msg
-    = Roll
-    | NewFace Int
-
+    = Currencies (Result Http.Error (List String))
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        Roll ->
-            ( model
-            , Random.generate NewFace (Random.int 1 6)
-            )
-
-        NewFace newFace ->
-            ( Model newFace
-            , Cmd.none
-            )
+        Currencies resp ->
+            case resp of
+                Ok value ->
+                    ({model | currencies = value }, Cmd.none)
+                Err _ ->
+                    ({model | error = "Can not query coins currency" }, Cmd.none)
 
 
 
--- SUBSCRIPTIONS
-
+--- SUBSCRIPTIONS ---
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
     Sub.none
 
 
-
--- VIEW
+---- VIEW ----
 
 
 view : Model -> Html Msg
 view model =
-    div []
-        [ h1 [] [ text (String.fromInt model.dieFace) ]
-        , button [ onClick Roll ] [ text "Roll" ]
-        ]
+    p [] [text model.error]
+
+
+---- FUNCTIONS ----

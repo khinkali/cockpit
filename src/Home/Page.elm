@@ -7,12 +7,9 @@ import Html.Attributes exposing (..)
 ---- MODEL ----
 type alias Model = String
 
-initText : String
-initText = "Hello Foo"
-
 
 init : (Model, Cmd Msg)
-init = (initText, Cmd.none)
+init = ("", Cmd.none)
 
 
 ---- UPDATE ----

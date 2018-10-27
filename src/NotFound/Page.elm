@@ -11,11 +11,9 @@ import Html.Attributes exposing (..)
 
 type alias Model = String
 
-initText : String
-initText = "Page not found."
 
-init : (Model, Cmd Msg)
-init = (initText, Cmd.none)
+init : String -> (Model, Cmd Msg)
+init text = (text, Cmd.none)
 
 
 ---- UPDATE ----

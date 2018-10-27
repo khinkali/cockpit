@@ -1,6 +1,7 @@
 module Main exposing (Model, Msg(..), init, main, update, view)
 
 import API.Keycloak as Keycloak exposing (..)
+import API.Env as Env exposing (..)
 import Browser
 import Browser.Navigation as Nav
 import Home.Page as HomePage
@@ -10,27 +11,36 @@ import Json.Decode as Decode
 import NotFound.Page as NotFoundPage
 import Url.Parser as Parser exposing (..)
 import Url
+import Http
+import Account.Page as AccountPage
 
 
 
 ---- MODEL ----
 
-
 type Page
     = NotFoundPage NotFoundPage.Model
     | HomePage HomePage.Model
+    | AccountPage AccountPage.Model
+
 
 type alias Model =
     { key : Nav.Key
     , url : Url.Url
-    , auth : Keycloak.Token
+    , auth : Keycloak.Struct
     , page : Page
+    , env : Env.Model
     }
 
 
 init : Decode.Value -> Url.Url -> Nav.Key -> ( Model, Cmd Msg )
 init flags url key =
-    ( Model key url (Keycloak.validate flags) (HomePage HomePage.initText), Cmd.none )
+    case Keycloak.validate flags of
+        Ok auth ->
+            (Model key url auth (HomePage "Hello Foo") "", Cmd.map Env Env.send)
+    
+        Err err ->
+            (Model key url (Keycloak.Struct "" "") (NotFoundPage "Keycloak provide wrong value") "", Cmd.none)
 
 
 ---- UPDATE ----
@@ -39,8 +49,10 @@ init flags url key =
 type Msg
     = LinkClicked Browser.UrlRequest
     | UrlChanged Url.Url
+    | Env Env.Msg
     | NotFoundMsg NotFoundPage.Msg
     | HomeMsg HomePage.Msg
+    | AccountMsg AccountPage.Msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -70,6 +82,18 @@ update msg model =
                     navToNotFound model (NotFoundPage.update notFoundMsg notFoundModel)
                 _ ->
                     (model, Cmd.none)
+        AccountMsg accountMsg ->
+            case model.page of
+                AccountPage accountModel ->
+                    navToAccount model (AccountPage.update accountMsg accountModel)
+                _ -> 
+                   (model, Cmd.none) 
+        Env envMsg ->
+            case Env.read envMsg of
+                Ok value ->
+                    navigate model.url { model | env = value }
+                Err err ->
+                    navToNotFound model (NotFoundPage.init "Missing enviroment")  
 
 
 --- NAVIGATION ---
@@ -78,12 +102,15 @@ navToHome model (homeModel, homeMsg) =
     ({model | page = HomePage homeModel},
      Cmd.map HomeMsg homeMsg )
 
+navToAccount : Model -> (AccountPage.Model, Cmd AccountPage.Msg) -> (Model, Cmd Msg)
+navToAccount model (accountModel, accountMsg) =
+    ({model | page = AccountPage accountModel},
+     Cmd.map AccountMsg accountMsg )
+
 navToNotFound : Model -> (NotFoundPage.Model, Cmd NotFoundPage.Msg) -> (Model, Cmd Msg)
 navToNotFound model (notFoundModel, notFoundMsg) =
     ({model | page = NotFoundPage notFoundModel},
      Cmd.map NotFoundMsg notFoundMsg )
-
-
 
 
 navigate : Url.Url -> Model -> (Model, Cmd Msg)
@@ -91,15 +118,15 @@ navigate url model =
     let
         parser = 
             oneOf [
-                route top ( navToHome model HomePage.init)
+                route top ( navToHome model HomePage.init),
+                route (Parser.s "account") (navToAccount model (AccountPage.init model.env model.auth))
             ]
     in
     case Parser.parse parser url of
         Just page ->
             page
-        _ -> 
-            ({model | page = NotFoundPage "Can not find the page."},
-            Cmd.none)
+        Nothing -> 
+            navToNotFound model (NotFoundPage.init "Can not find the page")
 
 
 route : Parser a b -> a -> Parser (b -> c) c
@@ -142,10 +169,10 @@ content model =
         [ case model.page of
             HomePage homeModel ->
                 Html.map HomeMsg (HomePage.view homeModel)
-        
+            AccountPage accountModel ->    
+                Html.map AccountMsg (AccountPage.view accountModel)
             NotFoundPage notFoundModel ->
                 Html.map NotFoundMsg (NotFoundPage.view notFoundModel)
-                
         ]
 
 
@@ -163,6 +190,8 @@ view model =
     , body = body model
     }
 
+
+---- FUNCTIONS ----
 
 
 ---- PROGRAM ----
