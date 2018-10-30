@@ -1,4 +1,10 @@
-@import url('https://fonts.googleapis.com/css?family=Montserrat');
+$fa-font-path: "~font-awesome/fonts";
+
+@import url("https://fonts.googleapis.com/css?family=Montserrat");
+@import "~@fortawesome/fontawesome-free/css/all.css";
+@import "./Styles/variables";
+@import "./Styles/select";
+
 
 /* Selects the root element of the document:
    <html> in the case of HTML */
@@ -10,6 +16,5 @@ body {
   font-family: 'Montserrat', sans-serif;
   margin: 0;
   padding: 0;
+  background-color: $color-background;
 }
-
-
