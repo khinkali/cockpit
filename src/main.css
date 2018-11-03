@@ -28,7 +28,11 @@
     position: absolute;
     right: 0; }
     .select-box-small .dropper i {
-      transform: rotate(90deg); }
+      transform: rotate(90deg);
+      transition: transform 1s; }
+    .select-box-small .dropper .rotate-interaction {
+      transition: transform 1s;
+      transform: rotate(0deg); }
 
 .select-box-medium {
   width: 100%;
@@ -57,7 +61,11 @@
     position: absolute;
     right: 0; }
     .select-box-medium .dropper i {
-      transform: rotate(90deg); }
+      transform: rotate(90deg);
+      transition: transform 1s; }
+    .select-box-medium .dropper .rotate-interaction {
+      transition: transform 1s;
+      transform: rotate(0deg); }
 
 .select-box-large {
   width: 100%;
@@ -86,7 +94,11 @@
     position: absolute;
     right: 0; }
     .select-box-large .dropper i {
-      transform: rotate(90deg); }
+      transform: rotate(90deg);
+      transition: transform 1s; }
+    .select-box-large .dropper .rotate-interaction {
+      transition: transform 1s;
+      transform: rotate(0deg); }
 
 /* Selects the root element of the document:
    <html> in the case of HTML */

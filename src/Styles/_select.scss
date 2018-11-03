@@ -33,7 +33,15 @@
 
         i {
             transform: rotate(90deg);
+            transition: transform 1s;
         }
+
+        .rotate-interaction {
+            transition: transform 1s;
+            transform: rotate(0deg);
+        }
+
+
     }
 
 }
