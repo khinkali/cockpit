@@ -36,8 +36,10 @@ init env kc =
 type Msg
     = GotCurrencies (Result Http.Error (List String))
     | GotUserCoins (Result Http.Error Coins.UserCoins)
+    | GotCoinAdded (Result Http.Error ())
     | OnChangeCurr String
     | OnInputCoin String
+    | OnClickAdd
     | ValidNumbers
     | UnvalidNumbers
 
@@ -47,7 +49,7 @@ update msg model =
         GotCurrencies resp ->
             case resp of
                 Ok value ->
-                    ({model | currencies = ("" :: value) }, Http.send GotUserCoins (Coins.reqUserCoins model.env model.kc))
+                    ({model | currencies = ("" :: value) }, queryUserCoins model.env model.kc)
                 Err _ ->
                     ({model | error = "Can not query coins currency" }, Cmd.none)
         GotUserCoins resp ->
@@ -56,6 +58,12 @@ update msg model =
                     ({model | userCoins = value}, Cmd.none)
                 Err _ ->
                     (model, Cmd.none)
+        GotCoinAdded resp ->
+            case resp of
+                Ok value ->
+                    (model, queryUserCoins model.env model.kc)
+                Err _ ->
+                    ({model | error = "Error occurs during add new coin." }, Cmd.none)
         OnChangeCurr curr ->
             ({model | currency = curr, disableAdd = (setAddStatus model.coin curr)}, Cmd.none)
         ValidNumbers ->
@@ -64,6 +72,14 @@ update msg model =
             (model, Cmd.none)
         OnInputCoin value ->
             ({model | coin = value, disableAdd = (setAddStatus value model.currency)}, Cmd.none)
+        OnClickAdd ->
+            case (String.toFloat model.coin) of
+                Just value ->
+                    (model, sendAddCoin model.env model.kc (Coins.UserCoin value model.currency))
+                Nothing ->
+                    ({model | error = "Coin amount is not valid."}, Cmd.none)
+            
+
 
 
 --- SUBSCRIPTIONS ---
@@ -82,7 +98,7 @@ view model =
         Html.form [] [
             input [Attr.type_ "number", Attr.min "0", Events.onInput OnInputCoin , preventCharPress, Attr.value model.coin, Attr.step "0.001"] [],
             select [onChangeCurr] <| List.map (\x -> option [] [text x]) model.currencies,
-            button [ Attr.type_ "submit", disabled model.disableAdd ] [ text "Add" ]
+            button [ onClick OnClickAdd, disabled model.disableAdd ] [ text "Add" ]
         ],
         p [] [text model.error],
         userCoinsView model.userCoins
@@ -120,3 +136,12 @@ setAddStatus amt curr =
 
 onChangeCurr : Attribute Msg
 onChangeCurr = Events.on "change" ( Decode.andThen (\value -> Decode.succeed <| OnChangeCurr value) Events.targetValue   )
+
+
+sendAddCoin : Env.Model -> Keycloak.Struct -> Coins.UserCoin -> Cmd Msg
+sendAddCoin env kc coin = 
+    Http.send GotCoinAdded (Coins.reqAddCoin env kc coin)
+
+queryUserCoins :  Env.Model -> Keycloak.Struct -> Cmd Msg
+queryUserCoins env kc =
+    Http.send GotUserCoins (Coins.reqUserCoins env kc)

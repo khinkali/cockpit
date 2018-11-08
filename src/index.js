@@ -6,7 +6,6 @@ import Keycloak from "keycloak-js";
 const oKeycloak = Keycloak("config/keycloak.json");
 
 const entryElm = bAuth => {
-  
   if (bAuth) {
     Elm.Main.init({
       node: document.getElementById("root"),
