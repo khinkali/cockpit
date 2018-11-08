@@ -1,9 +1,10 @@
-module API.Coins exposing (reqCoins, reqUserCoins, UserCoin, UserCoins)
+module API.Coins exposing (reqCoins, reqUserCoins, reqAddCoin, UserCoin, UserCoins)
 
 import API.Keycloak as Keycloak exposing (..)
 import API.Env as Env exposing (..)
 import Http exposing (..)
 import Json.Decode as Decode
+import Json.Encode as Encode
 
 type alias UserCoin =
     {
@@ -33,6 +34,7 @@ buildUrlCurrs : Env.Model -> String
 buildUrlCurrs env = 
     env ++ "/sink/resources/coins"
 
+-- Get all user coins
 reqUserCoins :  Env.Model -> Keycloak.Struct -> Request UserCoins
 reqUserCoins env kc = 
     Http.request
@@ -64,3 +66,30 @@ userCoinDecoder =
 
 userCoinsDecoder : Decode.Decoder UserCoins
 userCoinsDecoder = Decode.list userCoinDecoder
+
+
+-- Add new amount
+reqAddCoin : Env.Model -> Keycloak.Struct -> UserCoin -> Request ()
+reqAddCoin env kc coin = 
+     Http.request
+        { method = "POST"
+        , headers = [reqAuthHeader kc]
+        , url = buildUrlAddCoin env kc
+        , body = encodeNewCoinToJson coin
+        , expect = expectStringResponse (\_ -> Ok ())
+        , timeout = Nothing
+        , withCredentials = True
+        }
+
+buildUrlAddCoin : Env.Model -> Keycloak.Struct -> String
+buildUrlAddCoin env kc = 
+    env ++ "/sink/resources/orders"
+
+encodeNewCoinToJson : UserCoin -> Body
+encodeNewCoinToJson coin =
+    let encode = 
+            Encode.object
+                [ ( "amount", Encode.float coin.amount )
+                , ( "coinSymbol", Encode.string coin.curr )
+            ]
+    in jsonBody encode
