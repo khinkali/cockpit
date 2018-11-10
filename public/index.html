@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -11,12 +12,23 @@
     -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+
+    <script type="text/javascript" src="./keycloak/index.min.js"></script>
+    
+    <script type="text/javascript">
+        const oKeycloak = Keycloak("config/keycloak.json");
+        oKeycloak.init({onLoad: 'login-required'});
+    </script>
+
+
     <title>Elm App</title>
 </head>
+
 <body>
     <noscript>
         You need to enable JavaScript to run this app.
     </noscript>
     <div id="root"></div>
 </body>
+
 </html>

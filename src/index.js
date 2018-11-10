@@ -1,20 +1,6 @@
 import "./main.css";
 import { Elm } from "./Main.elm";
 import registerServiceWorker from "./registerServiceWorker";
-import Keycloak from "keycloak-js";
-
-const oKeycloak = Keycloak("config/keycloak.json");
-
-const entryElm = bAuth => {
-  if (bAuth) {
-    Elm.Main.init({
-      node: document.getElementById("root"),
-      flags: createKcRealm(oKeycloak)
-    });
-  } else {
-    console.log("Sorry, you are not authenticated.");
-  }
-};
 
 const createKcRealm = oKc => {
   return {
@@ -23,9 +9,15 @@ const createKcRealm = oKc => {
   };
 }; 
 
-oKeycloak
-  .init({ onLoad: "login-required" })
-  .success(entryElm)
-  .error(console.log);
+oKeycloak.onAuthSuccess = () => {
+  Elm.Main.init({
+    node: document.getElementById("root"),
+    flags: createKcRealm(oKeycloak)
+  });
+}
+
+oKeycloak.onAuthError = () => {
+  console.log("Can not be authenticated.");
+}
 
 registerServiceWorker();
