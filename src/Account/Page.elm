@@ -21,13 +21,14 @@ type alias Model =
         currency : String,
         disableAdd: Bool,
         userCoins: Coins.UserCoins,
+        resetOption: Bool,
         error : String
     }
 
 
 init : Env.Model -> Keycloak.Struct -> ( Model, Cmd Msg )
 init env kc =
-    ( Model env kc [] "" "" True [] "" 
+    ( Model env kc [] "" "" True [] True "" 
     , Http.send GotCurrencies (Coins.reqCoins env kc)
     )
 
@@ -49,7 +50,7 @@ update msg model =
         GotCurrencies resp ->
             case resp of
                 Ok value ->
-                    ({model | currencies = ("" :: value) }, queryUserCoins model.env model.kc)
+                    ({model | currencies = value}, queryUserCoins model.env model.kc)
                 Err _ ->
                     ({model | error = "Can not query coins currency" }, Cmd.none)
         GotUserCoins resp ->
@@ -61,11 +62,11 @@ update msg model =
         GotCoinAdded resp ->
             case resp of
                 Ok value ->
-                    (model, queryUserCoins model.env model.kc)
+                    (resetValues model, queryUserCoins model.env model.kc)
                 Err _ ->
                     ({model | error = "Error occurs during add new coin." }, Cmd.none)
         OnChangeCurr curr ->
-            ({model | currency = curr, disableAdd = (setAddStatus model.coin curr)}, Cmd.none)
+            ({model | currency = curr, disableAdd = (setAddStatus model.coin curr), resetOption = False}, Cmd.none)
         ValidNumbers ->
             ({model | error = "" }, Cmd.none)
         UnvalidNumbers ->
@@ -79,8 +80,6 @@ update msg model =
                 Nothing ->
                     ({model | error = "Coin amount is not valid."}, Cmd.none)
             
-
-
 
 --- SUBSCRIPTIONS ---
 
@@ -96,7 +95,7 @@ view : Model -> Html Msg
 view model =
     div [] [
         input [Attr.type_ "number", Attr.min "0", Events.onInput OnInputCoin , preventCharPress, Attr.value model.coin, Attr.step "0.001"] [],
-        select [onChangeCurr] <| List.map (\x -> option [] [text x]) model.currencies,
+        select [onChangeCurr]  <| buildCurrencyOption model.resetOption model.currencies,
         button [ onClick OnClickAdd, disabled model.disableAdd ] [ text "Add" ],
         p [] [text model.error],
         userCoinsView model.userCoins
@@ -143,3 +142,16 @@ sendAddCoin env kc coin =
 queryUserCoins :  Env.Model -> Keycloak.Struct -> Cmd Msg
 queryUserCoins env kc =
     Http.send GotUserCoins (Coins.reqUserCoins env kc)
+
+
+resetValues : Model -> Model
+resetValues model = 
+    {model| coin = "", currency = "", disableAdd = True, resetOption = True}
+
+buildCurrencyOption : Bool -> List String -> List (Html Msg)
+buildCurrencyOption reset list = 
+    let tail =
+            List.map (\x -> option [Attr.value x] [text x]) list
+        head = 
+            option [Attr.value "", if reset then (Attr.selected True) else (Attr.selected False), Attr.disabled True, Attr.hidden True] [text ""]
+    in head :: tail 
