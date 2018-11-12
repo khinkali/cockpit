@@ -12,6 +12,8 @@ import Json.Decode as Decode exposing (..)
 
 ---- MODEL ----
 
+type alias NewCoin = { coin: String, currency: String }
+
 type alias Model =
     { 
         env : Env.Model,
@@ -21,14 +23,13 @@ type alias Model =
         currency : String,
         disableAdd: Bool,
         userCoins: Coins.UserCoins,
-        resetOption: Bool,
         error : String
     }
 
 
 init : Env.Model -> Keycloak.Struct -> ( Model, Cmd Msg )
 init env kc =
-    ( Model env kc [] "" "" True [] True "" 
+    ( Model env kc [] "" "" True [] "" 
     , Http.send GotCurrencies (Coins.reqCoins env kc)
     )
 
@@ -38,7 +39,7 @@ type Msg
     = GotCurrencies (Result Http.Error (List String))
     | GotUserCoins (Result Http.Error Coins.UserCoins)
     | GotCoinAdded (Result Http.Error ())
-    | OnChangeCurr String
+    | OnInputSelect String
     | OnInputCoin String
     | OnClickAdd
     | ValidNumbers
@@ -65,12 +66,8 @@ update msg model =
                     (resetValues model, queryUserCoins model.env model.kc)
                 Err _ ->
                     ({model | error = "Error occurs during add new coin." }, Cmd.none)
-        OnChangeCurr curr ->
-            ({model | currency = curr, disableAdd = (setAddStatus model.coin curr), resetOption = False}, Cmd.none)
-        ValidNumbers ->
-            ({model | error = "" }, Cmd.none)
-        UnvalidNumbers ->
-            (model, Cmd.none)
+        OnInputSelect curr ->
+            ({model | currency = curr, disableAdd = (setAddStatus model.coin curr)}, Cmd.none)
         OnInputCoin value ->
             ({model | coin = value, disableAdd = (setAddStatus value model.currency)}, Cmd.none)
         OnClickAdd ->
@@ -79,6 +76,10 @@ update msg model =
                     (model, sendAddCoin model.env model.kc (Coins.UserCoin value model.currency))
                 Nothing ->
                     ({model | error = "Coin amount is not valid."}, Cmd.none)
+        ValidNumbers ->
+            ({model | error = "" }, Cmd.none)
+        UnvalidNumbers ->
+            (model, Cmd.none)
             
 
 --- SUBSCRIPTIONS ---
@@ -95,7 +96,7 @@ view : Model -> Html Msg
 view model =
     div [] [
         input [Attr.type_ "number", Attr.min "0", Events.onInput OnInputCoin , preventCharPress, Attr.value model.coin, Attr.step "0.001"] [],
-        select [onChangeCurr]  <| buildCurrencyOption model.resetOption model.currencies,
+        select [Attr.value model.currency, Events.onInput OnInputSelect]  <| buildCurrencyOption model.currencies,
         button [ onClick OnClickAdd, disabled model.disableAdd ] [ text "Add" ],
         p [] [text model.error],
         userCoinsView model.userCoins
@@ -131,10 +132,6 @@ setAddStatus amt curr =
     else 
       True
 
-onChangeCurr : Attribute Msg
-onChangeCurr = Events.on "change" ( Decode.andThen (\value -> Decode.succeed <| OnChangeCurr value) Events.targetValue   )
-
-
 sendAddCoin : Env.Model -> Keycloak.Struct -> Coins.UserCoin -> Cmd Msg
 sendAddCoin env kc coin = 
     Http.send GotCoinAdded (Coins.reqAddCoin env kc coin)
@@ -146,12 +143,12 @@ queryUserCoins env kc =
 
 resetValues : Model -> Model
 resetValues model = 
-    {model| coin = "", currency = "", disableAdd = True, resetOption = True}
+    {model| coin = "", currency = "", disableAdd = True}
 
-buildCurrencyOption : Bool -> List String -> List (Html Msg)
-buildCurrencyOption reset list = 
+buildCurrencyOption : List String -> List (Html Msg)
+buildCurrencyOption list = 
     let tail =
             List.map (\x -> option [Attr.value x] [text x]) list
         head = 
-            option [Attr.value "", if reset then (Attr.selected True) else (Attr.selected False), Attr.disabled True, Attr.hidden True] [text ""]
+            option [Attr.value "", Attr.selected True, Attr.disabled True] [text ""]
     in head :: tail 
