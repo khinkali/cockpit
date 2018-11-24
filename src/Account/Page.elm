@@ -39,7 +39,7 @@ type Msg
     = GotCurrencies (Result Http.Error (List String))
     | GotUserCoins (Result Http.Error Coins.UserCoins)
     | GotCoinAdded (Result Http.Error ())
-    | OnInputSelect String
+    | OnChangedSelect String
     | OnInputCoin String
     | OnClickAdd
     | ValidNumbers
@@ -66,7 +66,7 @@ update msg model =
                     (resetValues model, queryUserCoins model.env model.kc)
                 Err _ ->
                     ({model | error = "Error occurs during add new coin." }, Cmd.none)
-        OnInputSelect curr ->
+        OnChangedSelect curr ->
             ({model | currency = curr, disableAdd = (setAddStatus model.coin curr)}, Cmd.none)
         OnInputCoin value ->
             ({model | coin = value, disableAdd = (setAddStatus value model.currency)}, Cmd.none)
@@ -95,9 +95,9 @@ subscriptions model =
 view : Model -> Html Msg
 view model =
     div [] [
-        input [Attr.type_ "number", Attr.min "0", Events.onInput OnInputCoin , preventCharPress, Attr.value model.coin, Attr.step "0.001"] [],
-        select [Attr.value model.currency, Events.onInput OnInputSelect]  <| buildCurrencyOption model.currencies,
-        button [ onClick OnClickAdd, disabled model.disableAdd ] [ text "Add" ],
+        input [id "inputAmt", Attr.type_ "number", Attr.min "0", Events.onInput OnInputCoin , preventCharPress, Attr.value model.coin, Attr.step "0.001"] [],
+        select [id "selectCurr", Attr.value model.currency, onChangeCurrency]  <| buildCurrencyOption model.currencies,
+        button [id "btnAdd", onClick OnClickAdd, disabled model.disableAdd ] [ text "Add" ],
         p [] [text model.error],
         userCoinsView model.userCoins
     ]
@@ -106,7 +106,7 @@ userCoinsView : Coins.UserCoins -> Html Msg
 userCoinsView userCoins = 
     let header = tr [] [th [] [text "Amount"],th [] [text "Currency"]]
         data = List.map (\x -> tr [] [td [] [text (String.fromFloat x.amount)], td [] [text x.curr]]) userCoins
-    in table [] (header :: data)
+    in table [ id "tableCoins" ] (header :: data)
 
 
 ---- FUNCTIONS ----
@@ -152,3 +152,6 @@ buildCurrencyOption list =
         head = 
             option [Attr.value "", Attr.selected True, Attr.disabled True] [text ""]
     in head :: tail 
+
+onChangeCurrency : Attribute Msg
+onChangeCurrency = Events.on "change" (Decode.map (\value -> OnChangedSelect value) Events.targetValue)

@@ -1,7 +1,7 @@
 const users = {
     admin: {
         user: "todo",
-        password: "todo"
+        password: "tetiana23"
     },
     wrongCredentials: {
         user: "wrong",

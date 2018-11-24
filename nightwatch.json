@@ -1,32 +1,32 @@
 {
   "src_folders": [
-    "UIT"
+    "UIT/tests"
   ],
-  "output_folder": "reports",
-  "custom_commands_path": "./nightwatch-functions",
+  "output_folder": "UIT/reports",
+  "custom_commands_path": "UIT/functions",
   "custom_assertions_path": "",
   "page_objects_path": "",
-  "globals_path": "./globals.js",
+  "globals_path": "UIT/globals.js",
   "selenium": {
     "start_process": true,
-    "server_path": "./selenium-server-standalone-3.7.1.jar",
-    "log_path": "",
+    "server_path": "UIT/selenium-server-standalone-3.7.1.jar",
+    "log_path": "UIT/logs",
     "port": 4444,
     "cli_args": {
-      "webdriver.chrome.driver": "./chromedriver",
-      "webdriver.gecko.driver": "./geckodriver",
+      "webdriver.chrome.driver": "UIT/drivers/chromedriver",
+      "webdriver.gecko.driver": "UIT/drivers/geckodriver",
       "webdriver.edge.driver": ""
     }
   },
   "test_settings": {
     "default": {
-      "launch_url": "http://localhost:9000",
+      "launch_url": "http://localhost:3000",
       "selenium_port": 4444,
       "selenium_host": "localhost",
       "silent": true,
       "screenshots": {
         "enabled": false,
-        "path": ""
+        "path": "UIT/screenshots"
       },
       "desiredCapabilities": {
         "browserName": "chrome"
@@ -39,7 +39,7 @@
       "silent": true,
       "screenshots": {
         "enabled": false,
-        "path": ""
+        "path": "UIT/screenshots"
       },
       "desiredCapabilities": {
         "browserName": "chrome",
