@@ -3,9 +3,9 @@
     "UIT/tests"
   ],
   "output_folder": "UIT/reports",
-  "custom_commands_path": "UIT/functions",
+  "custom_commands_path": "UIT/commands",
   "custom_assertions_path": "",
-  "page_objects_path": "",
+  "page_objects_path": "UIT/pages",
   "globals_path": "UIT/globals.js",
   "selenium": {
     "start_process": true,

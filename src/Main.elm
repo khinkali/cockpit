@@ -158,8 +158,8 @@ createLink aPath aText =
 navigation : Html Msg
 navigation =
     ul []
-        [ li [ id "linkHome" ] [ createLink "" "home" ]
-        , li [ id "linkAccount" ] [ createLink "account" "account" ]
+        [ li [] [ createLink "" "home" ]
+        , li [] [ createLink "account" "account" ]
         ]
 
 

@@ -1,26 +1,24 @@
 module.exports = {
+  "Add coin": function(client) {
+    const user = client.globals.users.admin.user;
+    const password = client.globals.users.admin.password;
+    const kc = client.page.login();
 
-    "Add coin": function (browser) {
+    client.url(client.launchUrl);
+    kc.login(user, password);
 
-        const user = browser.globals.users.admin.user;
-        const password = browser.globals.users.admin.password;
+    client
+      .click("a[href='/account']")
+      .waitForElementVisible("input[name=newamount]", 2000)
+      .setValue("input[name=newamount]", 33.33)
+      .waitForElementVisible("select[name=newcurrency]", 2000)
+      .click("select[name=newcurrency] option[value='ETH']");
 
+    client.expect.element("button[name=addnewcoin]").to.be.enabled;
 
-        browser
-            .url(browser.launchUrl)
-            .login(user, password)
-            .waitForElementVisible("#linkAccount", 2000)
-            .click("#linkAccount > a")
-            .waitForElementVisible("#inputAmt", 2000)
-            .setValue("#inputAmt", 33.333)
-            .waitForElementVisible("#selectCurr", 2000)
-            .click("select[id='selectCurr'] option[value='BTC']")
-            .getAttribute("#btnAdd", "disable", (result) => {
-                browser.expect.element('#btnAdd').to.be.enabled;
-            })
-            .end();
+    client.expect.element("#coins-view").
+    
+    client.end();
 
-    }
-
-
-}
+  }
+};
