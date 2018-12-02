@@ -95,18 +95,23 @@ subscriptions model =
 view : Model -> Html Msg
 view model =
     div [] [
-        input [name "newamount", Attr.type_ "number", Attr.min "0", Events.onInput OnInputCoin , preventCharPress, Attr.value model.coin, Attr.step "0.001"] [],
-        select [name "newcurrency", Attr.value model.currency, onChangeCurrency]  <| buildCurrencyOption model.currencies,
-        button [name "addnewcoin", onClick OnClickAdd, disabled model.disableAdd ] [ text "Add" ],
+        addCoinSection model,
         p [] [text model.error],
         coinsView model.userCoins
     ]
 
+addCoinSection : Model -> Html Msg
+addCoinSection model = section [id "add-new-coin"] [
+    input [name "newamount", Attr.type_ "number", Attr.min "0", Events.onInput OnInputCoin , preventCharPress, Attr.value model.coin, Attr.step "0.001"] [],
+    select [name "newcurrency", Attr.value model.currency, onChangeCurrency]  <| buildCurrencyOption model.currencies,
+    button [name "addnewcoin", onClick OnClickAdd, disabled model.disableAdd ] [ text "Add" ]
+  ]
+
 coinsView : Coins.UserCoins -> Html Msg
 coinsView userCoins = 
-    let header = tr [] [th [] [text "Amount"],th [] [text "Currency"]]
-        data = List.map (\x -> tr [] [td [] [text (String.fromFloat x.amount)], td [] [text x.curr]]) userCoins
-    in table [ id "coins-view" ] (header :: data)
+    let header = thead [] [ tr [] [th [] [text "Amount"],th [] [text "Currency"]] ]
+        data = tbody [] (List.map (\x -> tr [] [td [] [text (String.fromFloat x.amount)], td [] [text x.curr]]) userCoins)
+    in section [id "coin-overview"] [ table [id "coins-table" ] [header, data]]
 
 
 ---- FUNCTIONS ----

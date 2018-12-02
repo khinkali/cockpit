@@ -4,8 +4,8 @@
   ],
   "output_folder": "UIT/reports",
   "custom_commands_path": "UIT/commands",
-  "custom_assertions_path": "",
-  "page_objects_path": "UIT/pages",
+  "custom_assertions_path": "UIT/assertion",
+  "page_objects_path": "UIT/pageobject",
   "globals_path": "UIT/globals.js",
   "selenium": {
     "start_process": true,
