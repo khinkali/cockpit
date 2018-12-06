@@ -13,6 +13,7 @@ import Url.Parser as Parser exposing (..)
 import Url
 import Http
 import Account.Page as AccountPage
+import Menu.Page as MenuPage
 
 
 
@@ -53,6 +54,7 @@ type Msg
     | NotFoundMsg NotFoundPage.Msg
     | HomeMsg HomePage.Msg
     | AccountMsg AccountPage.Msg
+    | MenuMsg MenuPage.Msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -93,7 +95,9 @@ update msg model =
                 Ok value ->
                     navigate model.url { model | env = value }
                 Err err ->
-                    navToNotFound model (NotFoundPage.init "Missing enviroment")  
+                    navToNotFound model (NotFoundPage.init "Missing enviroment")
+        MenuMsg menuMsg ->
+            (model, Cmd.none)  
 
 
 --- NAVIGATION ---
@@ -144,28 +148,6 @@ subscriptions _ =
 
 ---- VIEW ----
 
-
-info : Html Msg
-info =
-    header [] [ text "Header" ]
-
-
-createLink : String -> String -> Html Msg
-createLink aPath aText =
-    a [ href ("/" ++ aPath) ] [ text aText ]
-
-
-navigation : Html Msg
-navigation =
-    nav [ id "navigation"] [
-        ul []
-            [ li [] [ createLink "" "home" ]
-            , li [] [ createLink "account" "account" ]
-            ]
-    ]
-
-
-
 content : Model -> Html Msg
 content model =
     main_ []
@@ -181,9 +163,7 @@ content model =
 
 body : Model -> List (Html Msg)
 body model =
-    [ info
-    , navigation
-    , content model
+    [ Html.map MenuMsg MenuPage.content
     ]
 
 

@@ -4,14 +4,15 @@ module.exports = {
     const password = client.globals.users.admin.password;
     const auth = client.page.authentication();
     const newCoin = client.page.newCoin();
-    const link = client.page.link();
+    //const link = client.page.link();
     const coinTable = client.page.coinTable();
+    const menuNavi = client.page.menu();
 
     client.url(client.launchUrl);
 
     auth.login(user, password);
     client.pause(500);
-    link.navigate("account");
+    menuNavi.expect.section("@menu").to.be.visible;
     client.pause(500);
 
     newCoin.expect.section("@addNewCoin").to.be.visible;
@@ -19,7 +20,7 @@ module.exports = {
 
     coinTable.readValues(prevValues => {
       const addAmt = 400;
-      const addCurr = "ETH";
+      const addCurr = "BTC";
       const prevCoin = prevValues.filter(c => c.currency === addCurr)[0];
 
       const addNewCoin = newCoin.section.addNewCoin;
