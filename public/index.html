@@ -13,11 +13,11 @@
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
 
-    <script type="text/javascript" src="./keycloak/index.min.js"></script>
+    <script type="text/javascript" src="./keycloak.js"></script>
     
     <script type="text/javascript">
         const oKeycloak = Keycloak("config/keycloak.json");
-        oKeycloak.init({onLoad: 'login-required'});
+        oKeycloak.init({onLoad: "login-required", checkLoginIframe: false});
     </script>
 
 

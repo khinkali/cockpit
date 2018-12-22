@@ -1,92 +1,83 @@
-module Account.Page exposing (Msg(..), update, view, Model, init)
+module Account.Page exposing (Model, Msg(..), init, update, view)
 
-import API.Keycloak as Keycloak exposing (..)
-import API.Env as Env exposing (..)
-import API.Coins as Coins exposing (..)
+import Account.Coins as Coins
+import Error.Page as Error
 import Html as Html exposing (..)
 import Html.Attributes as Attr exposing (..)
-import Http exposing (..)
 import Html.Events as Events exposing (..)
+import Http exposing (..)
 import Json.Decode as Decode exposing (..)
+import Security.Data as Security
+
 
 
 ---- MODEL ----
 
-type alias NewCoin = { coin: String, currency: String }
+
+type alias NewCoin =
+    { amount : String, currency : String }
+
 
 type alias Model =
-    { 
-        env : Env.Model,
-        kc : Keycloak.Struct,
-        currencies : List String,
-        coin : String,
-        currency : String,
-        disableAdd: Bool,
-        userCoins: Coins.UserCoins,
-        error : String
+    { sec : Security.Model
+    , newCoin : NewCoin
+    , coins : Coins.Model
+    , disableAdd : Bool
+    , error : Error.Status
     }
 
 
-init : Env.Model -> Keycloak.Struct -> ( Model, Cmd Msg )
-init env kc =
-    ( Model env kc [] "" "" True [] "" 
-    , Http.send GotCurrencies (Coins.reqCoins env kc)
+initNewCoin : NewCoin
+initNewCoin =
+    NewCoin "" ""
+
+
+init : Security.Model -> ( Model, Cmd Msg )
+init sec =
+    ( Model Security.init initNewCoin Coins.init True Error.Success
+    , Cmd.map OnCoins (Coins.reqCoinCurrencies sec)
     )
+
+
 
 ---- UPDATE ----
 
+
 type Msg
-    = GotCurrencies (Result Http.Error (List String))
-    | GotUserCoins (Result Http.Error Coins.UserCoins)
-    | GotCoinAdded (Result Http.Error ())
-    | OnChangedSelect String
-    | OnInputCoin String
+    = OnCoins Coins.Msg
+    | OnCurrenySelect String
+    | OnCoinAmt String
     | OnClickAdd
-    | ValidNumbers
-    | UnvalidNumbers
+    | OnNotNumber
+
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        GotCurrencies resp ->
-            case resp of
-                Ok value ->
-                    ({model | currencies = value}, queryUserCoins model.env model.kc)
-                Err _ ->
-                    ({model | error = "Can not query coins currency" }, Cmd.none)
-        GotUserCoins resp ->
-            case resp of
-                Ok value ->
-                    ({model | userCoins = value}, Cmd.none)
-                Err _ ->
-                    (model, Cmd.none)
-        GotCoinAdded resp ->
-            case resp of
-                Ok value ->
-                    (resetValues model, queryUserCoins model.env model.kc)
-                Err _ ->
-                    ({model | error = "Error occurs during add new coin." }, Cmd.none)
-        OnChangedSelect curr ->
-            ({model | currency = curr, disableAdd = (setAddStatus model.coin curr)}, Cmd.none)
-        OnInputCoin value ->
-            ({model | coin = value, disableAdd = (setAddStatus value model.currency)}, Cmd.none)
+        OnCoins coinsMsg ->
+            handleUpdateCoins model (Coins.update coinsMsg model.coins)
+
+        OnCurrenySelect selectedCurrency ->
+            ( setAddStatus (setNewCoinCurrency (NewCoin "" selectedCurrency) model), Cmd.none )
+
+        OnCoinAmt value ->
+            ( setAddStatus (setNewCoinCurrency (NewCoin value "") model), Cmd.none )
+
         OnClickAdd ->
-            case (String.toFloat model.coin) of
-                Just value ->
-                    (model, sendAddCoin model.env model.kc (Coins.UserCoin value model.currency))
-                Nothing ->
-                    ({model | error = "Coin amount is not valid."}, Cmd.none)
-        ValidNumbers ->
-            ({model | error = "" }, Cmd.none)
-        UnvalidNumbers ->
-            (model, Cmd.none)
-            
+            addNewCoin model.newCoin model
+
+        OnNotNumber ->
+            ( model, Cmd.none )
+
+
 
 --- SUBSCRIPTIONS ---
 
+
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Sub.none 
+    Sub.none
+
 
 
 ---- VIEW ----
@@ -94,69 +85,114 @@ subscriptions model =
 
 view : Model -> Html Msg
 view model =
-    div [] [
-        addCoinSection model,
-        p [] [text model.error],
-        coinsView model.userCoins
-    ]
+    div []
+        [ addCoinSection model
+        , coinsView model.coins.account
+        ]
+
 
 addCoinSection : Model -> Html Msg
-addCoinSection model = section [id "add-new-coin"] [
-    input [name "newamount", Attr.type_ "number", Attr.min "0", Events.onInput OnInputCoin , preventCharPress, Attr.value model.coin, Attr.step "0.001"] [],
-    select [name "newcurrency", Attr.value model.currency, onChangeCurrency]  <| buildCurrencyOption model.currencies,
-    button [name "addnewcoin", onClick OnClickAdd, disabled model.disableAdd ] [ text "Add" ]
-  ]
+addCoinSection model =
+    section [ id "add-new-coin" ]
+        [ input [ name "newamount", Attr.type_ "number", Attr.min "0", Events.onInput OnCoinAmt, preventCharPress, Attr.value model.newCoin.amount, Attr.step "0.001" ] []
+        , select [ name "newcurrency", Attr.value model.newCoin.currency, onCurrencyChange ] <| buildCurrencyOption model.coins.currencies
+        , button [ name "addnewcoin", onClick OnClickAdd, disabled model.disableAdd ] [ text "Add" ]
+        ]
 
-coinsView : Coins.UserCoins -> Html Msg
-coinsView userCoins = 
-    let header = thead [] [ tr [] [th [] [text "Amount"],th [] [text "Currency"]] ]
-        data = tbody [] (List.map (\x -> tr [] [td [] [text (String.fromFloat x.amount)], td [] [text x.curr]]) userCoins)
-    in section [id "coin-overview"] [ table [id "coins-table" ] [header, data]]
+
+coinsView : Coins.Account -> Html Msg
+coinsView account =
+    let
+        header =
+            thead [] [ tr [] [ th [] [ text "Amount" ], th [] [ text "Currency" ] ] ]
+
+        row =
+            List.map coinsRow
+
+        data =
+            tbody [] (row account)
+    in
+    section [ id "coin-overview" ] [ table [ id "coins-table" ] [ header, data ] ]
+
+
+coinsRow : Coins.Coin -> Html Msg
+coinsRow coin =
+    tr [] [ td [] [ text (String.fromFloat coin.amount) ], td [] [ text coin.currency ] ]
+
 
 
 ---- FUNCTIONS ----
-
 -- Prevent the letter e press
+
+
 preventCharPress : Attribute Msg
 preventCharPress =
     preventDefaultOn "keydown"
-    (Decode.field "keyCode" Decode.int
-        |> Decode.andThen
-        (\key ->
-            if key == 69 || key == 189 || key == 109 then
-                Decode.succeed (UnvalidNumbers, True)
-            else
-                Decode.succeed (ValidNumbers, False)
+        (Decode.field "keyCode" Decode.int
+            |> Decode.andThen
+                (\key ->
+                    if key == 69 || key == 189 || key == 109 then
+                        Decode.succeed ( OnNotNumber, True )
+
+                    else
+                        Decode.succeed ( OnNotNumber, False )
+                )
         )
-    )
 
-setAddStatus : String -> String -> Bool
-setAddStatus amt curr = 
-    if (String.length amt > 0) && (String.length curr > 0) then
-      False
-    else 
-      True
 
-sendAddCoin : Env.Model -> Keycloak.Struct -> Coins.UserCoin -> Cmd Msg
-sendAddCoin env kc coin = 
-    Http.send GotCoinAdded (Coins.reqAddCoin env kc coin)
+setNewCoinCurrency : NewCoin -> Model -> Model
+setNewCoinCurrency newCoin model =
+    if String.length newCoin.amount > 0 then
+        { model | newCoin = NewCoin newCoin.amount "" }
 
-queryUserCoins :  Env.Model -> Keycloak.Struct -> Cmd Msg
-queryUserCoins env kc =
-    Http.send GotUserCoins (Coins.reqUserCoins env kc)
+    else if String.length newCoin.currency > 0 then
+        { model | newCoin = NewCoin "" newCoin.currency }
+
+    else
+        model
+
+
+setAddStatus : Model -> Model
+setAddStatus model =
+    if (String.length model.newCoin.amount > 0) && (String.length model.newCoin.currency > 0) then
+        { model | disableAdd = False }
+
+    else
+        { model | disableAdd = True }
 
 
 resetValues : Model -> Model
-resetValues model = 
-    {model| coin = "", currency = "", disableAdd = True}
+resetValues model =
+    { model | newCoin = initNewCoin, disableAdd = True }
+
 
 buildCurrencyOption : List String -> List (Html Msg)
-buildCurrencyOption list = 
-    let tail =
-            List.map (\x -> option [Attr.value x] [text x]) list
-        head = 
-            option [Attr.value "", Attr.selected True, Attr.disabled True] [text ""]
-    in head :: tail 
+buildCurrencyOption list =
+    let
+        tail =
+            List.map (\x -> option [ Attr.value x ] [ text x ]) list
 
-onChangeCurrency : Attribute Msg
-onChangeCurrency = Events.on "change" (Decode.map (\value -> OnChangedSelect value) Events.targetValue)
+        head =
+            option [ Attr.value "", Attr.selected True, Attr.disabled True ] [ text "" ]
+    in
+    head :: tail
+
+
+onCurrencyChange : Attribute Msg
+onCurrencyChange =
+    Events.on "change" (Decode.map (\value -> OnCurrenySelect value) Events.targetValue)
+
+
+handleUpdateCoins : Model -> ( Coins.Model, Cmd Coins.Msg ) -> ( Model, Cmd Msg )
+handleUpdateCoins model ( cModel, cMsg ) =
+    ( { model | coins = cModel }, Cmd.map OnCoins cMsg )
+
+
+addNewCoin : NewCoin -> Model -> ( Model, Cmd Msg )
+addNewCoin newCoin model =
+    case String.toFloat newCoin.amount of
+        Just value ->
+            ( model, Cmd.map OnCoins <| Coins.reqAddCoin model.sec <| Coins.Coin value newCoin.currency )
+
+        Nothing ->
+            ( { model | error = Error.Failed "Add not new coin." }, Cmd.none )

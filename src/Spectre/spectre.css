@@ -1,4 +1,3 @@
-@import url(~@fortawesome/fontawesome-free/css/all.css);
 /*! Spectre.css v0.5.7 | MIT License | github.com/picturepan2/spectre */
 /* Manually forked from Normalize.css */
 /* normalize.css v5.0.0 | MIT License | github.com/necolas/normalize.css */
@@ -2656,15 +2655,3 @@ a.text-error:visited {
   hyphens: auto;
   word-break: break-word;
   word-wrap: break-word; }
-
-#menu-navi div {
-  height: 100px;
-  align-items: center; }
-
-#menu-navi #logo {
-  height: 50px;
-  width: 50px; }
-
-body {
-  height: 100%;
-  width: 100%; }

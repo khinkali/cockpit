@@ -1,66 +1,67 @@
 module Main exposing (Model, Msg(..), init, main, update, view)
 
-import API.Keycloak as Keycloak exposing (..)
-import API.Env as Env exposing (..)
+import Account.Page as AccountPage
 import Browser
 import Browser.Navigation as Nav
-import Home.Page as HomePage
+import Error.Page as Error
+import Home.Page as Home
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Json.Decode as Decode
-import NotFound.Page as NotFoundPage
-import Url.Parser as Parser exposing (..)
-import Url
 import Http
-import Account.Page as AccountPage
-import Menu.Page as MenuPage
+import Json.Decode as Decode
+import Menu.Page as Menu
+import NotFound.Page as NotFound
+import Security.Data as Security
+import Security.Keycloak as Keycloak
+import Url
+import Url.Parser as Parser exposing (..)
 
 
 
 ---- MODEL ----
 
+
 type Page
-    = NotFoundPage NotFoundPage.Model
-    | HomePage HomePage.Model
+    = NotFoundPage NotFound.Model
+    | HomePage Home.Model
     | AccountPage AccountPage.Model
 
 
 type alias Model =
-    { key : Nav.Key
-    , url : Url.Url
-    , auth : Keycloak.Struct
+    { url : Url.Url
+    , key : Nav.Key
+    , sec : Security.Model
     , page : Page
-    , env : Env.Model
     }
 
 
 init : Decode.Value -> Url.Url -> Nav.Key -> ( Model, Cmd Msg )
 init flags url key =
-    case Keycloak.validate flags of
-        Ok auth ->
-            (Model key url auth (HomePage "Hello Foo") "", Cmd.map Env Env.send)
-    
-        Err err ->
-            (Model key url (Keycloak.Struct "" "") (NotFoundPage "Keycloak provide wrong value") "", Cmd.none)
+    ( Model url key Security.init (HomePage "Hello Foo"), Cmd.none )
+
 
 
 ---- UPDATE ----
 
 
-type Msg
-    = LinkClicked Browser.UrlRequest
-    | UrlChanged Url.Url
-    | Env Env.Msg
-    | NotFoundMsg NotFoundPage.Msg
-    | HomeMsg HomePage.Msg
+type PageMsg
+    = NotFoundMsg NotFound.Msg
+    | HomeMsg Home.Msg
     | AccountMsg AccountPage.Msg
-    | MenuMsg MenuPage.Msg
+    | MenuMsg Menu.Msg
+
+
+type Msg
+    = OnUrlChange Url.Url
+    | OnUrlRequest Browser.UrlRequest
+    | OnSecurity Security.Msg
+    | OnPage PageMsg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        LinkClicked urlRequest ->
+        OnUrlRequest urlRequest ->
             case urlRequest of
                 Browser.Internal url ->
                     ( model, Nav.pushUrl model.key (Url.toString url) )
@@ -68,102 +69,137 @@ update msg model =
                 Browser.External href ->
                     ( model, Nav.load href )
 
-        UrlChanged url ->
+        OnUrlChange url ->
             navigate url model
 
-        HomeMsg homeMsg ->
-            case model.page of 
-                HomePage homeModel ->
-                    navToHome model (HomePage.update homeMsg homeModel)
-                _ ->
-                    (model, Cmd.none)
+        OnSecurity secMsg ->
+            handleSecurity model (Security.update secMsg model.sec)
 
-        NotFoundMsg notFoundMsg ->
-            case model.page of 
-                NotFoundPage notFoundModel ->
-                    navToNotFound model (NotFoundPage.update notFoundMsg notFoundModel)
-                _ ->
-                    (model, Cmd.none)
-        AccountMsg accountMsg ->
-            case model.page of
-                AccountPage accountModel ->
-                    navToAccount model (AccountPage.update accountMsg accountModel)
-                _ -> 
-                   (model, Cmd.none) 
-        Env envMsg ->
-            case Env.read envMsg of
-                Ok value ->
-                    navigate model.url { model | env = value }
-                Err err ->
-                    navToNotFound model (NotFoundPage.init "Missing enviroment")
-        MenuMsg menuMsg ->
-            (model, Cmd.none)  
+        OnPage pageMsg ->
+            case pageMsg of
+                HomeMsg homeMsg ->
+                    case model.page of
+                        HomePage homeModel ->
+                            navToHome model (Home.update homeMsg homeModel)
+
+                        _ ->
+                            ( model, Cmd.none )
+
+                NotFoundMsg notFoundMsg ->
+                    case model.page of
+                        NotFoundPage notFoundModel ->
+                            navToNotFound model (NotFound.update notFoundMsg notFoundModel)
+
+                        _ ->
+                            ( model, Cmd.none )
+
+                AccountMsg accountMsg ->
+                    case model.page of
+                        AccountPage accountModel ->
+                            navToAccount model (AccountPage.update accountMsg accountModel)
+
+                        _ ->
+                            ( model, Cmd.none )
+
+                MenuMsg menuMsg ->
+                    ( model, Cmd.none )
+
+
+
+-- UPDATE HANDLERS --
+
+
+handleSecurity : Model -> ( Security.Model, Cmd Security.Msg ) -> ( Model, Cmd Msg )
+handleSecurity model ( secModel, secMsg ) =
+    case secModel.status of
+        Error.Success ->
+            ( { model | sec = secModel }, Cmd.map OnSecurity secMsg )
+
+        Error.Failed error ->
+            ( { model | page = HomePage "Can not query security requirements." }, Cmd.none )
+
 
 
 --- NAVIGATION ---
-navToHome : Model -> (HomePage.Model, Cmd HomePage.Msg) -> (Model, Cmd Msg)
-navToHome model (homeModel, homeMsg) =
-    ({model | page = HomePage homeModel},
-     Cmd.map HomeMsg homeMsg )
-
-navToAccount : Model -> (AccountPage.Model, Cmd AccountPage.Msg) -> (Model, Cmd Msg)
-navToAccount model (accountModel, accountMsg) =
-    ({model | page = AccountPage accountModel},
-     Cmd.map AccountMsg accountMsg )
-
-navToNotFound : Model -> (NotFoundPage.Model, Cmd NotFoundPage.Msg) -> (Model, Cmd Msg)
-navToNotFound model (notFoundModel, notFoundMsg) =
-    ({model | page = NotFoundPage notFoundModel},
-     Cmd.map NotFoundMsg notFoundMsg )
 
 
-navigate : Url.Url -> Model -> (Model, Cmd Msg)
-navigate url model = 
+navToHome : Model -> ( Home.Model, Cmd Home.Msg ) -> ( Model, Cmd Msg )
+navToHome model ( homeModel, homeMsg ) =
+    ( { model | page = HomePage homeModel }
+    , Cmd.map OnPage (Cmd.map HomeMsg homeMsg)
+    )
+
+
+navToAccount : Model -> ( AccountPage.Model, Cmd AccountPage.Msg ) -> ( Model, Cmd Msg )
+navToAccount model ( accountModel, accountMsg ) =
+    ( { model | page = AccountPage accountModel }
+    , Cmd.map OnPage (Cmd.map AccountMsg accountMsg)
+    )
+
+
+navToNotFound : Model -> ( NotFound.Model, Cmd NotFound.Msg ) -> ( Model, Cmd Msg )
+navToNotFound model ( notFoundModel, notFoundMsg ) =
+    ( { model | page = NotFoundPage notFoundModel }
+    , Cmd.map OnPage (Cmd.map NotFoundMsg notFoundMsg)
+    )
+
+
+navigate : Url.Url -> Model -> ( Model, Cmd Msg )
+navigate url model =
     let
-        parser = 
-            oneOf [
-                route top ( navToHome model HomePage.init),
-                route (Parser.s "account") (navToAccount model (AccountPage.init model.env model.auth))
-            ]
+        parser =
+            oneOf
+                [ route top (navToHome model Home.init)
+                , route (Parser.s "account") (navToAccount model (AccountPage.init model.sec))
+                ]
     in
     case Parser.parse parser url of
         Just page ->
             page
-        Nothing -> 
-            navToNotFound model (NotFoundPage.init "Can not find the page")
+
+        Nothing ->
+            navToNotFound model (NotFound.init "Can not find the page")
 
 
 route : Parser a b -> a -> Parser (b -> c) c
 route parser handler =
     Parser.map handler parser
 
+
+
 --- SUBSCRIPTIONS ---
 
 
 subscriptions : Model -> Sub Msg
 subscriptions _ =
-    Sub.none
+    Sub.batch
+        [ Sub.map OnSecurity (Security.onSubKc (\value -> Security.OnSubKc (Keycloak.validate value)))
+        ]
 
 
 
 ---- VIEW ----
 
-content : Model -> Html Msg
+
+content : Model -> Html PageMsg
 content model =
     main_ []
         [ case model.page of
             HomePage homeModel ->
-                Html.map HomeMsg (HomePage.view homeModel)
-            AccountPage accountModel ->    
+                Html.map HomeMsg (Home.view homeModel)
+
+            AccountPage accountModel ->
                 Html.map AccountMsg (AccountPage.view accountModel)
+
             NotFoundPage notFoundModel ->
-                Html.map NotFoundMsg (NotFoundPage.view notFoundModel)
+                Html.map NotFoundMsg (NotFound.view notFoundModel)
         ]
 
 
 body : Model -> List (Html Msg)
 body model =
-    [ Html.map MenuMsg MenuPage.content
+    [ Html.map OnPage (Html.map MenuMsg Menu.content)
+    , Html.map OnPage (content model)
     ]
 
 
@@ -174,9 +210,8 @@ view model =
     }
 
 
+
 ---- FUNCTIONS ----
-
-
 ---- PROGRAM ----
 
 
@@ -187,6 +222,6 @@ main =
         , view = view
         , update = update
         , subscriptions = subscriptions
-        , onUrlChange = UrlChanged
-        , onUrlRequest = LinkClicked
+        , onUrlChange = OnUrlChange
+        , onUrlRequest = OnUrlRequest
         }

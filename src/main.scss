@@ -1,19 +1,8 @@
-$fa-font-path: "~font-awesome/fonts";
-
-@import url("https://fonts.googleapis.com/css?family=Montserrat");
 @import "~@fortawesome/fontawesome-free/css/all.css";
-@import "./Styles/variables";
- 
-
-/* Selects the root element of the document:
-   <html> in the case of HTML */
-:root {
-  font-size: calc(1vw + 1vh + 0.5vmin);
-}
+@import "./Spectre/spectre.scss";
+@import "./Menu/header";
 
 body {
-  font-family: 'Montserrat', sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: $color-background;
+  height: 100%;
+  width: 100%;
 }

@@ -1,16 +1,21 @@
-module API.Keycloak exposing (Struct, Token, validate)
+module Security.Keycloak exposing (Model, Token, init, validate)
 
 import Json.Decode exposing (..)
 
 
 type alias Token =
-    Result String Struct
+    Result String Model
 
 
-type alias Struct =
+type alias Model =
     { subject : String
     , token : String
     }
+
+
+init : Model
+init =
+    Model "" ""
 
 
 subjectDecoder : Decoder String
@@ -23,16 +28,16 @@ tokenDecoder =
     field "token" string
 
 
-structDecoder : Decoder Struct
-structDecoder =
-    map2 Struct subjectDecoder tokenDecoder
+decodeModel : Decoder Model
+decodeModel =
+    map2 Model subjectDecoder tokenDecoder
 
 
 validate : Value -> Token
 validate flags =
-    case decodeValue structDecoder flags of
+    case decodeValue decodeModel flags of
         Ok value ->
-            preventEmptyValue value
+            validateValue value
 
         Err err ->
             case err of
@@ -49,8 +54,12 @@ validate flags =
                     Err field
 
 
-preventEmptyValue : Struct -> Result String Struct
-preventEmptyValue value =
+
+-- Configure, if the value is empty or not
+
+
+validateValue : Model -> Result String Model
+validateValue value =
     if value.subject == "" || value.token == "" then
         Err "Identification keys are empty."
 
